@@ -159,6 +159,14 @@ services:
       bash -c "
       /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
       "
+
+  trino:
+    image: trinodb/trino:latest
+    container_name: trino
+    volumes:
+     - ./trino/catalog:/etc/trino/catalog
+    ports:
+     - "8080:8080"
       
 # Merged Airflow Container
   airflow:
@@ -202,3 +210,5 @@ volumes:
 networks:
   lakehouse:
     driver: bridge
+
+
