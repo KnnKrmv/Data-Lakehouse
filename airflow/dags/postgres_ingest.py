@@ -26,7 +26,7 @@ def from_postgres_to_bronze():
     # ===== CONFIG (Variables-dan) =====
     print("⚙️  Getting configuration from Variables...")
     bronze_table = Variable.get("BRONZE_TABLE", default_var="public.test_sales")
-    bronze_base_path = Variable.get("BRONZE_BASE_PATH", default_var="s3a://warehouse/bronze/silver/")
+    bronze_base_path = Variable.get("BRONZE_BASE_PATH", default_var="s3a://warehouse/bronze/")
     
     # Table adını path-ə əlavə et (public.test_sales -> test_sales)
     table_name = bronze_table.split('.')[-1] if '.' in bronze_table else bronze_table
