@@ -62,17 +62,17 @@ services:
     container_name: nessie-init
     networks:
       - lakehouse
+    # Nessie-nin qalxmasını gözləyib sonra əmrləri icra edirik
+    command: >
+      sh -c "
+      echo 'Waiting for Nessie...';
+      sleep 10;
+      curl -v -X POST http://lakehouse-nessie:19120/api/v1/trees/branch -H 'Content-Type: application/json' -d '{\"name\":\"bronze\",\"type\":\"BRANCH\"}';
+      curl -v -X POST http://lakehouse-nessie:19120/api/v1/trees/branch -H 'Content-Type: application/json' -d '{\"name\":\"silver\",\"type\":\"BRANCH\"}';
+      curl -v -X POST http://lakehouse-nessie:19120/api/v1/trees/branch -H 'Content-Type: application/json' -d '{\"name\":\"gold\",\"type\":\"BRANCH\"}';
+      echo 'Done!';"
     depends_on:
-      nessie:
-        condition: service_healthy
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        echo "Creating Medallion branches..."
-        curl -X POST http://lakehouse-nessie:19120/api/v1/trees/branch -H "Content-Type: application/json" -d '{"name":"bronze","type":"BRANCH"}'
-        curl -X POST http://lakehouse-nessie:19120/api/v1/trees/branch -H "Content-Type: application/json" -d '{"name":"silver","type":"BRANCH"}'
-        curl -X POST http://lakehouse-nessie:19120/api/v1/trees/branch -H "Content-Type: application/json" -d '{"name":"gold","type":"BRANCH"}'
-        echo "All branches created!"
+      - nessie
   # PostgreSQL for Airflow & Source Data
   postgres:
     image: postgres:13
