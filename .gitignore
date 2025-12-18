@@ -7,3 +7,6 @@ spark/jars/*.jar
 __pycache__/
 .env
 spark/jars/*.jar
+# Airflow logs - completely ignore
+airflow/logs/
+airflow/logs/**/*
