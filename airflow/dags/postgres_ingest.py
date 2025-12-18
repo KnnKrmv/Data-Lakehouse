@@ -3,7 +3,7 @@ from airflow.operators.python import PythonOperator
 from airflow.hooks.base import BaseHook
 from airflow.models import Variable
 from datetime import datetime
-from pyspark import SparkSession
+from pyspark.sql import SparkSession
 import json
 
 def from_postgres_to_bronze():
