@@ -1,9 +1,7 @@
 # Spark Jars
 spark/jars/*.jar
 
-# Airflow Logs & DB
-airflow/logs/
-airflow/airflow.db
+
 
 # Python env
 __pycache__/
