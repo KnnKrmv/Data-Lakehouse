@@ -87,7 +87,7 @@ services:
     container_name: lakehouse-spark-master
     hostname: spark-master
     ports:
-      - "8080:8080"
+      - "8088:8088"
       - "7077:7077"
       - "4040:4040"
     environment:
@@ -170,7 +170,7 @@ services:
     volumes:
      - ./trino/catalog:/etc/trino/catalog
     ports:
-     - "8088:8088"
+     - "8080:8080"
       
 # Merged Airflow Container
   airflow:
