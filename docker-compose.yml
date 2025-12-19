@@ -163,7 +163,6 @@ services:
       bash -c "
       /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
       "
-
   trino:
     image: trinodb/trino:latest
     container_name: trino
@@ -174,6 +173,7 @@ services:
       
 # Merged Airflow Container
   airflow:
+    build: .
     image: apache/airflow:2.7.3-python3.11
     container_name: lakehouse-airflow
     depends_on:

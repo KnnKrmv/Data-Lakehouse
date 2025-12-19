@@ -10,7 +10,7 @@ def bucket_folder_creators():
          aws_secret_access_key='minioadmin123'
          ) 
     bucketname = 'warehouse' 
-    folders = ['bronze/sales/', 'silver/bmis/sales/', 'gold/sales/']
+    folders = ['bronze/project1/', 'silver/project1/', 'gold/project1/']
 
     for folder in folders:
         s3.put_object(Bucket = bucketname, Key = folder)
