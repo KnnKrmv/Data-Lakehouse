@@ -64,7 +64,7 @@ def create_iceberg_namespace():
         spark.stop()
 
 
-def test_source_bronze():
+def source_bronze():
     pg_conn = BaseHook.get_connection('postgres_lakehouse')
     jdbc_url = f"jdbc:postgresql://{pg_conn.host}:{pg_conn.port}/{pg_conn.schema}"
 
