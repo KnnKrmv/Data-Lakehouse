@@ -1,12 +1,15 @@
 # Spark Jars
 spark/jars/*.jar
-
-
+spark/jars/aws-java-sdk-bundle-1.12.262.jar 
+spark/jars/hadoop-aws-3.3.4.jar 
+spark/jars/iceberg-spark-runtime-3.5_2.12-1.4.2.jar 
+spark/jars/nessie-spark-extensions-3.5_2.12-0.74.0.jar 
+spark/jars/postgresql-42.7.1.jar
+# Airflow Logs & DB
+airflow/logs/
+airflow/airflow.db
 
 # Python env
 __pycache__/
 .env
 spark/jars/*.jar
-# Airflow logs - completely ignore
-airflow/logs/
-airflow/logs/**/*
