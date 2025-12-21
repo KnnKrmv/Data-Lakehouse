@@ -167,9 +167,14 @@ services:
     image: trinodb/trino:latest
     container_name: trino
     volumes:
-     - ./trino/catalog:/etc/trino/catalog
+      - ./trino/catalog:/etc/trino/catalog
     ports:
-     - "8080:8080"
+      - "8080:8080"
+    networks:
+      - lakehouse  # <--- BU HİSSƏ MÜTLƏQDİR
+    depends_on:
+      - nessie
+      - minio
       
 # Merged Airflow Container
   airflow:
