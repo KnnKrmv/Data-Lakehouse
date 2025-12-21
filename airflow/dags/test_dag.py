@@ -11,7 +11,7 @@ def create_iceberg_namespace():
     minio_endpoint = Variable.get("MINIO_ENDPOINT", default_var="http://minio:9000")
     minio_access_key = Variable.get("MINIO_ACCESS_KEY", default_var="minioadmin")
     minio_secret_key = Variable.get("MINIO_SECRET_KEY", default_var="minioadmin123")
-    nessie_uri = Variable.get("NESSIE_URI", default_var="http://lakehouse-nessie:19120/api/v1")  # ✅ v1
+    nessie_uri = "http://lakehouse-nessie:19120/api/v1"
 
     spark = SparkSession.builder \
         .appName("CreateNamespace") \
@@ -25,27 +25,36 @@ def create_iceberg_namespace():
         .config("spark.sql.extensions",
                 "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions,"
                 "org.projectnessie.spark.extensions.NessieSparkSessionExtensions") \
-        .config("spark.sql.catalog.test", "org.apache.iceberg.spark.SparkCatalog") \
-        .config("spark.sql.catalog.test.catalog-impl", "org.apache.iceberg.nessie.NessieCatalog") \
-        .config("spark.sql.catalog.test.uri", nessie_uri) \
-        .config("spark.sql.catalog.test.ref", "test") \
-        .config("spark.sql.catalog.test.warehouse", "s3a://warehouse/test") \
+        .config("spark.sql.catalog.bronze", "org.apache.iceberg.spark.SparkCatalog") \
+        .config("spark.sql.catalog.bronze.catalog-impl", "org.apache.iceberg.nessie.NessieCatalog") \
+        .config("spark.sql.catalog.bronze.uri", nessie_uri) \
+        .config("spark.sql.catalog.bronze.ref", "main") \
+        .config("spark.sql.catalog.bronze.warehouse", "s3a://warehouse") \
+        .config("spark.sql.catalog.bronze.io-impl", "org.apache.iceberg.aws.s3.S3FileIO") \
+        .config("spark.sql.catalog.bronze.s3.endpoint", minio_endpoint) \
+        .config("spark.sql.catalog.bronze.s3.path-style-access", "true") \
+        .config("spark.sql.catalog.bronze.s3.access-key-id", minio_access_key) \
+        .config("spark.sql.catalog.bronze.s3.secret-access-key", minio_secret_key) \
         .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint) \
         .config("spark.hadoop.fs.s3a.access.key", minio_access_key) \
         .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key) \
         .config("spark.hadoop.fs.s3a.path.style.access", "true") \
         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
         .config("spark.hadoop.fs.s3a.connection.ssl.enabled", "false") \
+        .config("spark.hadoop.fs.s3a.aws.credentials.provider", 
+                "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider") \
         .getOrCreate()
 
+    # AWS region environment variable təyin et
+    os.environ['AWS_REGION'] = 'us-east-1'
+    os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+
     try:
-        # Namespace yarat (əgər yoxdursa)
-        spark.sql("CREATE NAMESPACE IF NOT EXISTS test.test1")
-        print("✅ Namespace 'test.test1' created/verified")
-        
-        # Mövcud namespace-ləri göstər
-        spark.sql("SHOW NAMESPACES IN test").show()
-        
+        spark.sql("CREATE NAMESPACE IF NOT EXISTS bronze.sales_schema")
+        print("✅ Namespace 'bronze.sales_schema' created/verified")
+
+        spark.sql("SHOW NAMESPACES IN bronze").show()
+
     except Exception as e:
         print(f"❌ Error creating namespace: {str(e)}")
         import traceback
@@ -56,18 +65,19 @@ def create_iceberg_namespace():
 
 
 def test_source_bronze():
-    # PostgreSQL bağlantısı
     pg_conn = BaseHook.get_connection('postgres_lakehouse')
     jdbc_url = f"jdbc:postgresql://{pg_conn.host}:{pg_conn.port}/{pg_conn.schema}"
 
-    # MinIO / Nessie parametrləri
     minio_endpoint = Variable.get("MINIO_ENDPOINT", default_var="http://minio:9000")
     minio_access_key = Variable.get("MINIO_ACCESS_KEY", default_var="minioadmin")
     minio_secret_key = Variable.get("MINIO_SECRET_KEY", default_var="minioadmin123")
     bronze_table = Variable.get("BRONZE_TABLE", default_var="lakehouse.customers")
-    nessie_uri = Variable.get("NESSIE_URI", default_var="http://lakehouse-nessie:19120/api/v1")  # ✅ v1
+    nessie_uri = "http://lakehouse-nessie:19120/api/v1"
 
-    # Spark session
+    # AWS region environment variable
+    os.environ['AWS_REGION'] = 'us-east-1'
+    os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+
     spark = SparkSession.builder \
         .appName(f"PostgresToTest_{bronze_table}") \
         .master("local[*]") \
@@ -80,17 +90,24 @@ def test_source_bronze():
         .config("spark.sql.extensions",
                 "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions,"
                 "org.projectnessie.spark.extensions.NessieSparkSessionExtensions") \
-        .config("spark.sql.catalog.test", "org.apache.iceberg.spark.SparkCatalog") \
-        .config("spark.sql.catalog.test.catalog-impl", "org.apache.iceberg.nessie.NessieCatalog") \
-        .config("spark.sql.catalog.test.uri", nessie_uri) \
-        .config("spark.sql.catalog.test.ref", "test") \
-        .config("spark.sql.catalog.test.warehouse", "s3a://warehouse/test") \
+        .config("spark.sql.catalog.bronze", "org.apache.iceberg.spark.SparkCatalog") \
+        .config("spark.sql.catalog.bronze.catalog-impl", "org.apache.iceberg.nessie.NessieCatalog") \
+        .config("spark.sql.catalog.bronze.uri", nessie_uri) \
+        .config("spark.sql.catalog.bronze.ref", "main") \
+        .config("spark.sql.catalog.bronze.warehouse", "s3a://warehouse") \
+        .config("spark.sql.catalog.bronze.io-impl", "org.apache.iceberg.aws.s3.S3FileIO") \
+        .config("spark.sql.catalog.bronze.s3.endpoint", minio_endpoint) \
+        .config("spark.sql.catalog.bronze.s3.path-style-access", "true") \
+        .config("spark.sql.catalog.bronze.s3.access-key-id", minio_access_key) \
+        .config("spark.sql.catalog.bronze.s3.secret-access-key", minio_secret_key) \
         .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint) \
         .config("spark.hadoop.fs.s3a.access.key", minio_access_key) \
         .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key) \
         .config("spark.hadoop.fs.s3a.path.style.access", "true") \
         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
         .config("spark.hadoop.fs.s3a.connection.ssl.enabled", "false") \
+        .config("spark.hadoop.fs.s3a.aws.credentials.provider", 
+                "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider") \
         .getOrCreate()
 
     try:
@@ -110,18 +127,15 @@ def test_source_bronze():
         if row_count > 0:
             df.show(5, truncate=False)
 
-        # Test catalog / schema / table
-        full_table_name = "test.test1.test_table"
+        full_table_name = "bronze.sales_schema.customers"
         print(f"Writing to Iceberg table: {full_table_name}")
         
-        # createOrReplace istifadə et
         df.writeTo(full_table_name) \
             .using("iceberg") \
             .createOrReplace()
 
-        print(f"✅ Successfully written to {full_table_name} in MinIO")
+        print(f"✅ Successfully written to {full_table_name}")
         
-        # Yoxlama: table-dan oxu
         result_df = spark.table(full_table_name)
         print(f"✅ Verification: Table has {result_df.count()} rows")
         result_df.show(5, truncate=False)
@@ -136,11 +150,11 @@ def test_source_bronze():
 
 
 with DAG(
-    dag_id="test_ingest_dag",
+    dag_id="Source_Bronze",
     start_date=datetime(2025, 1, 1),
     schedule=None,
     catchup=False,
-    tags=['lakehouse', 'test', 'postgres', 'etl']
+    tags=['lakehouse', 'bronze', 'postgres', 'etl']
 ) as dag:
 
     create_namespace_task = PythonOperator(
@@ -150,8 +164,8 @@ with DAG(
     )
 
     ingest_table = PythonOperator(
-        task_id='ingest_postgres_to_test',
-        python_callable=test_source_bronze,
+        task_id='ingest_postgres_to_bronze',
+        python_callable='source_bronze',
         execution_timeout=None
     )
     
