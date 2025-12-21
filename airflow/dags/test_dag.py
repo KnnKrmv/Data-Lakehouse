@@ -79,7 +79,7 @@ def source_bronze():
     os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
 
     spark = SparkSession.builder \
-        .appName(f"PostgresToTest_{bronze_table}") \
+        .appName(f"PostgresToBronze{bronze_table}") \
         .master("local[*]") \
         .config("spark.jars.packages",
                 "org.postgresql:postgresql:42.7.1,"
@@ -165,7 +165,7 @@ with DAG(
 
     ingest_table = PythonOperator(
         task_id='ingest_postgres_to_bronze',
-        python_callable='source_bronze',
+        python_callable=source_bronze,
         execution_timeout=None
     )
     
