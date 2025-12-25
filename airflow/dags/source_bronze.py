@@ -5,7 +5,7 @@ from airflow.models import Variable
 from datetime import datetime
 from pyspark.sql import SparkSession
 import os
-
+from datetime import datetime
 
 # -------------------------------------------------------
 # Spark Session Builder (reuse üçün)
@@ -78,7 +78,7 @@ def create_iceberg_namespace():
 # Task 2: Postgres -> Bronze Iceberg
 # -------------------------------------------------------
 def source_bronze():
-    spark = get_spark("PostgresToBronzeCustomers")
+    spark = get_spark("PostgresToBronze")
 
     try:
         pg_conn = BaseHook.get_connection("postgres_lakehouse")
@@ -86,9 +86,10 @@ def source_bronze():
 
         source_table = Variable.get(
             "BRONZE_TABLE",
-            default_var="lakehouse.customers"
+            default_var="lakehouse.products"
         )
 
+        # PostgreSQL-dən oxu
         df = spark.read.jdbc(
             url=jdbc_url,
             table=source_table,
@@ -99,28 +100,30 @@ def source_bronze():
             }
         )
 
-        target_table = "bronze.sales_schema.customers"
+        target_table = "bronze.sales_schema.products"
+        table_location = "s3a://warehouse/bronze/sales_schema/products"
 
-        if spark.catalog.tableExists(target_table):
-            df.writeTo(target_table).append()
-            print(f"➕ Append edildi: {target_table}")
-        else:
-            df.writeTo(target_table).using("iceberg").create()
-            print(f"🆕 Create edildi: {target_table}")
+        # Iceberg table-a truncate + insert
+        df.writeTo(target_table) \
+          .using("iceberg") \
+          .tableProperty("location", table_location) \
+          .createOrReplace()  # <- mövcud table varsa silinir və yenidən yaradılır
 
+        print(f"✅ Table truncate + insert edildi: {target_table}")
         spark.table(target_table).show(5, truncate=False)
 
     finally:
         spark.stop()
 
 
+
 # -------------------------------------------------------
 # DAG
 # -------------------------------------------------------
 with DAG(
-    dag_id="source_bronze_sales",
+    dag_id="Source_To_Bronze",
     start_date=datetime(2025, 1, 1),
-    schedule=None,
+    schedule=None,  
     catchup=False,
     tags=["lakehouse", "bronze", "postgres"]
 ) as dag:
@@ -130,9 +133,9 @@ with DAG(
         python_callable=create_iceberg_namespace
     )
 
-    ingest_customers = PythonOperator(
-        task_id="ingest_postgres_customers_to_bronze",
+    ingest_table = PythonOperator(
+        task_id="ingest_postgres_to_bronze",
         python_callable=source_bronze
     )
 
-    create_namespace >> ingest_customers
+    create_namespace >> ingest_table
