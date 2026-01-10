@@ -13,3 +13,6 @@ airflow/airflow.db
 __pycache__/
 .env
 spark/jars/*.jar
+
+#Docker
+docker-compose.yml
