@@ -12,78 +12,114 @@ import os
 # SPARK SESSION - DÜZƏLDİLMİŞ
 # =====================================================
 
+# Köhnə JAVA problemi olan versiya
+
+# def get_spark(app_name: str):
+#     # ✅ Bütün mövcud Spark referanslarını təmizlə
+#     # try:
+#     #     if SparkContext._active_spark_context is not None:
+#     #         SparkContext._active_spark_context.stop()
+#     # except Exception:
+#     #     pass
+    
+#     # try:
+#     #     SparkContext._active_spark_context = None
+#     #     SparkContext._gateway = None
+#     # except Exception:
+#     #     pass
+    
+#     minio_endpoint = Variable.get("MINIO_ENDPOINT")
+#     minio_access_key = Variable.get("MINIO_ACCESS_KEY")
+#     minio_secret_key = Variable.get("MINIO_SECRET_KEY")
+#     bronze_warehouse = Variable.get("BRONZE_WAREHOUSE")
+#     nessie_uri = Variable.get("NESSIE_URI")
+
+#     os.environ["AWS_REGION"] = "us-east-1"
+
+#     return (
+#         SparkSession.builder
+#         .appName(app_name)
+#         .master("spark://spark-master:7077")
+        
+#         .config("spark.jars", 
+#                 "/opt/spark/jars-extra/postgresql-42.7.1.jar,"
+#                 "/opt/spark/jars-extra/iceberg-spark-runtime-3.5_2.12-1.4.3.jar,"
+#                 "/opt/spark/jars-extra/nessie-spark-extensions-3.5_2.12-0.77.1.jar,"
+#                 "/opt/spark/jars-extra/bundle-2.20.18.jar,"
+#                 "/opt/spark/jars-extra/hadoop-aws-3.3.4.jar,"
+#                 "/opt/spark/jars-extra/aws-java-sdk-bundle-1.12.262.jar")
+        
+#         .config("spark.executor.memory", "2g")
+#         .config("spark.executor.cores", "2")
+#         .config("spark.cores.max", "")
+#         .config("spark.driver.memory", "2g")
+        
+#         .config("spark.sql.shuffle.partitions", "16")
+#         .config("spark.default.parallelism", "16")
+        
+#         .config("spark.sql.adaptive.enabled", "true")
+#         .config("spark.sql.adaptive.coalescePartitions.enabled", "true")
+        
+#         # ✅ AWS Region konfiqurasiyası - executor-lar üçün
+#         .config("spark.executorEnv.AWS_REGION", "us-east-1")
+#         .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint)
+#         .config("spark.hadoop.fs.s3a.access.key", minio_access_key)
+#         .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key)
+#         .config("spark.hadoop.fs.s3a.path.style.access", "true")
+        
+#         .config("spark.sql.extensions",
+#                 "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions,"
+#                 "org.projectnessie.spark.extensions.NessieSparkSessionExtensions")
+        
+#         .config("spark.sql.catalog.bronze", "org.apache.iceberg.spark.SparkCatalog")
+#         .config("spark.sql.catalog.bronze.catalog-impl", 
+#                 "org.apache.iceberg.nessie.NessieCatalog")
+#         .config("spark.sql.catalog.bronze.uri", nessie_uri)
+#         .config("spark.sql.catalog.bronze.ref", "bronze")
+#         .config("spark.sql.catalog.bronze.warehouse", bronze_warehouse)
+#         .config("spark.sql.catalog.bronze.io-impl", 
+#                 "org.apache.iceberg.aws.s3.S3FileIO")
+#         .config("spark.sql.catalog.bronze.s3.endpoint", minio_endpoint)
+#         .config("spark.sql.catalog.bronze.s3.path-style-access", "true")
+#         .config("spark.sql.catalog.bronze.s3.access-key-id", minio_access_key)
+#         .config("spark.sql.catalog.bronze.s3.secret-access-key", minio_secret_key)
+        
+#         .getOrCreate()
+    #)
+
+
+
+# Kanan Karimov 01/2024 - Düzəliş edilmiş Spark Session funksiyası 
 def get_spark(app_name: str):
-    # ✅ Bütün mövcud Spark referanslarını təmizlə
-    try:
-        if SparkContext._active_spark_context is not None:
-            SparkContext._active_spark_context.stop()
-    except Exception:
-        pass
-    
-    try:
-        SparkContext._active_spark_context = None
-        SparkContext._gateway = None
-    except Exception:
-        pass
-    
     minio_endpoint = Variable.get("MINIO_ENDPOINT")
     minio_access_key = Variable.get("MINIO_ACCESS_KEY")
     minio_secret_key = Variable.get("MINIO_SECRET_KEY")
     bronze_warehouse = Variable.get("BRONZE_WAREHOUSE")
     nessie_uri = Variable.get("NESSIE_URI")
 
-    os.environ["AWS_REGION"] = "us-east-1"
-
     return (
         SparkSession.builder
         .appName(app_name)
         .master("spark://spark-master:7077")
-        
-        .config("spark.jars", 
-                "/opt/spark/jars-extra/postgresql-42.7.1.jar,"
-                "/opt/spark/jars-extra/iceberg-spark-runtime-3.5_2.12-1.4.3.jar,"
-                "/opt/spark/jars-extra/nessie-spark-extensions-3.5_2.12-0.77.1.jar,"
-                "/opt/spark/jars-extra/bundle-2.20.18.jar,"
-                "/opt/spark/jars-extra/hadoop-aws-3.3.4.jar,"
-                "/opt/spark/jars-extra/aws-java-sdk-bundle-1.12.262.jar")
-        
-        .config("spark.executor.memory", "2g")
-        .config("spark.executor.cores", "2")
-        .config("spark.cores.max", "")
         .config("spark.driver.memory", "2g")
-        
-        .config("spark.sql.shuffle.partitions", "16")
-        .config("spark.default.parallelism", "16")
-        
-        .config("spark.sql.adaptive.enabled", "true")
-        .config("spark.sql.adaptive.coalescePartitions.enabled", "true")
-        
-        # ✅ AWS Region konfiqurasiyası - executor-lar üçün
-        .config("spark.executorEnv.AWS_REGION", "us-east-1")
+        .config("spark.executor.memory", "2g")
+        .config("spark.sql.extensions",
+            "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions,"
+            "org.projectnessie.spark.extensions.NessieSparkSessionExtensions")
+        .config("spark.sql.catalog.bronze", "org.apache.iceberg.spark.SparkCatalog")
+        .config("spark.sql.catalog.bronze.catalog-impl",
+            "org.apache.iceberg.nessie.NessieCatalog")
+        .config("spark.sql.catalog.bronze.uri", nessie_uri)
+        .config("spark.sql.catalog.bronze.warehouse", bronze_warehouse)
+        .config("spark.sql.catalog.bronze.io-impl",
+            "org.apache.iceberg.aws.s3.S3FileIO")
         .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint)
         .config("spark.hadoop.fs.s3a.access.key", minio_access_key)
         .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key)
         .config("spark.hadoop.fs.s3a.path.style.access", "true")
-        
-        .config("spark.sql.extensions",
-                "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions,"
-                "org.projectnessie.spark.extensions.NessieSparkSessionExtensions")
-        
-        .config("spark.sql.catalog.bronze", "org.apache.iceberg.spark.SparkCatalog")
-        .config("spark.sql.catalog.bronze.catalog-impl", 
-                "org.apache.iceberg.nessie.NessieCatalog")
-        .config("spark.sql.catalog.bronze.uri", nessie_uri)
-        .config("spark.sql.catalog.bronze.ref", "bronze")
-        .config("spark.sql.catalog.bronze.warehouse", bronze_warehouse)
-        .config("spark.sql.catalog.bronze.io-impl", 
-                "org.apache.iceberg.aws.s3.S3FileIO")
-        .config("spark.sql.catalog.bronze.s3.endpoint", minio_endpoint)
-        .config("spark.sql.catalog.bronze.s3.path-style-access", "true")
-        .config("spark.sql.catalog.bronze.s3.access-key-id", minio_access_key)
-        .config("spark.sql.catalog.bronze.s3.secret-access-key", minio_secret_key)
-        
         .getOrCreate()
     )
+
 
 def create_namespace():
     spark = get_spark("CreateNamespace")
