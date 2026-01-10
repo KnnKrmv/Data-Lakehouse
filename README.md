@@ -241,7 +241,7 @@ trino                   Up                  8080
 
 ---
 
-## 🎨 Screenshots
+## Tools Works
 
 <details>
 <summary><b>📊 Airflow - Workflow Orchestration</b></summary>
