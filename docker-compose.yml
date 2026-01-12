@@ -187,11 +187,52 @@ services:
       interval: 30s
       timeout: 10s
       retries: 1
+  kafka:
+    container_name: lakehouse-kafka
+    image: apache/kafka:3.9.0
+    hostname: kafka  # ← ƏN VACIB: hostname əlavə edin
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+  environment:
+    KAFKA_NODE_ID: 1
+    KAFKA_PROCESS_ROLES: 'broker,controller'
+    KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT'
+    KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
+    KAFKA_LISTENERS: 'PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094'
+    KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+    KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094'
+    KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+    CLUSTER_ID: '4L6g3nShT-eMCtK--X86sw'
+    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+    # Heartbeat timeout problemini həll etmək üçün:
+    KAFKA_BROKER_HEARTBEAT_INTERVAL_MS: 3000
+    KAFKA_BROKER_SESSION_TIMEOUT_MS: 18000
+  volumes:
+    - kafka_data:/var/lib/kafka/data
+  networks:
+    - lakehouse
 
+kafka-ui:
+  container_name: lakehouse-kafka-ui
+  image: provectuslabs/kafka-ui:v0.7.2
+  ports:
+    - "8084:8080"  # ← bu düzgündür
+environment:
+    DYNAMIC_CONFIG_ENABLED: 'true'
+    KAFKA_CLUSTERS_0_NAME: 'local'
+    KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: 'kafka:9092'
+    SERVER_PORT: 8080  # ← bunu əlavə edin
+    
 volumes:
   minio_data:
   postgres_data:
   nessie-data:
+  kafka_data:
 
 networks:
   lakehouse:
