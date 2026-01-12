@@ -59,7 +59,6 @@ services:
       timeout: 5s
       retries: 5
 
-  
   # PostgreSQL for Airflow & Source Data
   postgres:
     image: postgres:13
@@ -83,7 +82,9 @@ services:
 
   # Spark Master
   spark-master:
-    image: apache/spark:3.5.0-scala2.12-java11-python3-ubuntu
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
     container_name: lakehouse-spark-master
     hostname: spark-master
     ports:
@@ -95,26 +96,15 @@ services:
       - SPARK_MASTER_HOST=spark-master
       - SPARK_MASTER_PORT=7077
       - SPARK_MASTER_WEBUI_PORT=8080
-    volumes:
-      - ./spark/apps:/opt/spark-apps
-      - ./spark/data:/opt/spark-data
-      - ./spark/jars:/opt/spark/jars-extra
     networks:
       - lakehouse
-    command: >
-      bash -c "
-      mkdir -p /opt/spark/jars-extra &&
-      curl -o /opt/spark/jars-extra/postgresql-42.7.1.jar https://jdbc.postgresql.org/download/postgresql-42.7.1.jar &&
-      curl -o /opt/spark/jars-extra/hadoop-aws-3.3.4.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar &&
-      curl -o /opt/spark/jars-extra/aws-java-sdk-bundle-1.12.262.jar https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar &&
-      curl -o /opt/spark/jars-extra/iceberg-spark-runtime-3.5_2.12-1.4.2.jar https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/1.4.2/iceberg-spark-runtime-3.5_2.12-1.4.2.jar &&
-      curl -o /opt/spark/jars-extra/nessie-spark-extensions-3.5_2.12-0.74.0.jar https://repo1.maven.org/maven2/org/projectnessie/nessie-spark-extensions-3.5_2.12/0.74.0/nessie-spark-extensions-3.5_2.12-0.74.0.jar &&
-      /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
-      "
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
 
   # Spark Worker 1
   spark-worker-1:
-    image: apache/spark:3.5.0-scala2.12-java11-python3-ubuntu
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
     container_name: lakehouse-spark-worker-1
     hostname: spark-worker-1
     depends_on:
@@ -127,16 +117,9 @@ services:
       - SPARK_WORKER_CORES=1
       - SPARK_WORKER_MEMORY=1G
       - SPARK_WORKER_WEBUI_PORT=8081
-    volumes:
-      - ./spark/apps:/opt/spark-apps
-      - ./spark/data:/opt/spark-data
-      - ./spark/jars:/opt/spark/jars-extra
     networks:
       - lakehouse
-    command: >
-      bash -c "
-      /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
-      "
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
 
   # Trino - Query Engine
   trino:
@@ -147,15 +130,14 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - lakehouse  # <--- BU HİSSƏ MÜTLƏQDİR
+      - lakehouse
     depends_on:
       - nessie
       - minio
-      
-# Merged Airflow Container
+
+  # Merged Airflow Container
   airflow:
     build: .
-    image: apache/airflow:2.7.3-python3.11
     container_name: lakehouse-airflow
     depends_on:
       - postgres
@@ -177,6 +159,7 @@ services:
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
       - ./dbt:/opt/airflow/dbt
+      - ./spark/jars:/opt/spark/jars-extra
     ports:
       - "8085:8085"
     command: standalone
@@ -187,47 +170,53 @@ services:
       interval: 30s
       timeout: 10s
       retries: 1
+
+  # Kafka
   kafka:
     container_name: lakehouse-kafka
     image: apache/kafka:3.9.0
-    hostname: kafka  # ← ƏN VACIB: hostname əlavə edin
+    hostname: kafka
     ports:
       - "9092:9092"
       - "9094:9094"
-  environment:
-    KAFKA_NODE_ID: 1
-    KAFKA_PROCESS_ROLES: 'broker,controller'
-    KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT'
-    KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
-    KAFKA_LISTENERS: 'PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094'
-    KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
-    KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094'
-    KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
-    CLUSTER_ID: '4L6g3nShT-eMCtK--X86sw'
-    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-    KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-    KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-    KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
-    # Heartbeat timeout problemini həll etmək üçün:
-    KAFKA_BROKER_HEARTBEAT_INTERVAL_MS: 3000
-    KAFKA_BROKER_SESSION_TIMEOUT_MS: 18000
-  volumes:
-    - kafka_data:/var/lib/kafka/data
-  networks:
-    - lakehouse
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
+      KAFKA_LISTENERS: 'PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      CLUSTER_ID: '4L6g3nShT-eMCtK--X86sw'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+      KAFKA_BROKER_HEARTBEAT_INTERVAL_MS: 3000
+      KAFKA_BROKER_SESSION_TIMEOUT_MS: 18000
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - lakehouse
 
-kafka-ui:
-  container_name: lakehouse-kafka-ui
-  image: provectuslabs/kafka-ui:v0.7.2
-  ports:
-    - "8084:8080"  # ← bu düzgündür
-environment:
-    DYNAMIC_CONFIG_ENABLED: 'true'
-    KAFKA_CLUSTERS_0_NAME: 'local'
-    KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: 'kafka:9092'
-    SERVER_PORT: 8080  # ← bunu əlavə edin
-    
+  # Kafka UI
+  kafka-ui:
+    container_name: lakehouse-kafka-ui
+    image: provectuslabs/kafka-ui:v0.7.2
+    ports:
+      - "8084:8080"
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      KAFKA_CLUSTERS_0_NAME: 'local'
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: 'kafka:9092'
+      SERVER_PORT: 8080
+    networks:
+      - lakehouse
+    depends_on:
+      - kafka
+
 volumes:
   minio_data:
   postgres_data:
@@ -237,5 +226,3 @@ volumes:
 networks:
   lakehouse:
     driver: bridge
-
-
