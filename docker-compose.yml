@@ -134,6 +134,7 @@ services:
     depends_on:
       - nessie
       - minio
+    mem_limit: 2g
 
   # Merged Airflow Container
   airflow:
