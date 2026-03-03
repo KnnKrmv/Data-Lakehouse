@@ -406,6 +406,18 @@ producer.send('my-topic', {'message': 'Hello Lakehouse!'})
 producer.flush()
 ```
 
+Run the local producer with a custom message count:
+
+```bash
+python kafka/producer.py 10 --topic testtopic --message "This is my message"
+```
+
+Run three consumers in the same group with separate output files:
+
+```bash
+python kafka/consumer.py --topic testtopic --group-id testconsumer --workers 3
+```
+
 #### Python with MinIO
 
 ```python
