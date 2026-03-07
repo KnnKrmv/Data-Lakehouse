@@ -17,8 +17,8 @@ DB_CONFIG = {
     "options": "-c search_path=sales"
 }
 
-BATCH_SIZE = 500_000
-TOTAL_BATCHES = 2000   # 500,000 * 2000 = 1,000,000,000 rows
+BATCH_SIZE = 100_000
+TOTAL_BATCHES = 1000   # 500,000 * 2000 = 1,000,000,000 rows
 
 # Kiçik test üçün:
 # BATCH_SIZE = 100_000

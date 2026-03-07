@@ -3,7 +3,7 @@ import json
 import threading
 from pathlib import Path
 
-from kafka import KafkaConsumer
+from kafka import KafkaConsumer, TopicPartition
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -31,32 +31,62 @@ def parse_args():
         default=str(BASE_DIR),
         help="Directory for consumer_N.txt output files",
     )
+    parser.add_argument(
+        "--partition",
+        type=int,
+        default=None,
+        help="Optional partition number to assign this consumer directly",
+    )
     return parser.parse_args()
 
 
-def consume(worker_id, args, stop_event):
+def consume(worker_id: int, args: argparse.Namespace, stop_event: threading.Event) -> None:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     output_file = output_dir / f"consumer_test_{worker_id}.txt"
     output_file.write_text("", encoding="utf-8")
 
-    consumer = KafkaConsumer(
-        args.topic,
-        bootstrap_servers=[args.bootstrap_server],
-        auto_offset_reset="earliest",
-        enable_auto_commit=True,
-        group_id=args.group_id,
-        client_id=f"{args.group_id}-worker-{worker_id}",
-        consumer_timeout_ms=1000,
-        value_deserializer=lambda value: value.decode("utf-8", errors="replace"),
-        key_deserializer=(
+    common_kwargs = {
+        "bootstrap_servers": [args.bootstrap_server],
+        "auto_offset_reset": "earliest",
+        "value_deserializer": lambda value: value.decode("utf-8", errors="replace"),
+        "key_deserializer": (
             lambda key: key.decode("utf-8", errors="replace") if key is not None else None
         ),
-    )
+    }
+
+    if args.partition is not None:
+        if args.partition < 0:
+            raise SystemExit(f"partition must be >= 0, got {args.partition}")
+
+        consumer = KafkaConsumer(
+            bootstrap_servers=[args.bootstrap_server],
+            consumer_timeout_ms=1000,
+            auto_offset_reset="earliest",
+            enable_auto_commit=False,
+            client_id=f"{args.group_id}-worker-{worker_id}-p{args.partition}",
+            value_deserializer=common_kwargs["value_deserializer"],
+            key_deserializer=common_kwargs["key_deserializer"],
+        )
+        consumer.assign([TopicPartition(args.topic, args.partition)])
+        mode = "manual assignment"
+    else:
+        consumer = KafkaConsumer(
+            args.topic,
+            bootstrap_servers=common_kwargs["bootstrap_servers"],
+            auto_offset_reset=common_kwargs["auto_offset_reset"],
+            enable_auto_commit=True,
+            group_id=args.group_id,
+            client_id=f"{args.group_id}-worker-{worker_id}",
+            consumer_timeout_ms=1000,
+            value_deserializer=common_kwargs["value_deserializer"],
+            key_deserializer=common_kwargs["key_deserializer"],
+        )
+        mode = "group subscription"
 
     print(
         f"consumer_{worker_id} subscribed to '{args.topic}' "
-        f"and writing to {output_file.name}"
+        f"({mode}) and writing to {output_file.name}"
     )
 
     try:

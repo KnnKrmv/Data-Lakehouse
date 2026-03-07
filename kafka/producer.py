@@ -57,7 +57,12 @@ def main():
     try:
         for index in range(1, args.count + 1):
             payload = build_message(index)
-            metadata = producer.send(args.topic, value=payload).get(timeout=10)
+            message_key = str(index).encode("utf-8")
+            metadata = producer.send(
+                args.topic,
+                key=message_key,
+                value=payload,
+            ).get(timeout=10)
             print(
                 f"[{index}/{args.count}] sent partition={metadata.partition}, "
                 f"offset={metadata.offset}, value={payload}"

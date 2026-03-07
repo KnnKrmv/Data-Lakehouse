@@ -1,83 +1,37 @@
 from airflow import DAG
-from airflow.operators.python import PythonOperator
 from airflow.hooks.base import BaseHook
 from airflow.models import Variable
+from airflow.operators.python import PythonOperator
+from spark.jobs.batch_ingest_job import get_spark_session, stop_spark, write_iceberg_table
 from datetime import datetime
-from pyspark.sql import SparkSession
-from pyspark import SparkContext
 import psycopg2
-import os
 
-# =====================================================
-# SPARK SESSION - DÜZƏLDİLMİŞ
-# =====================================================
 
 def get_spark(app_name: str):
-    try:
-        if SparkContext._active_spark_context is not None:
-            SparkContext._active_spark_context.stop()
-    except Exception:
-        pass
-    
-    try:
-        SparkContext._active_spark_context = None
-        SparkContext._gateway = None
-    except Exception:
-        pass
-    
     minio_endpoint = Variable.get("MINIO_ENDPOINT")
     minio_access_key = Variable.get("MINIO_ACCESS_KEY")
     minio_secret_key = Variable.get("MINIO_SECRET_KEY")
     bronze_warehouse = Variable.get("BRONZE_WAREHOUSE")
     nessie_uri = Variable.get("NESSIE_URI")
 
-    os.environ["AWS_REGION"] = "us-east-1"
-
-    return (
-        SparkSession.builder
-        .appName(app_name)
-        .master("spark://spark-master:7077")
-        .config("spark.submit.deployMode", "client")
-        
-        # JAR config-i SİL - artıq default classpath-dədir
-        
-        .config("spark.executor.memory", "512m")
-        .config("spark.executor.cores", "1")
-        .config("spark.driver.memory", "512m")
-        .config("spark.driver.host", "lakehouse-airflow")
-        .config("spark.driver.port", "7078")
-        .config("spark.driver.bindAddress", "0.0.0.0")
-        
-        .config("spark.sql.shuffle.partitions", "8")
-        .config("spark.default.parallelism", "8")
-        
-        .config("spark.sql.adaptive.enabled", "true")
-        .config("spark.sql.adaptive.coalescePartitions.enabled", "true")
-        
-        .config("spark.executorEnv.AWS_REGION", "us-east-1")
-        .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint)
-        .config("spark.hadoop.fs.s3a.access.key", minio_access_key)
-        .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key)
-        .config("spark.hadoop.fs.s3a.path.style.access", "true")
-        
-        .config("spark.sql.extensions",
-                "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions,"
-                "org.projectnessie.spark.extensions.NessieSparkSessionExtensions")
-        
-        .config("spark.sql.catalog.bronze", "org.apache.iceberg.spark.SparkCatalog")
-        .config("spark.sql.catalog.bronze.catalog-impl", 
-                "org.apache.iceberg.nessie.NessieCatalog")
-        .config("spark.sql.catalog.bronze.uri", nessie_uri)
-        .config("spark.sql.catalog.bronze.ref", "bronze")
-        .config("spark.sql.catalog.bronze.warehouse", bronze_warehouse)
-        .config("spark.sql.catalog.bronze.io-impl", 
-                "org.apache.iceberg.aws.s3.S3FileIO")
-        .config("spark.sql.catalog.bronze.s3.endpoint", minio_endpoint)
-        .config("spark.sql.catalog.bronze.s3.path-style-access", "true")
-        .config("spark.sql.catalog.bronze.s3.access-key-id", minio_access_key)
-        .config("spark.sql.catalog.bronze.s3.secret-access-key", minio_secret_key)
-        
-        .getOrCreate()
+    return get_spark_session(
+        app_name,
+        {
+            "spark.sql.catalog.bronze": "org.apache.iceberg.spark.SparkCatalog",
+            "spark.sql.catalog.bronze.catalog-impl": "org.apache.iceberg.nessie.NessieCatalog",
+            "spark.sql.catalog.bronze.uri": nessie_uri,
+            "spark.sql.catalog.bronze.ref": "bronze",
+            "spark.sql.catalog.bronze.warehouse": bronze_warehouse,
+            "spark.sql.catalog.bronze.io-impl": "org.apache.iceberg.aws.s3.S3FileIO",
+            "spark.sql.catalog.bronze.s3.endpoint": minio_endpoint,
+            "spark.sql.catalog.bronze.s3.path-style-access": "true",
+            "spark.sql.catalog.bronze.s3.access-key-id": minio_access_key,
+            "spark.sql.catalog.bronze.s3.secret-access-key": minio_secret_key,
+        },
+        spark_extensions=(
+            "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions,"
+            "org.projectnessie.spark.extensions.NessieSparkSessionExtensions"
+        ),
     )
 
 
@@ -85,14 +39,12 @@ def create_namespace():
     spark = get_spark("CreateNamespace")
     try:
         schema = Variable.get("BRONZE_SCHEMA_PG")
-        
-        print(f"✅ Spark Master: {spark.sparkContext.master}")
-        print(f"✅ App Name: {spark.sparkContext.appName}")
-        
-        # ✅ Catalog adı olmadan sadəcə schema
+
+        print(f"[postgres_bronze] action=create_namespace schema={schema} master={spark.sparkContext.master} app={spark.sparkContext.appName}")
         spark.sql(f"CREATE NAMESPACE IF NOT EXISTS bronze.{schema}")
     finally:
-        spark.stop()
+        stop_spark(spark)
+
 
 def get_postgres_tables():
     pg = BaseHook.get_connection("postgres_lakehouse")
@@ -122,6 +74,7 @@ def get_postgres_tables():
     conn.close()
     return tables
 
+
 def ingest_table(table_schema, table_name):
     spark = get_spark(f"Ingest_{table_name}")
 
@@ -137,8 +90,7 @@ def ingest_table(table_schema, table_name):
         target = f"{catalog_1}.{bronze_schema}.{table_name}"
         location = f"{bronze_warehouse}/{bronze_schema}/{table_name}"
 
-        print(f"✅ Processing: {source} -> {target}")
-        print(f"✅ Spark running on: {spark.sparkContext.master}")
+        print(f"[postgres_bronze] action=ingest_start source={source} target={target} location={location} spark={spark.sparkContext.master}")
 
         df = spark.read.jdbc(
             url=jdbc_url,
@@ -150,19 +102,17 @@ def ingest_table(table_schema, table_name):
             }
         )
 
-        df.writeTo(target) \
-            .using("iceberg") \
-            .tableProperty("location", location) \
-            .createOrReplace()
-
-        print(f"✅ Successfully ingested {table_name}")
+        write_iceberg_table(
+            df=df,
+            source=source,
+            target=target,
+            location=location,
+            replace_with_empty=True,
+        )
 
     finally:
-        spark.stop()
+        stop_spark(spark)
 
-# =====================================================
-# DAG
-# =====================================================
 
 with DAG(
     dag_id="postgres_to_bronze_lakehouse",
@@ -179,11 +129,10 @@ with DAG(
         python_callable=create_namespace
     )
 
-    # ✅ Variable-dan cədvəl siyahısını oxu
     import json
     tables_list = json.loads(Variable.get("POSTGRES_TABLES"))
     source_schema = Variable.get("PG_SOURCE_SCHEMA")
-    
+
     for table in tables_list:
         task = PythonOperator(
             task_id=f"ingest_{table}",
