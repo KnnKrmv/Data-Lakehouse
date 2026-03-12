@@ -95,6 +95,10 @@ def ingest_table(table_schema, table_name):
         df = spark.read.jdbc(
             url=jdbc_url,
             table=source,
+            column='transaction_id',
+            lowerBound=0,
+            upperBound='100000000',
+            numPartitions=10,
             properties={
                 "user": pg.login,
                 "password": pg.password,

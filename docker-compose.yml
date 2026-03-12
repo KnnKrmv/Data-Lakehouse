@@ -114,8 +114,8 @@ services:
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=4
+      - SPARK_WORKER_MEMORY=4G
       - SPARK_WORKER_WEBUI_PORT=8081
     networks:
       - lakehouse
@@ -156,7 +156,7 @@ services:
       - _PIP_ADDITIONAL_REQUIREMENTS=pyspark==3.5.0 apache-airflow-providers-apache-spark==4.5.0 apache-airflow-providers-postgres==5.9.0 psycopg2-binary==2.9.9 boto3==1.34.12
     volumes:
       - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/logs:/opt/airflow/logs
+      - airflow_logs:/opt/airflow/logs
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
       - ./dbt:/opt/airflow/dbt
@@ -223,6 +223,7 @@ volumes:
   postgres_data:
   nessie-data:
   kafka_data:
+  airflow_logs:
 
 networks:
   lakehouse:

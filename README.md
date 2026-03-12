@@ -181,7 +181,7 @@ git clone https://github.com/yourusername/lakehouse-platform.git
 cd lakehouse-platform
 
 # 2. Create required directories
-mkdir -p airflow/{dags,logs,plugins,config}
+mkdir -p airflow/{dags,plugins,config}
 mkdir -p spark/{apps,data,jars}
 mkdir -p trino/catalog
 mkdir -p dbt
@@ -456,7 +456,7 @@ lakehouse-platform/
 │   │   ├── hourly_kafka_to_minio.py
 │   │   └── dbt/
 │   │       └── dbt_lakehouse/     # dbt project
-│   ├── 📂 logs/                   # Airflow logs
+│   ├── 📂 logs/                   # Legacy local logs folder (optional)
 │   ├── 📂 plugins/                # Custom plugins
 │   └── 📂 config/                 # Airflow config
 │

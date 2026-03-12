@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apache Spark — Data Engineering Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #ff4d00;
+    --accent2: #ff8c42;
+    --accent3: #ffd166;
+    --blue: #4da6ff;
+    --green: #06d6a0;
+    --purple: #b8a9ff;
+    --text: #e8e8f0;
+    --muted: #6b6b85;
+    --spark-orange: #e25822;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(226,88,34,0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 80%, rgba(77,166,255,0.08) 0%, transparent 60%);
+  }
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,77,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,77,0,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridDrift 20s linear infinite;
+  }
+
+  @keyframes gridDrift {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(60px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(255,77,0,0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero h1 .spark {
+    color: var(--accent);
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero h1 .spark::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    animation: lineGrow 1s 0.8s ease both;
+    transform-origin: left;
+  }
+
+  @keyframes lineGrow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .hero p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 550px;
+    margin: 0 auto 3rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(10px);
+    border-radius: 4px;
+  }
+
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    animation: fadeUp 1s 1s ease both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* MAIN CONTENT */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* PHASE SECTION */
+  .phase {
+    padding: 5rem 0;
+    position: relative;
+  }
+
+  .phase + .phase {
+    border-top: 1px solid var(--border);
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .phase-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--border);
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .phase-meta {
+    flex: 1;
+  }
+
+  .phase-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .phase h2 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .phase-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    max-width: 600px;
+  }
+
+  /* CARDS GRID */
+  .cards {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .cards-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .cards-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card.orange { border-color: rgba(255,77,0,0.2); }
+  .card.orange:hover { border-color: var(--accent); }
+  .card.orange::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+
+  .card.blue { border-color: rgba(77,166,255,0.2); }
+  .card.blue:hover { border-color: var(--blue); }
+  .card.blue::before { background: linear-gradient(90deg, var(--blue), var(--purple)); }
+
+  .card.green { border-color: rgba(6,214,160,0.2); }
+  .card.green:hover { border-color: var(--green); }
+  .card.green::before { background: linear-gradient(90deg, var(--green), var(--blue)); }
+
+  .card.yellow { border-color: rgba(255,209,102,0.2); }
+  .card.yellow:hover { border-color: var(--accent3); }
+  .card.yellow::before { background: linear-gradient(90deg, var(--accent3), var(--accent2)); }
+
+  .card.purple { border-color: rgba(184,169,255,0.2); }
+  .card.purple:hover { border-color: var(--purple); }
+  .card.purple::before { background: linear-gradient(90deg, var(--purple), var(--blue)); }
+
+  .card-icon {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .card p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  .tag-orange { background: rgba(255,77,0,0.15); color: var(--accent2); border: 1px solid rgba(255,77,0,0.2); }
+  .tag-blue { background: rgba(77,166,255,0.12); color: var(--blue); border: 1px solid rgba(77,166,255,0.2); }
+  .tag-green { background: rgba(6,214,160,0.12); color: var(--green); border: 1px solid rgba(6,214,160,0.2); }
+  .tag-yellow { background: rgba(255,209,102,0.12); color: var(--accent3); border: 1px solid rgba(255,209,102,0.2); }
+  .tag-purple { background: rgba(184,169,255,0.12); color: var(--purple); border: 1px solid rgba(184,169,255,0.2); }
+  .tag-red { background: rgba(255,77,0,0.1); color: #ff6b6b; border: 1px solid rgba(255,107,107,0.2); }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: #0d0d15;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  .code-block::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .code-block code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.7;
+    color: #c9d1d9;
+    white-space: pre;
+    display: block;
+  }
+
+  .kw { color: #ff7b72; }
+  .fn { color: #d2a8ff; }
+  .st { color: #a5d6ff; }
+  .cm { color: #6e7681; }
+  .nm { color: #79c0ff; }
+  .op { color: #ffa657; }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch-diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .arch-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+  }
+
+  .arch-box {
+    padding: 0.75rem 1.25rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .arch-arrow {
+    font-size: 1.2rem;
+    color: var(--muted);
+    padding: 0 0.5rem;
+  }
+
+  .ab-orange { background: rgba(255,77,0,0.2); border: 1px solid rgba(255,77,0,0.4); color: var(--accent2); }
+  .ab-blue { background: rgba(77,166,255,0.15); border: 1px solid rgba(77,166,255,0.3); color: var(--blue); }
+  .ab-green { background: rgba(6,214,160,0.15); border: 1px solid rgba(6,214,160,0.3); color: var(--green); }
+  .ab-yellow { background: rgba(255,209,102,0.15); border: 1px solid rgba(255,209,102,0.3); color: var(--accent3); }
+  .ab-purple { background: rgba(184,169,255,0.15); border: 1px solid rgba(184,169,255,0.3); color: var(--purple); }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 3rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.35rem;
+    top: 0.35rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+  }
+
+  .timeline-item h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-item p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* FULL WIDTH CARD */
+  .full-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .full-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    margin: 1.5rem 0;
+  }
+
+  .compare-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+  }
+
+  .compare-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--muted);
+    vertical-align: top;
+  }
+
+  .compare-table tr:hover td {
+    background: rgba(255,255,255,0.02);
+    color: var(--text);
+  }
+
+  .compare-table td:first-child {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* NAV */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    overflow-x: auto;
+  }
+
+  .nav-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* PROGRESS INDICATOR */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 1000;
+    transition: width 0.1s;
+    width: 0%;
+  }
+
+  /* SECTION DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .divider-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  footer .accent { color: var(--accent); }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .checklist li {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .checklist li::before {
+    content: '▸';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: rgba(255,77,0,0.06);
+    border: 1px solid rgba(255,77,0,0.2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .highlight-box p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .highlight-box strong { color: var(--accent2); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .phase-header { flex-direction: column; gap: 0.5rem; }
+    .phase-number { font-size: 3rem; }
+    .hero h1 { font-size: 3rem; }
+    .arch-flow { flex-direction: column; }
+    .arch-arrow { transform: rotate(90deg); }
+    .compare-table { font-size: 0.7rem; }
+    .compare-table th, .compare-table td { padding: 0.5rem 0.6rem; }
+  }
+
+  /* ENTRY ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <div class="nav-brand">⚡ SPARK</div>
+  <ul class="nav-links">
+    <li><a href="#phase1">Əsaslar</a></li>
+    <li><a href="#phase2">Core API</a></li>
+    <li><a href="#phase3">Optimizasiya</a></li>
+    <li><a href="#phase4">Streaming</a></li>
+    <li><a href="#phase5">ML</a></li>
+    <li><a href="#phase6">Production</a></li>
+    <li><a href="#phase7">Advanced</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-overlay"></div>
+  <div class="hero-content">
+    <div class="badge">Data Engineer → Middle Level Roadmap</div>
+    <h1>Apache <span class="spark">Spark</span><br>Tam Yol Xəritəsi</h1>
+    <p>// 7 aylıq təcrübəndən middle engineer-ə keçid üçün bütün use-caseler, yanaşmalar və xüsusiyyətlər</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">7</span>
+        <span class="stat-label">Fase</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">50+</span>
+        <span class="stat-label">Topic</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Use Case</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>aşağı</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE OVERVIEW -->
+<section class="phase">
+  <div class="container">
+    <div class="fade-in">
+      <div class="arch-diagram">
+        <p class="arch-title">Spark Ekosistemi — Ümumi Arxitektura</p>
+        <div class="arch-flow">
+          <div class="arch-box ab-orange">Data Sources<br><small>HDFS/S3/Kafka/JDBC</small></div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-box ab-blue">Spark Core<br><small>RDD / DAG Engine</small></div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-box ab-green">Spark SQL<br><small>DataFrame / Dataset</small></div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-box ab-yellow">Optimizer<br><small>Catalyst / Tungsten</small></div>
+          <span class="arch-arrow">→</span>
+          <div class="arch-box ab-purple">Output<br><small>Delta/Iceberg/Hive</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 1 -->
+<section class="phase" id="phase1">
+  <div class="container">
+    <div class="phase-header fade-in">
+      <div class="phase-number">01</div>
+      <div class="phase-meta">
+        <div class="phase-tag" style="color: var(--accent)">Başlanğıc · 2-3 həftə</div>
+        <h2>Spark Əsasları &<br>Arxitektura</h2>
+        <p class="phase-desc">// Spark nədir, necə işləyir, driver/executor modeli, cluster manager-lər</p>
+      </div>
+    </div>
+
+    <div class="cards cards-3 fade-in">
+      <div class="card orange">
+        <span class="card-icon">🏗️</span>
+        <h3>Spark Arxitekturası</h3>
+        <p>Driver Program, Cluster Manager, Worker Node, Executor — bunların hamısının rolunu dərindən anlamaq vacibdir.</p>
+        <div class="tags">
+          <span class="tag tag-orange">Driver</span>
+          <span class="tag tag-orange">Executor</span>
+          <span class="tag tag-orange">SparkContext</span>
+          <span class="tag tag-orange">SparkSession</span>
+        </div>
+      </div>
+
+      <div class="card orange">
+        <span class="card-icon">⚙️</span>
+        <h3>Cluster Manager-lər</h3>
+        <p>Standalone, YARN, Kubernetes, Mesos. Lakehouse mühitində əsasən YARN və K8s istifadə olunur.</p>
+        <div class="tags">
+          <span class="tag tag-orange">YARN</span>
+          <span class="tag tag-orange">Kubernetes</span>
+          <span class="tag tag-orange">Standalone</span>
+        </div>
+      </div>
+
+      <div class="card orange">
+        <span class="card-icon">📊</span>
+        <h3>DAG & İcra Modeli</h3>
+        <p>Lazy evaluation, Transformations vs Actions, DAG (Directed Acyclic Graph) necə qurulur, Job → Stage → Task.</p>
+        <div class="tags">
+          <span class="tag tag-orange">Lazy Eval</span>
+          <span class="tag tag-orange">DAG</span>
+          <span class="tag tag-orange">Lineage</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box fade-in">
+      <p>⚡ <strong>Əsas Anlayış:</strong> Spark in-memory computation edir. Hər transformation yeni bir RDD/DataFrame qaytarır, heç bir hesablama action çağrılana qədər baş vermir. Bu "lazy evaluation" Spark-ın performans sirrinin əsasıdır.</p>
+    </div>
+
+    <div class="code-block fade-in" data-lang="python">
+      <code><span class="kw">from</span> pyspark.sql <span class="kw">import</span> SparkSession
+
+<span class="cm"># SparkSession yaratmaq — entry point</span>
+spark = (<span class="fn">SparkSession</span>
+    .<span class="fn">builder</span>
+    .<span class="fn">appName</span>(<span class="st">"MyDataPipeline"</span>)
+    .<span class="fn">config</span>(<span class="st">"spark.sql.adaptive.enabled"</span>, <span class="st">"true"</span>)
+    .<span class="fn">config</span>(<span class="st">"spark.executor.memory"</span>, <span class="st">"4g"</span>)
+    .<span class="fn">getOrCreate</span>())
+
+<span class="cm"># SparkContext — low-level API</span>
+sc = spark.sparkContext
+sc.setLogLevel(<span class="st">"WARN"</span>)</code>
+    </div>
+
+    <div class="cards cards-2 fade-in">
+      <div class="card orange">
+        <span class="card-icon">🔧</span>
+        <h3>Deploy Modları</h3>
+        <p>client vs cluster mode fərqini başa düşmək production üçün çox vacibdir.</p>
+        <ul class="checklist">
+          <li><strong>client mode:</strong> driver local maşında, debug üçün yaxşı</li>
+          <li><strong>cluster mode:</strong> driver cluster-də, production üçün</li>
+          <li><strong>local mode:</strong> test/development üçün, local[*]</li>
+        </ul>
+      </div>
+
+      <div class="card orange">
+        <span class="card-icon">📁</span>
+        <h3>Data Sources</h3>
+        <p>Spark-ın oxuya biləcəyi bütün mənbələr:</p>
+        <ul class="checklist">
+          <li>Parquet, ORC, Avro, JSON, CSV, Text</li>
+          <li>HDFS, S3, ADLS, GCS</li>
+          <li>JDBC (PostgreSQL, MySQL, Oracle)</li>
+          <li>Delta Lake, Apache Iceberg, Hudi</li>
+          <li>Kafka (Structured Streaming)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 2 -->
+<section class="phase" id="phase2">
+  <div class="container">
+    <div class="phase-header fade-in">
+      <div class="phase-number">02</div>
+      <div class="phase-meta">
+        <div class="phase-tag" style="color: var(--blue)">Core API · 3-4 həftə</div>
+        <h2>RDD, DataFrame<br>& Dataset API</h2>
+        <p class="phase-desc">// Spark-ın üç əsas abstraksiyas layeri — hər birinin nə vaxt istifadə edilməsi</p>
+      </div>
+    </div>
+
+    <div class="full-card fade-in">
+      <h3>🔺 API Evolyusiyası</h3>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>API</th>
+            <th>İstifadə</th>
+            <th>Type Safety</th>
+            <th>Optim.</th>
+            <th>Nə vaxt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>RDD</td>
+            <td>Low-level</td>
+            <td>Manual</td>
+            <td>Yoxdur</td>
+            <td>Custom partition logic, binary data</td>
+          </tr>
+          <tr>
+            <td>DataFrame</td>
+            <td>High-level</td>
+            <td>Runtime</td>
+            <td>Catalyst</td>
+            <td>SQL-like işlər, əksər use-case</td>
+          </tr>
+          <tr>
+            <td>Dataset</td>
+            <td>Typed API</td>
+            <td>Compile-time</td>
+            <td>Catalyst</td>
+            <td>Scala/Java-da type safety lazım olanda</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cards cards-2 fade-in">
+      <div class="card blue">
+        <span class="card-icon">🗂️</span>
+        <h3>RDD Əməliyyatları</h3>
+        <p>Low-level, əl ilə idarə olunan distributed collection. Custom logic üçün vacibdir.</p>
+        <div class="tags">
+          <span class="tag tag-blue">map/flatMap</span>
+          <span class="tag tag-blue">filter</span>
+          <span class="tag tag-blue">reduceByKey</span>
+          <span class="tag tag-blue">groupByKey</span>
+          <span class="tag tag-blue">partitionBy</span>
+          <span class="tag tag-blue">persist/cache</span>
+        </div>
+      </div>
+
+      <div class="card blue">
+        <span class="card-icon">📋</span>
+        <h3>DataFrame Transformations</h3>
+        <p>Əsas data engineering işlərinin hamısı burada. SQL-ə bənzər, lakin distributed.</p>
+        <div class="tags">
+          <span class="tag tag-blue">select/withColumn</span>
+          <span class="tag tag-blue">filter/where</span>
+          <span class="tag tag-blue">groupBy/agg</span>
+          <span class="tag tag-blue">join</span>
+          <span class="tag tag-blue">window</span>
+          <span class="tag tag-blue">pivot/unpivot</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block fade-in" data-lang="python">
+      <code><span class="kw">from</span> pyspark.sql <span class="kw">import</span> functions <span class="kw">as</span> F
+<span class="kw">from</span> pyspark.sql.window <span class="kw">import</span> Window
+
+<span class="cm"># DataFrame transformations — ən çox istifadə olunan pattern</span>
+df = (spark.<span class="fn">read</span>
+    .<span class="fn">format</span>(<span class="st">"delta"</span>)
+    .<span class="fn">load</span>(<span class="st">"s3://datalake/sales"</span>))
+
+<span class="cm"># Window function — hər kateqoriyada sıralama</span>
+window_spec = <span class="fn">Window</span>.<span class="fn">partitionBy</span>(<span class="st">"category"</span>).<span class="fn">orderBy</span>(F.<span class="fn">desc</span>(<span class="st">"revenue"</span>))
+
+result = (df
+    .<span class="fn">filter</span>(F.<span class="fn">col</span>(<span class="st">"date"</span>) >= <span class="st">"2024-01-01"</span>)
+    .<span class="fn">withColumn</span>(<span class="st">"rank"</span>, F.<span class="fn">rank</span>().<span class="fn">over</span>(window_spec))
+    .<span class="fn">withColumn</span>(<span class="st">"pct_total"</span>, F.<span class="fn">col</span>(<span class="st">"revenue"</span>) / F.<span class="fn">sum</span>(<span class="st">"revenue"</span>).<span class="fn">over</span>(<span class="fn">Window</span>.<span class="fn">partitionBy</span>(<span class="st">"category"</span>)))
+    .<span class="fn">filter</span>(F.<span class="fn">col</span>(<span class="st">"rank"</span>) <= <span class="nm">10</span>))
+
+result.<span class="fn">write</span>.<span class="fn">format</span>(<span class="st">"delta"</span>).<span class="fn">mode</span>(<span class="st">"overwrite"</span>).<span class="fn">save</span>(<span class="st">"s3://output/top10"</span>)</code>
+    </div>
+
+    <div class="cards cards-3 fade-in">
+      <div class="card blue">
+        <span class="card-icon">🔗</span>
+        <h3>Join Növləri</h3>
+        <ul class="checklist">
+          <li>inner, left, right, full outer</li>
+          <li>cross join (diqqət: çox yük)</li>
+          <li>semi join, anti join</li>
+          <li>broadcast join (kiçik table)</li>
+          <li>sort-merge join (böyük-böyük)</li>
+        </ul>
+      </div>
+
+      <div class="card blue">
+        <span class="card-icon">🪟</span>
+        <h3>Window Functions</h3>
+        <ul class="checklist">
+          <li>rank, dense_rank, row_number</li>
+          <li>lag, lead</li>
+          <li>first, last</li>
+          <li>running total (sum over window)</li>
+          <li>rolling average (rowsBetween)</li>
+        </ul>
+      </div>
+
+      <div class="card blue">
+        <span class="card-icon">📊</span>
+        <h3>Aggregation</h3>
+        <ul class="checklist">
+          <li>groupBy + agg</li>
+          <li>cube, rollup, groupingSets</li>
+          <li>collect_list, collect_set</li>
+          <li>approx_count_distinct</span>
+          <li>percentile_approx</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 3 -->
+<section class="phase" id="phase3">
+  <div class="container">
+    <div class="phase-header fade-in">
+      <div class="phase-number">03</div>
+      <div class="phase-meta">
+        <div class="phase-tag" style="color: var(--accent3)">Optimizasiya · 3-4 həftə</div>
+        <h2>Performance &<br>Optimizasiya</h2>
+        <p class="phase-desc">// Middle engineer-i junior-dan ayıran əsas fərq — performansı anlamaq</p>
+      </div>
+    </div>
+
+    <div class="highlight-box fade-in">
+      <p>⚡ <strong>Middle Engineer Səviyyəsi:</strong> Sadəcə kod yazmaq deyil, niyə yavaş işlədiyini anlamaq və həll etmək. Spark UI oxumağı, Shuffle-ı minimuma endirməyi, Partition strategiyasını seçməyi bilmək.</p>
+    </div>
+
+    <div class="cards cards-2 fade-in">
+      <div class="card yellow">
+        <span class="card-icon">🔀</span>
+        <h3>Shuffle & Partitioning</h3>
+        <p>Ən böyük performans düşmanı: unnecessary shuffle. Bunu anlamaq çox vacibdir.</p>
+        <ul class="checklist">
+          <li>repartition vs coalesce fərqi</li>
+          <li>spark.sql.shuffle.partitions tuning</li>
+          <li>partitionBy yazarkən (write)</li>
+          <li>Custom partitioner (RDD)</li>
+          <li>AQE (Adaptive Query Execution)</li>
+        </ul>
+      </div>
+
+      <div class="card yellow">
+        <span class="card-icon">🧠</span>
+        <h3>Catalyst Optimizer</h3>
+        <p>Spark-ın ağıllı query optimizer-i. Predicate pushdown, column pruning, join reordering.</p>
+        <ul class="checklist">
+          <li>explain() / explain("extended")</li>
+          <li>Predicate pushdown</li>
+          <li>Column pruning</li>
+          <li>Constant folding</li>
+          <li>Join reordering (CBO)</li>
+        </ul>
+      </div>
+
+      <div class="card yellow">
+        <span class="card-icon">💾</span>
+        <h3>Caching & Persistence</h3>
+        <p>Düzgün cache strategiyası böyük fərq yaradır. Səhv cache isə memory doldurar.</p>
+        <ul class="checklist">
+          <li>cache() — MEMORY_AND_DISK</li>
+          <li>persist(StorageLevel)</li>
+          <li>unpersist() — məcburidir!</li>
+          <li>Checkpoint — lineage kəsmək</li>
+          <li>Nə vaxt cache etməli?</li>
+        </ul>
+      </div>
+
+      <div class="card yellow">
+        <span class="card-icon">📡</span>
+        <h3>Broadcast Join</h3>
+        <p>Kiçik table (<10MB) olduqda broadcast join shuffle-ı tamamilə aradan qaldırır.</p>
+        <ul class="checklist">
+          <li>broadcast(df) hint</li>
+          <li>spark.sql.autoBroadcastJoinThreshold</li>
+          <li>Ne zaman broadcast problematik?</li>
+          <li>OOM riskini anlamaq</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="code-block fade-in" data-lang="python">
+      <code><span class="cm"># Spark UI-da plan oxumaq — kritik skill</span>
+df.<span class="fn">explain</span>(mode=<span class="st">"formatted"</span>)  <span class="cm"># Parsed, Analyzed, Optimized, Physical</span>
+
+<span class="cm"># AQE (Adaptive Query Execution) — Spark 3.0+</span>
+spark.<span class="fn">conf</span>.<span class="fn">set</span>(<span class="st">"spark.sql.adaptive.enabled"</span>, <span class="st">"true"</span>)
+spark.<span class="fn">conf</span>.<span class="fn">set</span>(<span class="st">"spark.sql.adaptive.coalescePartitions.enabled"</span>, <span class="st">"true"</span>)
+spark.<span class="fn">conf</span>.<span class="fn">set</span>(<span class="st">"spark.sql.adaptive.skewJoin.enabled"</span>, <span class="st">"true"</span>)
+
+<span class="cm"># Data Skew problemi — salt+repartition trick</span>
+skewed_df = df.<span class="fn">withColumn</span>(<span class="st">"salt"</span>, (F.<span class="fn">rand</span>() * <span class="nm">10</span>).<span class="fn">cast</span>(<span class="st">"int"</span>))
+other_df_expanded = other_df.<span class="fn">withColumn</span>(<span class="st">"salt"</span>, F.<span class="fn">explode</span>(F.<span class="fn">array</span>(*[F.<span class="fn">lit</span>(i) <span class="kw">for</span> i <span class="kw">in</span> range(<span class="nm">10</span>)])))
+
+result = skewed_df.<span class="fn">join</span>(other_df_expanded, [<span class="st">"key"</span>, <span class="st">"salt"</span>])
+
+<span class="cm"># Optimal partition sayı</span>
+target_partitions = max(<span class="nm">200</span>, df.<span class="fn">rdd</span>.<span class="fn">getNumPartitions</span>() * <span class="nm">2</span>)
+df.<span class="fn">repartition</span>(target_partitions, <span class="st">"date"</span>, <span class="st">"region"</span>)</code>
+    </div>
+
+    <div class="full-card fade-in">
+      <h3>⚡ Tungsten Engine & Memory Management</h3>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--muted); line-height: 1.8; margin-top: 1rem;">
+        Tungsten Spark-ın low-level execution engine-dir. Off-heap memory, binary format, LLVM-style code generation istifadə edir. 
+        Memory management: <strong style="color: var(--text)">Execution Memory</strong> (shuffle, sort, aggregation), <strong style="color: var(--text)">Storage Memory</strong> (cache), <strong style="color: var(--text)">User Memory</strong> (UDF, data structures).
+      </p>
+      <table class="compare-table" style="margin-top: 1.5rem;">
+        <thead>
+          <tr><th>Problem</th><th>Simptom</th><th>Həll</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>OOM Error</td><td>Executor crash</td><td>executor.memory artır, partition say artır</td></tr>
+          <tr><td>GC Pressure</td><td>Task yavaşlayır</td><td>G1GC, off-heap memory</td></tr>
+          <tr><td>Spill to Disk</td><td>I/O artır</td><td>Memory artır, partition azaldılır</td></tr>
+          <tr><td>Data Skew</td><td>Bir task uzun</td><td>Salt trick, AQE skewJoin</td></tr>
+          <tr><td>Small Files</td><td>Çox task, yavaş</td><td>coalesce(), Delta OPTIMIZE</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 4 -->
+<section class="phase" id="phase4">
+  <div class="container">
+    <div class="phase-header fade-in">
+      <div class="phase-number">04</div>
+      <div class="phase-meta">
+        <div class="phase-tag" style="color: var(--green)">Streaming · 3 həftə</div>
+        <h2>Structured Streaming<br>& Real-time</h2>
+        <p class="phase-desc">// Batch-dən streaming-ə keçid — lakehouse-da real-time pipeline qurmaq</p>
+      </div>
+    </div>
+
+    <div class="arch-diagram fade-in">
+      <p class="arch-title">Structured Streaming Data Flow</p>
+      <div class="arch-flow">
+        <div class="arch-box ab-orange">Kafka<br><small>Source</small></div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-box ab-blue">Spark<br><small>Streaming Engine</small></div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-box ab-green">Trigger<br><small>Micro-batch / Continuous</small></div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-box ab-yellow">Output Mode<br><small>Append/Update/Complete</small></div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-box ab-purple">Sink<br><small>Delta/Kafka/Console</small></div>
+      </div>
+    </div>
+
+    <div class="cards cards-3 fade-in">
+      <div class="card green">
+        <span class="card-icon">🌊</span>
+        <h3>Trigger Növləri</h3>
+        <ul class="checklist">
+          <li>default — mümkün qədər tez</li>
+          <li>ProcessingTime("10 seconds")</li>
+          <li>Once() — batch-like</li>
+          <li>AvailableNow() — Spark 3.3+</li>
+          <li>Continuous — ms latency</li>
+        </ul>
+      </div>
+
+      <div class="card green">
+        <span class="card-icon">📤</span>
+        <h3>Output Modes</h3>
+        <ul class="checklist">
+          <li><strong>append</strong> — yeni sətrlər (default)</li>
+          <li><strong>update</strong> — dəyişən sətrlər</li>
+          <li><strong>complete</strong> — hamısı yenidən</li>
+          <li>Aggregation ile: update/complete</li>
+          <li>Watermark ilə: append</li>
+        </ul>
+      </div>
+
+      <div class="card green">
+        <span class="card-icon">⏰</span>
+        <h3>Watermark & Late Data</h3>
+        <ul class="checklist">
+          <li>Event time vs processing time</li>
+          <li>withWatermark() — gecikmə limiti</li>
+          <li>Late data handling</li>
+          <li>Window aggregations</li>
+          <li>State cleanup</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="code-block fade-in" data-lang="python">
+      <code><span class="cm"># Kafka → Delta Lake Streaming Pipeline</span>
+<span class="kw">from</span> pyspark.sql.functions <span class="kw">import</span> from_json, col
+<span class="kw">from</span> pyspark.sql.types <span class="kw">import</span> StructType, StringType, TimestampType
+
+schema = (<span class="fn">StructType</span>()
+    .<span class="fn">add</span>(<span class="st">"user_id"</span>, <span class="fn">StringType</span>())
+    .<span class="fn">add</span>(<span class="st">"event"</span>, <span class="fn">StringType</span>())
+    .<span class="fn">add</span>(<span class="st">"timestamp"</span>, <span class="fn">TimestampType</span>()))
+
+<span class="cm"># Kafka source</span>
+stream_df = (spark
+    .<span class="fn">readStream</span>
+    .<span class="fn">format</span>(<span class="st">"kafka"</span>)
+    .<span class="fn">option</span>(<span class="st">"kafka.bootstrap.servers"</span>, <span class="st">"broker:9092"</span>)
+    .<span class="fn">option</span>(<span class="st">"subscribe"</span>, <span class="st">"events"</span>)
+    .<span class="fn">option</span>(<span class="st">"startingOffsets"</span>, <span class="st">"latest"</span>)
+    .<span class="fn">load</span>())
+
+<span class="cm"># Parse + Watermark + Window Aggregation</span>
+parsed = (stream_df
+    .<span class="fn">select</span>(<span class="fn">from_json</span>(<span class="fn">col</span>(<span class="st">"value"</span>).<span class="fn">cast</span>(<span class="st">"string"</span>), schema).<span class="fn">alias</span>(<span class="st">"data"</span>))
+    .<span class="fn">select</span>(<span class="st">"data.*"</span>)
+    .<span class="fn">withWatermark</span>(<span class="st">"timestamp"</span>, <span class="st">"10 minutes"</span>))
+
+<span class="cm"># Delta Lake sink — exactly-once semantics</span>
+query = (parsed
+    .<span class="fn">writeStream</span>
+    .<span class="fn">format</span>(<span class="st">"delta"</span>)
+    .<span class="fn">outputMode</span>(<span class="st">"append"</span>)
+    .<span class="fn">trigger</span>(<span class="fn">processingTime</span>=<span class="st">"30 seconds"</span>)
+    .<span class="fn">option</span>(<span class="st">"checkpointLocation"</span>, <span class="st">"s3://checkpoints/events"</span>)
+    .<span class="fn">start</span>(<span class="st">"s3://datalake/events"</span>))
+
+query.<span class="fn">awaitTermination</span>()</code>
+    </div>
+
+    <div class="cards cards-2 fade-in">
+      <div class="card green">
+        <span class="card-icon">🔄</span>
+        <h3>Stateful Processing</h3>
+        <p>State store ilə mürəkkəb streaming işlər:</p>
+        <ul class="checklist">
+          <li>mapGroupsWithState</li>
+          <li>flatMapGroupsWithState</li>
+          <li>Session windows</li>
+          <li>Arbitrary stateful operations</li>
+          <li>State TTL (timeout)</li>
+        </ul>
+      </div>
+
+      <div class="card green">
+        <span class="card-icon">✅</span>
+        <h3>Exactly-Once Semantics</h3>
+        <p>Streaming-də data itirməmək və dublikat yaratmamaq:</p>
+        <ul class="checklist">
+          <li>Checkpoint mechanism</li>
+          <li>Idempotent sink (Delta)</li>
+          <li>Kafka offset management</li>
+          <li>foreachBatch — custom logic</li>
+          <li>Fault tolerance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 5 -->
+<section class="phase" id="phase5">
+  <div class="container">
+    <div class="phase-header fade-in">
+      <div class="phase-number">05</div>
+      <div class="phase-meta">
+        <div class="phase-tag" style="color: var(--purple)">ML Integration · 2 həftə</div>
+        <h2>Spark MLlib &<br>Feature Engineering</h2>
+        <p class="phase-desc">// ML pipeline-ları data engineering ilə birləşdirmək</p>
+      </div>
+    </div>
+
+    <div class="cards cards-3 fade-in">
+      <div class="card purple">
+        <span class="card-icon">🔬</span>
+        <h3>Feature Engineering</h3>
+        <p>ML üçün feature hazırlamaq — data engineer-in əsas məsuliyyəti.</p>
+        <div class="tags">
+          <span class="tag tag-purple">VectorAssembler</span>
+          <span class="tag tag-purple">StringIndexer</span>
+          <span class="tag tag-purple">OneHotEncoder</span>
+          <span class="tag tag-purple">Bucketizer</span>
+          <span class="tag tag-purple">StandardScaler</span>
+        </div>
+      </div>
+
+      <div class="card purple">
+        <span class="card-icon">🔧</span>
+        <h3>ML Pipeline API</h3>
+        <p>Scikit-learn kimi Pipeline API — reproducible ML workflows.</p>
+        <ul class="checklist">
+          <li>Transformer, Estimator, Model</li>
+          <li>Pipeline.fit() / transform()</li>
+          <li>CrossValidator, TrainValidationSplit</li>
+          <li>ParamGridBuilder — hyperparameter tuning</li>
+        </ul>
+      </div>
+
+      <div class="card purple">
+        <span class="card-icon">🤝</span>
+        <h3>MLflow Integration</h3>
+        <p>Spark + MLflow — experiment tracking, model registry.</p>
+        <ul class="checklist">
+          <li>mlflow.spark — autologging</li>
+          <li>Model artifact logging</li>
+          <li>Model serving</li>
+          <li>Feature store integration</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box fade-in">
+      <p>⚡ <strong>Data Engineer üçün ML:</strong> Data engineer-in əsas rolu feature pipeline qurmaq, feature store-u idarə etmək, ML model-in training/inference data-sını hazırlamaq. MLlib-i dərindən öyrənməkdənsə, Feature Engineering və Data Quality-yə fokuslan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 6 -->
+<section class="phase" id="phase6">
+  <div class="container">
+    <div class="phase-header fade-in">
+      <div class="phase-number">06</div>
+      <div class="phase-meta">
+        <div class="phase-tag" style="color: var(--accent2)">Production · 4 həftə</div>
+        <h2>Production Patterns<br>& Lakehouse</h2>
+        <p class="phase-desc">// Real dünyada Spark — Delta Lake, Medallion Architecture, CI/CD</p>
+      </div>
+    </div>
+
+    <div class="cards cards-2 fade-in">
+      <div class="card orange">
+        <span class="card-icon">🏅</span>
+        <h3>Medallion Architecture</h3>
+        <p>Lakehouse-da standart data katmanlaşdırma arxitekturası. Sənin 7 aylıq təcrübəndə bu olub!</p>
+        <div class="timeline" style="margin-top: 1rem;">
+          <div class="timeline-item">
+            <h4 style="color: #cd7f32">🥉 Bronze Layer</h4>
+            <p>Raw data — heç bir transformasiya, append-only, tam tarix saxlanılır. Schema-on-read.</p>
+          </div>
+          <div class="timeline-item">
+            <h4 style="color: #c0c0c0">🥈 Silver Layer</h4>
+            <p>Cleaned, deduplicated, validated data. Schema enforced. Join-lər burada.</p>
+          </div>
+          <div class="timeline-item">
+            <h4 style="color: #ffd700">🥇 Gold Layer</h4>
+            <p>Business-ready aggregated data. BI toollar buradan baxır. Yüksək query performance.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card orange">
+        <span class="card-icon">🔺</span>
+        <h3>Delta Lake Deep Dive</h3>
+        <p>Lakehouse-un əsası. Transaction log, ACID, time travel, schema evolution.</p>
+        <ul class="checklist">
+          <li>ACID transactions (concurrent writes)</li>
+          <li>Time travel — VERSION AS OF, TIMESTAMP AS OF</li>
+          <li>Schema evolution — mergeSchema</li>
+          <li>OPTIMIZE + Z-ORDER clustering</li>
+          <li>VACUUM — köhnə faylları silmək</li>
+          <li>Change Data Feed (CDF)</li>
+          <li>MERGE (upsert) — SCD Type 2</li>
+          <li>Deletion Vectors (Spark 3.4+)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="code-block fade-in" data-lang="python">
+      <code><span class="cm"># Delta Lake MERGE — SCD Type 2 pattern</span>
+<span class="kw">from</span> delta.tables <span class="kw">import</span> DeltaTable
+
+delta_table = <span class="fn">DeltaTable</span>.<span class="fn">forPath</span>(spark, <span class="st">"s3://datalake/customers"</span>)
+
+(delta_table.<span class="fn">alias</span>(<span class="st">"target"</span>)
+    .<span class="fn">merge</span>(
+        source=new_data.<span class="fn">alias</span>(<span class="st">"source"</span>),
+        condition=<span class="st">"target.customer_id = source.customer_id AND target.is_current = true"</span>
+    )
+    .<span class="fn">whenMatchedUpdate</span>(
+        condition=<span class="st">"source.updated_at > target.updated_at"</span>,
+        set={<span class="st">"is_current"</span>: <span class="st">"false"</span>, <span class="st">"end_date"</span>: <span class="st">"source.updated_at"</span>}
+    )
+    .<span class="fn">whenNotMatchedInsert</span>(values={
+        <span class="st">"customer_id"</span>: <span class="st">"source.customer_id"</span>,
+        <span class="st">"name"</span>: <span class="st">"source.name"</span>,
+        <span class="st">"is_current"</span>: <span class="st">"true"</span>,
+        <span class="st">"start_date"</span>: <span class="st">"source.updated_at"</span>
+    })
+    .<span class="fn">execute</span>())
+
+<span class="cm"># Z-Order clustering — read performance üçün</span>
+spark.<span class="fn">sql</span>(<span class="st">"""
+    OPTIMIZE delta.`s3://datalake/events`
+    ZORDER BY (date, user_id)
+"""</span>)</code>
+    </div>
+
+    <div class="cards cards-3 fade-in">
+      <div class="card orange">
+        <span class="card-icon">🔄</span>
+        <h3>Incremental Processing</h3>
+        <ul class="checklist">
+          <li>Delta CDF (Change Data Feed)</li>
+          <li>Watermark-based incremental</li>
+          <li>Bookmarking pattern</li>
+          <li>Idempotent pipeline</li>
+          <li>Auto Loader (cloud files)</li>
+        </ul>
+      </div>
+
+      <div class="card orange">
+        <span class="card-icon">🧪</span>
+        <h3>Data Quality</h3>
+        <ul class="checklist">
+          <li>Great Expectations + Spark</li>
+          <li>Delta Constraints</li>
+          <li>Schema validation</li>
+          <li>Null checks, range checks</li>
+          <li>Quarantine pattern</li>
+        </ul>
+      </div>
+
+      <div class="card orange">
+        <span class="card-icon">🚀</span>
+        <h3>Pipeline Orchestration</h3>
+        <ul class="checklist">
+          <li>Apache Airflow + SparkSubmitOp</li>
+          <li>Databricks Workflows / Jobs</li>
+          <li>Prefect, Dagster</li>
+          <li>Dependency management</li>
+          <li>SLA monitoring</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="full-card fade-in">
+      <h3>📐 Production Best Practices</h3>
+      <div class="cards cards-2" style="margin-top: 1.5rem;">
+        <div>
+          <ul class="checklist">
+            <li>spark-submit ilə job-ları parametrizasiya et</li>
+            <li>SparkConf-ı kod içinə yox, config faylına yaz</li>
+            <li>DataFrame schema-larını explicit təyin et</li>
+            <li>UDF yazmaqdan qaç — native functions daha sürətli</li>
+            <li>collect() böyük data-da istifadə etmə</li>
+          </ul>
+        </div>
+        <div>
+          <ul class="checklist">
+            <li>Partition pruning üçün filter-i erkən yaz</li>
+            <li>select() ilə lazımsız sütunları at</li>
+            <li>broadcast join-i kiçik table-larda istifadə et</li>
+            <li>Spark UI-da Stage/Task-ları izlə</li>
+            <li>Idempotent pipeline-lar yaz (retry safe)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE 7 -->
+<section class="phase" id="phase7">
+  <div class="container">
+    <div class="phase-header fade-in">
+      <div class="phase-number">07</div>
+      <div class="phase-meta">
+        <div class="phase-tag" style="color: var(--blue)">Advanced · Davamlı</div>
+        <h2>Advanced Topics<br>& Ekosistem</h2>
+        <p class="phase-desc">// Senior-a doğru addımlar — Iceberg, DeltaSharing, custom extensions</p>
+      </div>
+    </div>
+
+    <div class="cards cards-3 fade-in">
+      <div class="card blue">
+        <span class="card-icon">🧊</span>
+        <h3>Apache Iceberg</h3>
+        <p>Delta Lake-ə alternativ open table format. Vendor-neutral.</p>
+        <div class="tags">
+          <span class="tag tag-blue">Hidden Partitioning</span>
+          <span class="tag tag-blue">Time Travel</span>
+          <span class="tag tag-blue">Row-level Deletes</span>
+          <span class="tag tag-blue">Schema Evolution</span>
+        </div>
+      </div>
+
+      <div class="card blue">
+        <span class="card-icon">🚰</span>
+        <h3>Apache Hudi</h3>
+        <p>Uber tərəfindən hazırlanmış, near real-time upsert-lər üçün.</p>
+        <div class="tags">
+          <span class="tag tag-blue">COW (Copy-on-Write)</span>
+          <span class="tag tag-blue">MOR (Merge-on-Read)</span>
+          <span class="tag tag-blue">Incremental Query</span>
+        </div>
+      </div>
+
+      <div class="card blue">
+        <span class="card-icon">🐍</span>
+        <h3>PySpark Advanced</h3>
+        <ul class="checklist">
+          <li>Pandas UDF (vectorized)</li>
+          <li>Arrow optimization</li>
+          <li>pandas_on_spark (Koalas)</li>
+          <li>Custom Aggregations (UDAF)</li>
+        </ul>
+      </div>
+
+      <div class="card blue">
+        <span class="card-icon">🔌</span>
+        <h3>Spark Extensions</h3>
+        <ul class="checklist">
+          <li>Custom data source</li>
+          <li>Catalyst rule extension</li>
+          <li>SparkListener — monitoring</li>
+          <li>Custom metrics</li>
+        </ul>
+      </div>
+
+      <div class="card blue">
+        <span class="card-icon">☁️</span>
+        <h3>Cloud-native Spark</h3>
+        <ul class="checklist">
+          <li>Databricks (Photon engine)</li>
+          <li>AWS EMR / Glue</li>
+          <li>GCP Dataproc</li>
+          <li>Azure HDInsight / Synapse</li>
+        </ul>
+      </div>
+
+      <div class="card blue">
+        <span class="card-icon">🔍</span>
+        <h3>Observability</h3>
+        <ul class="checklist">
+          <li>Spark History Server</li>
+          <li>Prometheus + Grafana</li>
+          <li>Ganglia metrics</li>
+          <li>Custom SparkListener</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="full-card fade-in" style="background: linear-gradient(135deg, rgba(77,166,255,0.05), rgba(184,169,255,0.05)); border-color: rgba(77,166,255,0.2);">
+      <h3>🗺️ Sənin üçün Tövsiyə Olunan Sıra</h3>
+      <div class="timeline" style="margin-top: 1.5rem;">
+        <div class="timeline-item">
+          <h4>1-2 Həftə — Arxitektura & SparkSession</h4>
+          <p>DAG, Job/Stage/Task, Driver/Executor, Lazy evaluation. explain() oxumağı öyrən.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>3-5 Həftə — DataFrame API Mastery</h4>
+          <p>Join növləri, Window functions, Aggregation, Complex types (array, map, struct). Real data ilə praktika.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>6-8 Həftə — Performance Optimization</h4>
+          <p>Shuffle, Partitioning, AQE, Broadcast join, Data Skew, Caching strategiyası. Spark UI oxumaq.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>9-11 Həftə — Delta Lake & Production Patterns</h4>
+          <p>MERGE, Time Travel, Z-ORDER, Incremental processing, Medallion architecture. Sənin lakehouse-da tətbiq et.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>12-14 Həftə — Structured Streaming</h4>
+          <p>Kafka integration, Watermark, Stateful processing, Checkpoint, Exactly-once semantics.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>15+ Həftə — Advanced & Ekosistem</h4>
+          <p>Iceberg, Pandas UDF, Custom extensions, MLlib integration, Cloud-specific optimizasiyalar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>⚡ <span class="accent">Apache Spark</span> Roadmap · Data Engineer → Middle Level</p>
+  <p style="margin-top: 0.5rem;">Uğurlar! Spark öyrənmək <span class="accent">prosesdir</span>, real data üzərində praktika ən yaxşı müəllimindir.</p>
+</footer>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
