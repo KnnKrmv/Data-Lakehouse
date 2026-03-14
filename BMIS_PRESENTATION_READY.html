@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMIS Hazır Təqdimat</title>
+  <style>
+    :root {
+      --ink: #132238;
+      --muted: #526174;
+      --line: #d6dde6;
+      --paper: #fffdf8;
+      --accent: #b45309;
+      --accent-soft: #fde7c6;
+      --blue-soft: #dfefff;
+      --green-soft: #e5f8ea;
+      --purple-soft: #efe7ff;
+      --rose-soft: #ffe4e6;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, #fff1d6 0, transparent 28%),
+        radial-gradient(circle at bottom right, #e7f1ff 0, transparent 26%),
+        #f7f4ee;
+    }
+
+    .wrap {
+      width: min(1240px, calc(100vw - 40px));
+      margin: 24px auto 60px;
+    }
+
+    .intro {
+      margin: 0 0 18px;
+      padding: 20px 24px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 20px;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      color: var(--muted);
+    }
+
+    .slide {
+      min-height: 700px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 36px 42px;
+      margin: 0 0 26px;
+      box-shadow: 0 16px 50px rgba(19, 34, 56, 0.08);
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(130deg, rgba(180, 83, 9, 0.06), transparent 35%),
+        linear-gradient(330deg, rgba(37, 99, 235, 0.05), transparent 30%);
+      pointer-events: none;
+    }
+
+    .slide > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font: 700 14px "Trebuchet MS", Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    h1, h2 {
+      margin: 0 0 14px;
+      line-height: 1.1;
+    }
+
+    h1 {
+      font-size: 42px;
+    }
+
+    h2 {
+      font-size: 34px;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      font: 400 20px/1.5 "Trebuchet MS", Arial, sans-serif;
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .full {
+      display: block;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px 24px;
+      background: rgba(255,255,255,0.82);
+    }
+
+    .card.orange { background: var(--accent-soft); }
+    .card.blue { background: var(--blue-soft); }
+    .card.green { background: var(--green-soft); }
+    .card.purple { background: var(--purple-soft); }
+    .card.rose { background: var(--rose-soft); }
+
+    ul {
+      margin: 0;
+      padding-left: 22px;
+      font: 400 20px/1.55 "Trebuchet MS", Arial, sans-serif;
+    }
+
+    li + li { margin-top: 10px; }
+
+    .big-points {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .point {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 20px;
+      background: rgba(255,255,255,0.86);
+    }
+
+    .point strong {
+      display: block;
+      font: 700 20px "Trebuchet MS", Arial, sans-serif;
+      margin-bottom: 8px;
+    }
+
+    .point span {
+      font: 400 17px/1.5 "Trebuchet MS", Arial, sans-serif;
+      color: var(--muted);
+    }
+
+    img.diagram {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .two-col-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      font: 400 15px/1.5 "Trebuchet MS", Arial, sans-serif;
+      color: var(--muted);
+    }
+
+    @media print {
+      body { background: #fff; }
+      .wrap { width: 100%; margin: 0; }
+      .intro { display: none; }
+      .slide {
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+        box-shadow: none;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="intro">
+      Bu fayl hazır təqdimat formatında hazırlanıb. Hər blok ayrıca slayd kimidir. İstəsən brauzerdə açıb birbaşa copy-paste edə, istəsən də PDF kimi export edə bilərsən.
+    </p>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 1</div>
+      <h1>BMIS Layihəsinin Ümumi Təqdimatı</h1>
+      <p class="subtitle">Oracle-dan gələn BMIS datasının Bronze, Silver, Gold və Tableau qatları üzrə emal olunması</p>
+      <div class="big-points">
+        <div class="point"><strong>Lakehouse yanaşması</strong><span>BMIS məlumatları mərhələli şəkildə xam qatdan hesabat qatına qədər idarə olunur.</span></div>
+        <div class="point"><strong>Texnologiya stack-i</strong><span>Airflow, Spark, dbt, MinIO, Iceberg və Nessie birlikdə işləyir.</span></div>
+        <div class="point"><strong>Biznes məqsədi</strong><span>Xam datanı etibarlı, təkrar istifadə edilə bilən analitik data məhsuluna çevirməkdir.</span></div>
+        <div class="point"><strong>Final nəticə</strong><span>Tableau üçün optimallaşdırılmış yekun metrik dataset formalaşır.</span></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 2</div>
+      <h2>Layihənin Məqsədi və Dəyəri</h2>
+      <div class="grid">
+        <div class="card orange">
+          <ul>
+            <li>Mənbə sistemdən gələn datanı idarə olunan şəkildə lakehouse-a gətirmək</li>
+            <li>Raw, transform və business layer-ləri bir-birindən ayırmaq</li>
+            <li>Hesabat hazırlığını sürətləndirmək və standartlaşdırmaq</li>
+            <li>Tableau üçün sabit və audit edilə bilən data qatı yaratmaq</li>
+            <li>Yeni cədvəl və mənbələrin əlavə olunmasını sadələşdirmək</li>
+          </ul>
+        </div>
+        <div class="card blue">
+          <div class="point"><strong>Əməliyyat baxımından</strong><span>Pipeline dataset-based işlədiyi üçün mərhələlər bir-birini düzgün sırada gözləyir.</span></div>
+          <div class="point" style="margin-top:16px;"><strong>Analitik baxımdan</strong><span>Transformasiya qatları həm kodun, həm də biznes məntiqinin izahını asanlaşdırır.</span></div>
+          <div class="point" style="margin-top:16px;"><strong>İdarəetmə baxımından</strong><span>Son istifadəçi üçün yalnız hesabat səviyyəli cədvəllər açıq saxlanılır.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 3</div>
+      <h2>End-to-End Arxitektura</h2>
+      <img class="diagram" src="docs/bmis/bmis_pipeline_overview.svg" alt="BMIS pipeline overview" />
+      <p class="footer-note">Oracle BMIS əsas əməliyyat mənbəyidir. Spark Bronze qatına yükləyir, dbt Silver və Gold transformasiyalarını aparır, Tableau qatında isə yekun report dataset formalaşır. CSV əsaslı bims_difference axını da bu flow-a qoşulur.</p>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 4</div>
+      <h2>Airflow Orkestrasiya Məntiqi</h2>
+      <img class="diagram" src="docs/bmis/bmis_airflow_stages.svg" alt="Airflow dependency" />
+      <div class="big-points">
+        <div class="point"><strong>Bronze mərhələ</strong><span>`1_bronze_BMIS` Oracle BMIS cədvəllərini Bronze qatına yükləyir.</span></div>
+        <div class="point"><strong>Silver mərhələ</strong><span>Bronze hazır olduqda dbt transformasiyası işə düşür.</span></div>
+        <div class="point"><strong>Gold mərhələ</strong><span>Silver nəticələrindən biznes qat hazırlanır.</span></div>
+        <div class="point"><strong>Tableau mərhələ</strong><span>Yekun dataset dashboard və hesabat üçün çıxış olur.</span></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 5</div>
+      <h2>Bronze Qatın Rolu</h2>
+      <div class="grid">
+        <div class="card green">
+          <ul>
+            <li>BMIS Bronze qatında 245 YAML ingest config mövcuddur</li>
+            <li>242 cədvəl `truncate_insert` rejimində işləyir</li>
+            <li>3 cədvəl `incremental_insert` rejimində işləyir</li>
+            <li>Hazırkı BMIS config-lərində ayrıca JDBC partition ayarı görünmür</li>
+            <li>Bronze daha çox geniş raw data platforması rolunu oynayır</li>
+          </ul>
+        </div>
+        <div>
+          <img class="diagram" src="docs/bmis/bmis_bronze_load_modes.svg" alt="Bronze load modes" />
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 6</div>
+      <h2>Bronze İş Prinsipi</h2>
+      <div class="two-col-list">
+        <div class="card orange">
+          <ul>
+            <li>Hər BMIS YAML faylı üçün ayrıca Spark task yaradılır</li>
+            <li>`ingest_table.py` source SQL və target config əsasında işləyir</li>
+            <li>Oracle JDBC ilə source data oxunur</li>
+            <li>Load mode və incremental qaydalar tətbiq olunur</li>
+            <li>Nəticə `bronze.bmis.*` Iceberg cədvəllərinə yazılır</li>
+          </ul>
+        </div>
+        <div class="card blue">
+          <strong style="font:700 20px 'Trebuchet MS', Arial, sans-serif;">Əsas incremental cədvəllər</strong>
+          <ul style="margin-top:14px;">
+            <li>`bims_data_bcm_documents`</li>
+            <li>`bims_data_bcm_document_cost_amounts`</li>
+            <li>`bims_dict_exec_budget_info`</li>
+          </ul>
+          <p class="footer-note">Bu cədvəllər Silver və Gold mərhələsində istifadə olunan əsas fakt axınının nüvəsini təşkil edir.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 7</div>
+      <h2>Silver Qatın Rolu</h2>
+      <img class="diagram" src="docs/bmis/bmis_data_lineage.svg" alt="Core data lineage" />
+      <p class="footer-note">Silver qatda Bronze-dan yalnız seçilmiş analytics alt dəst istifadə olunur. Əsas nəticə dimension və fact modellərinin formalaşmasıdır.</p>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 8</div>
+      <h2>Silver Modellərin Biznes Mənası</h2>
+      <div class="big-points">
+        <div class="point"><strong>administrative_class</strong><span>İnzibati təsnifatı source, group və organization səviyyələrində modelə çevirir.</span></div>
+        <div class="point"><strong>functional_class</strong><span>Funksional təsnifatı section, subsection və paragraph səviyyəsinə açır.</span></div>
+        <div class="point"><strong>economics_class</strong><span>İqtisadi təsnifatı çoxsəviyyəli analitik struktura çevirir.</span></div>
+        <div class="point"><strong>plant</strong><span>Təşkilati və struktur ağacını reporting üçün uyğunlaşdırır.</span></div>
+        <div class="point"><strong>lov_category</strong><span>Lookup və category cədvəllərini vahid formatda təqdim edir.</span></div>
+        <div class="point"><strong>financial_transactions</strong><span>Müxtəlif məbləğ sütunlarını standart fakt cədvəlinə çevirir.</span></div>
+      </div>
+      <p class="footer-note">Cari BMIS dbt konfiqurasiyasında əsas engine Trino-dur. Spark dəstəyi framework-də mövcud olsa da, bu flow-da əsas seçim deyil.</p>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 9</div>
+      <h2>Gold Qat və Əsas Hesablama</h2>
+      <div class="grid">
+        <div class="card purple">
+          <ul>
+            <li>Gold qatın əsas biznes modeli `global_transactions` cədvəlidir</li>
+            <li>Silver fakt və ölçü cədvəlləri burada birləşdirilir</li>
+            <li>Əsas metriklər: actual, budget, expected, order, accepted</li>
+            <li>Business filtrlər region, budget, plant və year səviyyəsində tətbiq olunur</li>
+            <li>Sıfır və uyğun olmayan sətirlər çıxarılır</li>
+          </ul>
+        </div>
+        <div class="card rose">
+          <strong style="font:700 20px 'Trebuchet MS', Arial, sans-serif;">Əsas nəticə</strong>
+          <p style="font:400 18px/1.55 'Trebuchet MS', Arial, sans-serif; color:#526174;">
+            Gold qat sadəcə publish layer deyil. Həqiqi biznes aqreqasiyası əsasən `global_transactions` modelində baş verir və final Tableau nəticələrinin əsasını yaradır.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 10</div>
+      <h2>Tableau Üçün Son Mərhələ</h2>
+      <img class="diagram" src="docs/bmis/bmis_tableau_flow.svg" alt="Tableau final flow" />
+      <div class="big-points">
+        <div class="point"><strong>Final model</strong><span>`bims_general_metrics` son istifadəçi üçün əsas report dataset-dir.</span></div>
+        <div class="point"><strong>İki mənbə</strong><span>BMIS Gold datanı və `bims_difference` datasını birləşdirir.</span></div>
+        <div class="point"><strong>Fərqləndirmə</strong><span>`source_name = BMIS` və `source_name = CSV` ilə mənbə ayrılır.</span></div>
+        <div class="point"><strong>Müqayisə</strong><span>`LAG()` ilə əvvəlki il göstəriciləri hesablanır.</span></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 11</div>
+      <h2>Əlavə CSV Axını və bims_difference</h2>
+      <div class="grid">
+        <div class="card rose">
+          <ul>
+            <li>`bims_difference` Oracle-dan yox, CSV fayldan Bronze qatına yüklənir</li>
+            <li>MinIO bucket-dən Spark vasitəsilə `bronze.bmis.bims_difference` cədvəlinə yazılır</li>
+            <li>Sonradan final Tableau layer-ə qoşulur</li>
+            <li>Beləliklə, əlavə müqayisə göstəriciləri əsas BMIS nəticələri ilə birlikdə təqdim olunur</li>
+          </ul>
+        </div>
+        <div class="card blue">
+          <strong style="font:700 20px 'Trebuchet MS', Arial, sans-serif;">Niyə vacibdir?</strong>
+          <p style="font:400 18px/1.55 'Trebuchet MS', Arial, sans-serif; color:#526174;">
+            Bu hissə yalnız texniki əlavə deyil. Yekun hesabat modelinə daxil olduğuna görə, faktiki olaraq BI nəticəsinin tərkib hissəsidir.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="eyebrow">Slayd 12</div>
+      <h2>Diqqət Nöqtələri və Yekun</h2>
+      <div class="big-points">
+        <div class="point"><strong>Bronze genişdir</strong><span>245 config olsa da, analytics flow yalnız seçilmiş cədvəlləri istifadə edir.</span></div>
+        <div class="point"><strong>dbt dəyişənləri</strong><span>DAG səviyyəsində vars ötürülsə də, checked SQL modellərində istifadəsi məhduddur.</span></div>
+        <div class="point"><strong>Əsas fokus modellər</strong><span>Uyğunsuzluq olduqda ilk baxılacaq modellər `global_transactions` və `bims_general_metrics` olmalıdır.</span></div>
+        <div class="point"><strong>CSV axını</strong><span>`bims_difference` hissəsi ayrıca nəzarət tələb edir.</span></div>
+      </div>
+      <p class="subtitle" style="margin-top:26px; max-width:none;">
+        BMIS layihəsi xam Oracle datasını, transformasiya edilmiş analitik qatları və son Tableau metriklərini vahid lakehouse arxitekturasında birləşdirən tam data məhsuludur.
+      </p>
+    </section>
+  </div>
+</body>
+</html>
