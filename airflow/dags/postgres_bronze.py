@@ -98,11 +98,11 @@ def ingest_table(table_schema, table_name):
             column='transaction_id',
             lowerBound=0,
             upperBound=100000000,
-            numPartitions=10,
+            numPartitions=16,
             properties={
                 "user": pg.login,
                 "password": pg.password,
-                "fetchsize": "10000",
+                "fetchsize": "100000",
                 "driver": "org.postgresql.Driver"
             }
         )
@@ -122,7 +122,7 @@ def ingest_table(table_schema, table_name):
 with DAG(
     dag_id="postgres_to_bronze_lakehouse",
     start_date=datetime(2025, 1, 1),
-    schedule="0 * * * *",
+    schedule=None,
     catchup=False,
     max_active_runs=1,
     max_active_tasks=4,
