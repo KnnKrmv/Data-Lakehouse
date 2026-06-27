@@ -2,11 +2,29 @@ from airflow import DAG
 from airflow.hooks.base import BaseHook
 from airflow.models import Variable
 from airflow.operators.python import PythonOperator
-from spark.jobs.batch_ingest_job import get_spark_session, stop_spark, write_iceberg_table
 from datetime import datetime
+import json
 import psycopg2
 
+# Spark helpers (səndə jobs folderi varsa düzgün mount olunmalıdır)
+from jobs.batch_ingest_job import (
+    get_spark_session,
+    stop_spark,
+    write_iceberg_table
+)
 
+# =========================
+# VARIABLES
+# =========================
+schema = Variable.get("PG_SOURCE_SCHEMA", default_var="sales")
+
+tables_list = json.loads(
+    Variable.get("POSTGRES_TABLES", default_var='["salescustomers"]')
+)
+
+# =========================
+# SPARK INIT
+# =========================
 def get_spark(app_name: str):
     minio_endpoint = Variable.get("MINIO_ENDPOINT")
     minio_access_key = Variable.get("MINIO_ACCESS_KEY")
@@ -20,7 +38,7 @@ def get_spark(app_name: str):
             "spark.sql.catalog.bronze": "org.apache.iceberg.spark.SparkCatalog",
             "spark.sql.catalog.bronze.catalog-impl": "org.apache.iceberg.nessie.NessieCatalog",
             "spark.sql.catalog.bronze.uri": nessie_uri,
-            "spark.sql.catalog.bronze.ref": "bronze",
+            "spark.sql.catalog.bronze.ref": "main",
             "spark.sql.catalog.bronze.warehouse": bronze_warehouse,
             "spark.sql.catalog.bronze.io-impl": "org.apache.iceberg.aws.s3.S3FileIO",
             "spark.sql.catalog.bronze.s3.endpoint": minio_endpoint,
@@ -34,75 +52,40 @@ def get_spark(app_name: str):
         ),
     )
 
-
+# =========================
+# TASK 1: CREATE NAMESPACE
+# =========================
 def create_namespace():
-    spark = get_spark("CreateNamespace")
+    spark = get_spark("create_namespace")
     try:
-        schema = Variable.get("BRONZE_SCHEMA_PG")
-
-        print(f"[postgres_bronze] action=create_namespace schema={schema} master={spark.sparkContext.master} app={spark.sparkContext.appName}")
         spark.sql(f"CREATE NAMESPACE IF NOT EXISTS bronze.{schema}")
+        print(f"[OK] Namespace created: bronze.{schema}")
     finally:
         stop_spark(spark)
 
-
-def get_postgres_tables():
-    pg = BaseHook.get_connection("postgres_lakehouse")
-
-    conn = psycopg2.connect(
-        host=pg.host,
-        port=pg.port,
-        dbname=pg.schema,
-        user=pg.login,
-        password=pg.password
-    )
-
-    source_schema = Variable.get("PG_SOURCE_SCHEMA")
-
-    with conn.cursor() as cur:
-        cur.execute(
-            """
-            SELECT table_schema, table_name
-            FROM information_schema.tables
-            WHERE table_type='BASE TABLE'
-              AND table_schema=%s
-            """,
-            (source_schema,)
-        )
-        tables = cur.fetchall()
-
-    conn.close()
-    return tables
-
-
-def ingest_table(table_schema, table_name):
-    spark = get_spark(f"Ingest_{table_name}")
+# =========================
+# TASK 2: INGEST TABLE
+# =========================
+def ingest_table(table_name: str):
+    spark = get_spark(f"ingest_{table_name}")
 
     try:
         pg = BaseHook.get_connection("postgres_lakehouse")
+
         jdbc_url = f"jdbc:postgresql://{pg.host}:{pg.port}/{pg.schema}"
 
-        catalog_1 = Variable.get("CATALOG_1")
-        bronze_schema = Variable.get("BRONZE_SCHEMA_PG")
-        bronze_warehouse = Variable.get("BRONZE_WAREHOUSE")
+        source = f"{schema}.{table_name}"
+        target = f"bronze.{schema}.{table_name}"
+        location = f"{Variable.get('BRONZE_WAREHOUSE')}/{schema}/{table_name}"
 
-        source = f"{table_schema}.{table_name}"
-        target = f"{catalog_1}.{bronze_schema}.{table_name}"
-        location = f"{bronze_warehouse}/{bronze_schema}/{table_name}"
-
-        print(f"[postgres_bronze] action=ingest_start source={source} target={target} location={location} spark={spark.sparkContext.master}")
+        print(f"[START] {source} -> {target}")
 
         df = spark.read.jdbc(
             url=jdbc_url,
             table=source,
-            column='transaction_id',
-            lowerBound=0,
-            upperBound=100000000,
-            numPartitions=16,
             properties={
                 "user": pg.login,
                 "password": pg.password,
-                "fetchsize": "100000",
                 "driver": "org.postgresql.Driver"
             }
         )
@@ -115,36 +98,35 @@ def ingest_table(table_schema, table_name):
             replace_with_empty=True,
         )
 
+        print(f"[DONE] {table_name}")
+
     finally:
         stop_spark(spark)
 
-
+# =========================
+# DAG DEFINITION
+# =========================
 with DAG(
-    dag_id="postgres_to_bronze_lakehouse",
+    dag_id="postgres_to_bronze",
     start_date=datetime(2025, 1, 1),
     schedule=None,
     catchup=False,
     max_active_runs=1,
-    max_active_tasks=4,
-    tags=["bronze", "lakehouse", "postgres"]
+    tags=["bronze", "postgres", "lakehouse"]
 ) as dag:
 
     create_ns = PythonOperator(
-        task_id="create_bronze_namespace",
+        task_id="create_namespace",
         python_callable=create_namespace
     )
-
-    import json
-    tables_list = json.loads(Variable.get("POSTGRES_TABLES"))
-    source_schema = Variable.get("PG_SOURCE_SCHEMA")
 
     for table in tables_list:
         task = PythonOperator(
             task_id=f"ingest_{table}",
             python_callable=ingest_table,
             op_kwargs={
-                "table_schema": source_schema,
                 "table_name": table
             }
         )
+
         create_ns >> task

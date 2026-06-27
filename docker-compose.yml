@@ -160,6 +160,7 @@ services:
       - ./airflow/config:/opt/airflow/config
       - ./dbt:/opt/airflow/dbt
       - ./spark/jars:/opt/spark/jars-extra
+      - ./jobs:/opt/airflow/jobs
     ports:
       - "8085:8085"
       - "4040-4050:4040-4050"
@@ -218,13 +219,55 @@ services:
     depends_on:
       - kafka
 
+  mongodb:
+    image: mongo:7
+    container_name: lakehouse-mongodb
+    hostname: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - lakehouse
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  debezium:
+    image: debezium/connect:2.7.3.Final
+    container_name: lakehouse-debezium
+    ports:
+      - "8083:8083"
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: 1
+
+      CONFIG_STORAGE_TOPIC: connect_configs
+      OFFSET_STORAGE_TOPIC: connect_offsets
+      STATUS_STORAGE_TOPIC: connect_statuses
+
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
+    depends_on:
+      - kafka
+      - postgres
+    networks:
+      - lakehouse
+
+
 volumes:
   minio_data:
   postgres_data:
   nessie-data:
   kafka_data:
   airflow_logs:
-
+  mongodb_data:
 networks:
   lakehouse:
     driver: bridge

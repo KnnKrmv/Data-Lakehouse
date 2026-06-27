@@ -2,24 +2,18 @@ FROM apache/spark:3.5.0-scala2.12-java11-python3-ubuntu
 
 USER root
 
-# Download JAR files with AWS SDK v2
 RUN mkdir -p /opt/spark/jars-custom && \
-    curl -L -o /opt/spark/jars-custom/postgresql-42.7.1.jar \
-      https://jdbc.postgresql.org/download/postgresql-42.7.1.jar && \
     curl -L -o /opt/spark/jars-custom/hadoop-aws-3.3.4.jar \
-      https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar && \
-    curl -L -o /opt/spark/jars-custom/aws-java-sdk-bundle-1.12.262.jar \
-      https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar && \
-    curl -L -o /opt/spark/jars-custom/bundle-2.20.18.jar \
-      https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.20.18/bundle-2.20.18.jar && \
-    curl -L -o /opt/spark/jars-custom/url-connection-client-2.20.18.jar \
-      https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.20.18/url-connection-client-2.20.18.jar && \
-    curl -L -o /opt/spark/jars-custom/iceberg-spark-runtime-3.5_2.12-1.4.2.jar \
-      https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/1.4.2/iceberg-spark-runtime-3.5_2.12-1.4.2.jar && \
-    curl -L -o /opt/spark/jars-custom/nessie-spark-extensions-3.5_2.12-0.74.0.jar \
-      https://repo.maven.apache.org/maven2/org/projectnessie/nessie-integrations/nessie-spark-extensions-3.5_2.12/0.74.0/nessie-spark-extensions-3.5_2.12-0.74.0.jar && \
+    https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar && \
+    curl -L -o /opt/spark/jars-custom/aws-java-sdk-bundle-1.12.367.jar \
+    https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.367/aws-java-sdk-bundle-1.12.367.jar && \
+    curl -L -o /opt/spark/jars-custom/postgresql-42.7.1.jar \
+    https://jdbc.postgresql.org/download/postgresql-42.7.1.jar && \
+    curl -L -o /opt/spark/jars-custom/spark-sql-kafka-0-10_2.12-3.5.0.jar \
+    https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.5.0/spark-sql-kafka-0-10_2.12-3.5.0.jar && \
+    curl -L -o /opt/spark/jars-custom/kafka-clients-3.6.0.jar \
+    https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.6.0/kafka-clients-3.6.0.jar && \
     cp /opt/spark/jars-custom/*.jar /opt/spark/jars/ && \
-    chown -R spark:spark /opt/spark/jars-custom && \
-    chown -R spark:spark /opt/spark/jars
+    chown -R spark:spark /opt/spark/jars-custom /opt/spark/jars
 
 USER spark
