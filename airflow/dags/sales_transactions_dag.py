@@ -39,10 +39,10 @@ AFTER_SCHEMA = {
     ]
 }
 
-SALES_TRANSACTIONS_DDL = "CREATE TABLE IF NOT EXISTS bronze.sales.sales_transactions (transaction_id BIGINT, customer_id BIGINT, customer_name STRING, product_id BIGINT, product_name STRING, product_category STRING, quantity INT, unit_price DECIMAL(12, 2), total_amount DECIMAL(12, 2), currency STRING, payment_method STRING, transaction_status STRING, transaction_date TIMESTAMP, cdc_op STRING, ingested_at TIMESTAMP) USING iceberg LOCATION 's3a://warehouse/bronze/sales/sales_transactions'"
+SALES_TRANSACTIONS_DDL = "CREATE TABLE IF NOT EXISTS bronze.sales_v2.sales_transactions (transaction_id BIGINT, customer_id BIGINT, customer_name STRING, product_id BIGINT, product_name STRING, product_category STRING, quantity INT, unit_price DECIMAL(12, 2), total_amount DECIMAL(12, 2), currency STRING, payment_method STRING, transaction_status STRING, transaction_date TIMESTAMP, cdc_op STRING, ingested_at TIMESTAMP) USING iceberg LOCATION 's3a://lakehouse/bronze/sales_v2/sales_transactions'"
 
 with DAG(
-    dag_id="bronze_sales_transactions",
+    dag_id="bronze_sales_transactions_v2",
     start_date=datetime(2026, 1, 1),
     schedule="*/2 * * * *",
     catchup=False,
@@ -72,8 +72,8 @@ with DAG(
             "spark.sql.catalog.bronze": "org.apache.iceberg.spark.SparkCatalog",
             "spark.sql.catalog.bronze.catalog-impl": "org.apache.iceberg.nessie.NessieCatalog",
             "spark.sql.catalog.bronze.uri": Variable.get("NESSIE_URI", default_var="http://nessie:19120/api/v1"),
-            "spark.sql.catalog.bronze.ref": "main",
-            "spark.sql.catalog.bronze.warehouse": Variable.get("BRONZE_WAREHOUSE", default_var="s3a://warehouse/bronze"),
+            "spark.sql.catalog.bronze.ref": "bronze",
+            "spark.sql.catalog.bronze.warehouse": Variable.get("BRONZE_WAREHOUSE", default_var="s3a://lakehouse/bronze"),
             "spark.sql.catalog.bronze.io-impl": "org.apache.iceberg.aws.s3.S3FileIO",
             "spark.sql.catalog.bronze.s3.endpoint": MINIO_ENDPOINT,
             "spark.sql.catalog.bronze.s3.path-style-access": "true",
@@ -83,8 +83,8 @@ with DAG(
         },
         application_args=[
             "--topic", "lakehouse.sales.sales_transactions",
-            "--target-table", "bronze.sales.sales_transactions",
-            "--checkpoint-path", "s3a://warehouse/checkpoints/sales_transactions/",
+            "--target-table", "bronze.sales_v2.sales_transactions",
+            "--checkpoint-path", "s3a://lakehouse/checkpoints/sales_transactions/",
             "--create-table-ddl", SALES_TRANSACTIONS_DDL,
             "--after-schema-base64", encode_schema(AFTER_SCHEMA), # Base64 ilə ötürürük
         ],
