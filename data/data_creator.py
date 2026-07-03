@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from psycopg2.extras import execute_values
 
 # =========================
-# CONFIG
+# DATABASE CONFIG
 # =========================
 DB_CONFIG = {
     "host": "localhost",
@@ -18,29 +18,10 @@ DB_CONFIG = {
 fake = Faker()
 
 # =========================
-# POOLS
+# SETTINGS
 # =========================
-PRODUCTS = [
-    "Laptop", "Phone", "Tablet",
-    "Monitor", "Keyboard", "Mouse",
-    "SSD", "Headphones"
-]
-
-CATEGORIES = [
-    "Electronics",
-    "Accessories",
-    "Gaming",
-    "Office"
-]
-
-CURRENCIES = ["USD", "EUR", "AZN"]
-
-PAYMENT_METHODS = [
-    "Credit Card",
-    "Cash",
-    "Bank Transfer",
-    "Apple Pay"
-]
+TOTAL_ROWS = 100_000
+BATCH_SIZE = 20_000
 
 STATUSES = [
     "Completed",
@@ -49,26 +30,22 @@ STATUSES = [
 ]
 
 # =========================
-# DATA GENERATOR
+# GENERATE ONE ROW
 # =========================
 def generate_row():
-    quantity = random.randint(1, 10)
-    unit_price = round(random.uniform(10, 3000), 2)
+    quantity = random.randint(1, 20)
+    price = round(random.uniform(10, 1000), 2)
 
     return (
-        random.randint(1000, 50000),                # customer_id
-        fake.name(),                                # customer_name
-        random.randint(1, 5000),                    # product_id
-        random.choice(PRODUCTS),                    # product_name
-        random.choice(CATEGORIES),                  # product_category
-        quantity,
-        unit_price,
-        round(quantity * unit_price, 2),            # total_amount
-        random.choice(CURRENCIES),
-        random.choice(PAYMENT_METHODS),
-        random.choice(STATUSES),
-        datetime(2020, 1, 1) +
-        timedelta(days=random.randint(0, 2200))
+        random.randint(1, 50000),                           # customer_id
+        random.randint(1, 5000),                            # product_id
+        quantity,                                           # quantity
+        round(quantity * price, 2),                         # amount
+        fake.date_time_between(
+            start_date="-3y",
+            end_date="now"
+        ),                                                  # transaction_date
+        random.choice(STATUSES)                             # status
     )
 
 # =========================
@@ -76,36 +53,24 @@ def generate_row():
 # =========================
 def main():
 
-    TOTAL_ROWS = 100_000
-    BATCH_SIZE = 20000
-
     conn = psycopg2.connect(**DB_CONFIG)
     cur = conn.cursor()
 
     insert_sql = """
-    INSERT INTO sales.sales_transactions (
+    INSERT INTO sales.transactions (
         customer_id,
-        customer_name,
         product_id,
-        product_name,
-        product_category,
         quantity,
-        unit_price,
-        total_amount,
-        currency,
-        payment_method,
-        transaction_status,
-        transaction_date
+        amount,
+        transaction_date,
+        status
     )
     VALUES %s
     """
 
     for batch_start in range(0, TOTAL_ROWS, BATCH_SIZE):
 
-        rows = [
-            generate_row()
-            for _ in range(BATCH_SIZE)
-        ]
+        rows = [generate_row() for _ in range(BATCH_SIZE)]
 
         execute_values(
             cur,
@@ -116,15 +81,14 @@ def main():
         conn.commit()
 
         print(
-            f"Inserted "
-            f"{min(batch_start + BATCH_SIZE, TOTAL_ROWS)} "
-            f"/ {TOTAL_ROWS}"
+            f"Inserted {min(batch_start + BATCH_SIZE, TOTAL_ROWS):,}"
+            f" / {TOTAL_ROWS:,}"
         )
 
     cur.close()
     conn.close()
 
-    print("✅ 100000 rows inserted")
+    print("✅ Finished inserting 100,000 rows.")
 
 if __name__ == "__main__":
     main()

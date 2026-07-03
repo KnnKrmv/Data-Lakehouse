@@ -1,0 +1,33 @@
+{
+  "name": "transactions-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "airflow",
+    "database.password": "airflow",
+    "database.dbname": "airflow",
+
+    "topic.prefix": "sales_server",
+
+    "plugin.name": "pgoutput",
+
+    "publication.name": "dbz_publication",
+    "slot.name": "transactions_slot",
+
+    "table.include.list": "sales.transactions",
+
+    "snapshot.mode": "initial",
+
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+
+    "decimal.handling.mode": "double",
+
+    "tombstones.on.delete": "false"
+  }
+}
