@@ -2,7 +2,6 @@ from airflow import DAG
 from airflow.models import Variable
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
-
 from jobs.batch_ingest_job import get_spark_session, stop_spark
 from jobs.cdc_kafka_job import run_cdc_upsert_stream
 
@@ -11,7 +10,7 @@ from jobs.cdc_kafka_job import run_cdc_upsert_stream
 # =========================
 TARGET_TABLE = "bronze.sales.transactions"
 KAFKA_TOPIC = "sales_server.sales.transactions"          # topic.prefix + schema.table
-CHECKPOINT_LOCATION = "s3a://lakehouse/checkpoints/sales_transactions_cdc"
+CHECKPOINT_LOCATION = "s3a://lakehouse/checkpoints/sales/transactions_cdc"
 
 TARGET_SCHEMA_SQL = """
 transaction_id BIGINT,
@@ -118,7 +117,7 @@ def ingest_transactions_cdc():
 with DAG(
     dag_id="bronze_sales_transactions_cdc",
     start_date=datetime(2025, 1, 1),
-    schedule="*/2 * * * *",
+    schedule=timedelta(minutes=20),  # manual trigger only (or via TriggerDagRunOperator)
     catchup=False,
     max_active_runs=1,
     tags=["bronze", "cdc", "lakehouse"],

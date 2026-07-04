@@ -95,6 +95,9 @@ services:
       - SPARK_MASTER_HOST=spark-master
       - SPARK_MASTER_PORT=7077
       - SPARK_MASTER_WEBUI_PORT=8080
+    volumes:
+      - ./spark/jars:/opt/spark/jars-extra
+      - spark_checkpoints:/opt/spark-checkpoints
     networks:
       - lakehouse
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
@@ -116,6 +119,9 @@ services:
       - SPARK_WORKER_CORES=4
       - SPARK_WORKER_MEMORY=8G
       - SPARK_WORKER_WEBUI_PORT=8081
+    volumes:
+      - ./spark/jars:/opt/spark/jars-extra
+      - spark_checkpoints:/opt/spark-checkpoints
     networks:
       - lakehouse
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
@@ -161,6 +167,7 @@ services:
       - ./dbt:/opt/airflow/dbt
       - ./spark/jars:/opt/spark/jars-extra
       - ./jobs:/opt/airflow/jobs
+      - spark_checkpoints:/opt/spark-checkpoints
     ports:
       - "8085:8085"
       - "4040-4050:4040-4050"
@@ -268,6 +275,7 @@ volumes:
   kafka_data:
   airflow_logs:
   mongodb_data:
+  spark_checkpoints:
 networks:
   lakehouse:
     driver: bridge

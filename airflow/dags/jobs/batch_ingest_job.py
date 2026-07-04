@@ -52,6 +52,8 @@ def get_spark_session(
         .appName(app_name)
         .master("spark://spark-master:7077")
         .config("spark.submit.deployMode", "client")
+        .config("spark.driver.extraClassPath", "/opt/spark/jars-extra/*")
+        .config("spark.executor.extraClassPath", "/opt/spark/jars-extra/*")
         .config("spark.executor.memory", "6g")
         .config("spark.executor.cores", "4")
         .config("spark.driver.memory", "1g")
@@ -67,6 +69,8 @@ def get_spark_session(
         .config("spark.hadoop.fs.s3a.access.key", minio_access_key)
         .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key)
         .config("spark.hadoop.fs.s3a.path.style.access", "true")
+        .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+        .config("spark.hadoop.fs.AbstractFileSystem.s3a.impl", "org.apache.hadoop.fs.s3a.S3A")
         .config("spark.sql.extensions", spark_extensions)
     )
 

@@ -2,13 +2,13 @@
 Reusable Kafka(Debezium CDC) -> Iceberg (Nessie) upsert helper.
 jobs/batch_ingest_job.py-dəki get_spark_session/stop_spark ilə birlikdə istifadə olunur.
 """
-
+from __future__ import annotations 
 from pyspark.sql.functions import col, from_json
 from pyspark.sql.types import (
     DoubleType,
     IntegerType,
     LongType,
-    StringType,
+    StringType, 
     StructField,
     StructType,
 )
@@ -40,12 +40,12 @@ def ensure_iceberg_table(spark, target_table: str, schema_sql: str, partition_by
 
 
 def read_cdc_stream(spark, kafka_bootstrap: str, kafka_topic: str, row_schema: StructType, starting_offsets: str = "earliest"):
+    # schemas.enable=false olduğu üçün mesaj birbaşa (payload wrapper-siz) belədir:
+    # {"before": {...}|null, "after": {...}|null, "op": "c|u|d|r", ...}
     envelope_schema = StructType([
-        StructField("payload", StructType([
-            StructField("before", row_schema),
-            StructField("after", row_schema),
-            StructField("op", StringType()),
-        ]))
+        StructField("before", row_schema),
+        StructField("after", row_schema),
+        StructField("op", StringType()),
     ])
 
     raw = (
@@ -61,13 +61,12 @@ def read_cdc_stream(spark, kafka_bootstrap: str, kafka_topic: str, row_schema: S
         raw.selectExpr("CAST(value AS STRING) AS json_value")
         .select(from_json(col("json_value"), envelope_schema).alias("e"))
         .select(
-            col("e.payload.before").alias("before"),
-            col("e.payload.after").alias("after"),
-            col("e.payload.op").alias("op"),
+            col("e.before").alias("before"),
+            col("e.after").alias("after"),
+            col("e.op").alias("op"),
         )
         .filter(col("op").isNotNull())
     )
-
 
 def make_upsert_batch_fn(target_table: str, pk_cols: list, upsert_select: list, delete_select: list):
     def process_batch(batch_df, batch_id: int):

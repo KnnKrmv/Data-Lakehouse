@@ -20,8 +20,8 @@ fake = Faker()
 # =========================
 # SETTINGS
 # =========================
-TOTAL_ROWS = 100_000
-BATCH_SIZE = 20_000
+TOTAL_ROWS = 100
+BATCH_SIZE = 100
 
 STATUSES = [
     "Completed",
