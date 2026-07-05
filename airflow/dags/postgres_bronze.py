@@ -38,7 +38,7 @@ def get_spark(app_name: str):
             "spark.sql.catalog.bronze": "org.apache.iceberg.spark.SparkCatalog",
             "spark.sql.catalog.bronze.catalog-impl": "org.apache.iceberg.nessie.NessieCatalog",
             "spark.sql.catalog.bronze.uri": nessie_uri,
-            "spark.sql.catalog.bronze.ref": "main",
+            "spark.sql.catalog.bronze.ref": "bronze",
             "spark.sql.catalog.bronze.warehouse": bronze_warehouse,
             "spark.sql.catalog.bronze.io-impl": "org.apache.iceberg.aws.s3.S3FileIO",
             "spark.sql.catalog.bronze.s3.endpoint": minio_endpoint,
