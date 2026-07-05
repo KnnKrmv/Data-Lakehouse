@@ -1,0 +1,15 @@
+# Bu fayl normalda ~/.dbt/profiles.yml-də olmalıdır (layihə qovluğunda deyil).
+# host/port/user/password-u öz Trino koordinatorunuza görə dəyişin.
+
+lakehouse:
+  target: dev
+  outputs:
+    dev:
+      type: trino
+      method: none
+      user: dbt
+      host: trino              # docker-compose-dakı Trino service adı
+      port: 8080
+      database: silver
+      schema: sales
+      threads: 4

@@ -33,4 +33,6 @@ RUN pip install --no-cache-dir \
     apache-airflow-providers-postgres==5.9.0 \
     psycopg2-binary==2.9.9 \
     boto3==1.34.12 \
-    pandas==2.0.3
+    pandas==2.0.3 \
+    dbt-core==1.6.17 \
+    dbt-trino==1.6.1

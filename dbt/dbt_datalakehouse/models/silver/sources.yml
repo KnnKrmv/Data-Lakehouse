@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: bronze
+    schema: sales
+    tables:
+      - name: customers
+        description: "Bronze-a CDC ilə gələn müştəri master datası"
+        columns:
+          - name: customer_id
+            tests:
+              - not_null
+              - unique
+
+      - name: products
+        description: "Bronze-a CDC ilə gələn məhsul master datası"
+        columns:
+          - name: product_id
+            tests:
+              - not_null
+              - unique

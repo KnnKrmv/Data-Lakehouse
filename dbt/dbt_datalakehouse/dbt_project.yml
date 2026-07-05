@@ -1,0 +1,33 @@
+name: 'lakehouse'
+version: '1.0.0'
+config-version: 2
+
+profile: 'lakehouse'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  lakehouse:
+    silver:
+      +materialized: table
+      +database: silver
+      +schema: sales
+    gold:
+      +materialized: table
+      +database: gold
+      +schema: sales
+
+seeds:
+  lakehouse:
+    +database: gold
+    +schema: sales
+    dim_status_seed:
+      +column_types:
+        is_revenue_recognized: boolean

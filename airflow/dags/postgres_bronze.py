@@ -19,7 +19,7 @@ from jobs.batch_ingest_job import (
 schema = Variable.get("PG_SOURCE_SCHEMA", default_var="sales")
 
 tables_list = json.loads(
-    Variable.get("POSTGRES_TABLES", default_var='["salescustomers"]')
+    Variable.get("POSTGRES_TABLES")
 )
 
 # =========================
@@ -29,6 +29,7 @@ def get_spark(app_name: str):
     minio_endpoint = Variable.get("MINIO_ENDPOINT")
     minio_access_key = Variable.get("MINIO_ACCESS_KEY")
     minio_secret_key = Variable.get("MINIO_SECRET_KEY")
+    nessie_branch_bronze = Variable.get("NESSIE_BRANCH_BRONZE")
     bronze_warehouse = Variable.get("BRONZE_WAREHOUSE")
     nessie_uri = Variable.get("NESSIE_URI")
 
@@ -38,7 +39,7 @@ def get_spark(app_name: str):
             "spark.sql.catalog.bronze": "org.apache.iceberg.spark.SparkCatalog",
             "spark.sql.catalog.bronze.catalog-impl": "org.apache.iceberg.nessie.NessieCatalog",
             "spark.sql.catalog.bronze.uri": nessie_uri,
-            "spark.sql.catalog.bronze.ref": "bronze",
+            "spark.sql.catalog.bronze.ref": nessie_branch_bronze,
             "spark.sql.catalog.bronze.warehouse": bronze_warehouse,
             "spark.sql.catalog.bronze.io-impl": "org.apache.iceberg.aws.s3.S3FileIO",
             "spark.sql.catalog.bronze.s3.endpoint": minio_endpoint,

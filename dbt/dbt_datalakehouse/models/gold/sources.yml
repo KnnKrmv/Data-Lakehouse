@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: silver_layer
+    database: silver
+    schema: sales
+    tables:
+      - name: transactions
+        description: "Spark/Kafka CDC ilə doldurulan silver.sales.transactions (dbt bu cədvəli QURMUR, yalnız oxuyur)"
+        columns:
+          - name: transaction_id
+            tests:
+              - not_null
+              - unique
