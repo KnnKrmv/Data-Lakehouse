@@ -4,40 +4,72 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 
 from jobs.batch_ingest_job import get_spark_session, stop_spark
-from jobs.gold_stream import run_gold_fact_stream
+from jobs.gold_stream import run_gold_fact_merge
 
 # =========================
 # CONFIG
 # =========================
 SOURCE_TABLE = "silver.sales.transactions"
+CUSTOMERS_TABLE = "silver.sales.customers"
+PRODUCTS_TABLE = "silver.sales.products"
 TARGET_TABLE = "gold.sales.transactions"
-
-CHECKPOINT_LOCATION = "s3a://lakehouse/checkpoints/gold/sales/transactions_fact"
 
 PRIMARY_KEYS = ["transaction_id"]
 
+TARGET_SCHEMA_SQL = """
+transaction_id BIGINT,
+transaction_date TIMESTAMP,
+customer_id INT,
+customer_name STRING,
+country STRING,
+city STRING,
+product_id INT,
+product_name STRING,
+category STRING,
+brand STRING,
+quantity INT,
+amount DECIMAL(10,2),
+net_amount DECIMAL(10,2),
+status STRING
+""".strip()
+
+PARTITION_BY = "days(transaction_date)"
+
+
 # =========================
-# SPARK INIT (GOLD CATALOG)
+# SPARK INIT (HƏM SILVER, HƏM GOLD CATALOG LAZIMDIR)
 # =========================
 def get_spark(app_name: str):
     minio_endpoint = Variable.get("MINIO_ENDPOINT")
     minio_access_key = Variable.get("MINIO_ACCESS_KEY")
     minio_secret_key = Variable.get("MINIO_SECRET_KEY")
-    gold_warehouse = Variable.get("GOLD_WAREHOUSE")
+    silver_warehouse = Variable.get("SILVER_WAREHOUSE")
+    gold_warehouse = "s3a://lakehouse/gold"
     nessie_uri = Variable.get("NESSIE_URI")
-    nessie_ref = Variable.get("NESSIE_BRANCH_GOLD", default_var="gold")
+    nessie_ref_silver = Variable.get("NESSIE_BRANCH_SILVER", default_var="silver")
+    nessie_ref_gold = Variable.get("NESSIE_BRANCH_GOLD", default_var="gold")
 
     return get_spark_session(
         app_name,
         {
-            # 🔥 GOLD CATALOG
+            # SILVER CATALOG - source oxumaq üçün MÜTLƏQ lazımdır
+            "spark.sql.catalog.silver": "org.apache.iceberg.spark.SparkCatalog",
+            "spark.sql.catalog.silver.catalog-impl": "org.apache.iceberg.nessie.NessieCatalog",
+            "spark.sql.catalog.silver.uri": nessie_uri,
+            "spark.sql.catalog.silver.ref": nessie_ref_silver,
+            "spark.sql.catalog.silver.warehouse": silver_warehouse,
+            "spark.sql.catalog.silver.io-impl": "org.apache.iceberg.aws.s3.S3FileIO",
+            "spark.sql.catalog.silver.s3.endpoint": minio_endpoint,
+            "spark.sql.catalog.silver.s3.path-style-access": "true",
+            "spark.sql.catalog.silver.s3.access-key-id": minio_access_key,
+            "spark.sql.catalog.silver.s3.secret-access-key": minio_secret_key,
+
+            # GOLD CATALOG - target üçün
             "spark.sql.catalog.gold": "org.apache.iceberg.spark.SparkCatalog",
             "spark.sql.catalog.gold.catalog-impl": "org.apache.iceberg.nessie.NessieCatalog",
             "spark.sql.catalog.gold.uri": nessie_uri,
-            "spark.sql.catalog.gold.ref": nessie_ref,
+            "spark.sql.catalog.gold.ref": nessie_ref_gold,
             "spark.sql.catalog.gold.warehouse": gold_warehouse,
-
-            # S3 / MinIO
             "spark.sql.catalog.gold.io-impl": "org.apache.iceberg.aws.s3.S3FileIO",
             "spark.sql.catalog.gold.s3.endpoint": minio_endpoint,
             "spark.sql.catalog.gold.s3.path-style-access": "true",
@@ -55,18 +87,17 @@ def get_spark(app_name: str):
 # TASK
 # =========================
 def transform_transactions_to_gold():
-    kafka_bootstrap = Variable.get("KAFKA_BOOTSTRAP_SERVERS")
-
     spark = get_spark("gold_sales_transactions")
-
     try:
-        run_gold_fact_stream(
+        run_gold_fact_merge(
             spark=spark,
             source_table=SOURCE_TABLE,
-            customers_table="silver.sales.customers",
-            products_table="silver.sales.products",
+            customers_table=CUSTOMERS_TABLE,
+            products_table=PRODUCTS_TABLE,
             target_table=TARGET_TABLE,
-            checkpoint_location=CHECKPOINT_LOCATION,
+            pk_cols=PRIMARY_KEYS,
+            target_schema_sql=TARGET_SCHEMA_SQL,
+            partition_by=PARTITION_BY,
         )
     finally:
         stop_spark(spark)

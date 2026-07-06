@@ -45,10 +45,7 @@ with DAG(
         mode="reschedule",
     )
 
-    dbt_deps = BashOperator(
-        task_id="dbt_deps",
-        bash_command=f"docker exec {DBT_CONTAINER} dbt deps --project-dir {DBT_PROJECT_DIR}",
-    )
+
 
     dbt_run_gold = BashOperator(
         task_id="dbt_run_gold",
@@ -66,4 +63,4 @@ with DAG(
         ),
     )
 
-    [wait_for_silver_transactions, wait_for_dbt_silver] >> dbt_deps  >> dbt_run_gold >> dbt_test_gold
+    [wait_for_silver_transactions, wait_for_dbt_silver]  >> dbt_run_gold >> dbt_test_gold

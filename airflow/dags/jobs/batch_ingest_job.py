@@ -47,6 +47,18 @@ def get_spark_session(
 
     os.environ["AWS_REGION"] = "us-east-1"
 
+    # AWS SDK v2 (2.25+) default olaraq S3 PutObject-lərə CRC32 checksum
+    # trailer əlavə edir. Bəzi MinIO versiyaları bu trailer-i düzgün parse
+    # edə bilmir və "Object name contains unsupported characters" kimi
+    # yanlış 400 error qaytarır. spark.driver.extraJavaOptions-ı .config()
+    # ilə təyin etmək client mode-da işləmir, çünki driver JVM-i artıq
+    # başlamış olur (Spark bunu sükutla ignore edir) - ona görə JVM
+    # başlamazdan ƏVVƏL JAVA_TOOL_OPTIONS env var-ı ilə veririk.
+    os.environ["JAVA_TOOL_OPTIONS"] = (
+        "-Daws.requestChecksumCalculation=when_required "
+        "-Daws.responseChecksumValidation=when_required"
+    )
+
     builder = (
         SparkSession.builder
         .appName(app_name)
@@ -65,6 +77,9 @@ def get_spark_session(
         .config("spark.sql.adaptive.enabled", "true")
         .config("spark.sql.adaptive.coalescePartitions.enabled", "true")
         .config("spark.executorEnv.AWS_REGION", "us-east-1")
+        .config("spark.executorEnv.JAVA_TOOL_OPTIONS",
+                "-Daws.requestChecksumCalculation=when_required "
+                "-Daws.responseChecksumValidation=when_required")
         .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint)
         .config("spark.hadoop.fs.s3a.access.key", minio_access_key)
         .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key)
