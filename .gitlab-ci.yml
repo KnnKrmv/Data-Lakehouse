@@ -7,7 +7,7 @@ stages:
   - lint
   - validate
   - build
-  - deploy
+  # - deploy   # server hazır olanda aşağıdakı deploy-production job-unu aktiv edib bu sətri açın
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -145,28 +145,31 @@ build-dbt:
         - dbt/dbt_datalakehouse/**/*
 
 # -----------------------------------------------------------------------------
-# DEPLOY STAGE - serverə SSH ilə qoşulub docker-compose ilə yeniləyir
-# Lazım olan GitLab CI/CD Variables (Settings > CI/CD > Variables):
-#   SSH_PRIVATE_KEY  - serverə giriş üçün private key (Protected + Masked)
-#   SERVER_USER      - məs. deploy
-#   SERVER_HOST      - server IP və ya domen
-#   PROJECT_PATH     - serverdə layihənin yolu, məs. /opt/lakehouse
+# DEPLOY STAGE - HƏLƏLİK DEAKTİVDİR (real server olanda aktiv edin)
+# Aktiv etmək üçün:
+#   1. Yuxarıdakı "stages" siyahısında "# - deploy" sətrindən "#"-i silin
+#   2. Aşağıdakı bütün blokun başındakı "#" işarələrini silin
+#   3. Settings > CI/CD > Variables bölməsində bu dəyişənləri əlavə edin:
+#        SSH_PRIVATE_KEY  - serverə giriş üçün private key (Protected + Masked)
+#        SERVER_USER      - məs. deploy
+#        SERVER_HOST      - server IP və ya domen
+#        PROJECT_PATH     - serverdə layihənin yolu, məs. /opt/lakehouse
 # -----------------------------------------------------------------------------
 
-deploy-production:
-  stage: deploy
-  image: alpine:latest
-  before_script:
-    - apk add --no-cache openssh-client
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
-  script:
-    - ssh $SERVER_USER@$SERVER_HOST "cd $PROJECT_PATH && git pull origin main && docker compose pull && docker compose up -d --build"
-  environment:
-    name: production
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-  when: manual   # yanlışlıqla production-a deploy olmasın deyə əl ilə işə salınır
+# deploy-production:
+#   stage: deploy
+#   image: alpine:latest
+#   before_script:
+#     - apk add --no-cache openssh-client
+#     - eval $(ssh-agent -s)
+#     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#     - mkdir -p ~/.ssh
+#     - chmod 700 ~/.ssh
+#     - ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
+#   script:
+#     - ssh $SERVER_USER@$SERVER_HOST "cd $PROJECT_PATH && git pull origin main && docker compose pull && docker compose up -d --build"
+#   environment:
+#     name: production
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == "main"'
+#   when: manual   # yanlışlıqla production-a deploy olmasın deyə əl ilə işə salınır
