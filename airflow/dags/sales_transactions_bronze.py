@@ -116,7 +116,7 @@ def ingest_transactions_cdc():
 with DAG(
     dag_id="bronze_sales_transactions",
     start_date=datetime(2025, 1, 1),
-    schedule=timedelta(hours=12),  
+    schedule=timedelta(minutes=2),  
     catchup=False,
     max_active_runs=1,
     tags=["bronze", "cdc", "lakehouse"],

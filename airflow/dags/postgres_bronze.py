@@ -2,7 +2,7 @@ from airflow import DAG
 from airflow.hooks.base import BaseHook
 from airflow.models import Variable
 from airflow.operators.python import PythonOperator
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import psycopg2
 from airflow.operators.empty import EmptyOperator   
@@ -110,7 +110,7 @@ def ingest_table(table_name: str):
 with DAG(
     dag_id="postgres_to_bronze",
     start_date=datetime(2025, 1, 1),
-    schedule=None,
+    schedule=timedelta(hours=12),
     catchup=False,
     max_active_runs=1,
     tags=["bronze", "postgres", "lakehouse"]
