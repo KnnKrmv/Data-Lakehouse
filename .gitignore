@@ -1,24 +1,24 @@
-# Spark Jars
+# Spark JARs (download separately, not committed to repo)
 spark/jars/*.jar
-spark/jars/aws-java-sdk-bundle-1.12.262.jar 
-spark/jars/hadoop-aws-3.3.4.jar 
-spark/jars/iceberg-spark-runtime-3.5_2.12-1.4.2.jar 
-spark/jars/nessie-spark-extensions-3.5_2.12-0.74.0.jar 
-spark/jars/postgresql-42.7.1.jar
-# Airflow Logs & DB
+
+# Airflow runtime files
 airflow/logs/
 airflow/airflow.db
 
-# Python env
+# Python
 __pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment secrets — never commit .env
 .env
-spark/jars/*.jar
 
-#Docker
+# dbt generated files
+dbt/**/dbt_packages/
+dbt/**/target/
+dbt/**/.user.yml
 
-docker-compose.yml
-
-dbt/dbt_lakehouse/dbt_packages/dbt_utils
-
+# Data files
 data/data_creator.py
 data/data_updater.py
