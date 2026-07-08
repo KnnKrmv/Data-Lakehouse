@@ -13,7 +13,7 @@ from common_dataset import BRONZE_TRANSACTIONS_DS
 # =========================
 TARGET_TABLE = "bronze.sales.transactions"
 KAFKA_TOPIC = "sales_server.sales.transactions"
-CHECKPOINT_LOCATION = "s3a://lakehouse/checkpoints/bronze/sales/transactions"  # v2: sxem dəyişdi
+CHECKPOINT_LOCATION = "s3a://lakehouse/checkpoints/bronze/sales/transactions" 
 
 TARGET_SCHEMA_SQL = """
 transaction_id BIGINT,
@@ -116,7 +116,7 @@ def ingest_transactions_cdc():
 with DAG(
     dag_id="bronze_sales_transactions",
     start_date=datetime(2025, 1, 1),
-    schedule=None,  # kök node - vaxt-əsaslı
+    schedule=timedelta(hours=12),  
     catchup=False,
     max_active_runs=1,
     tags=["bronze", "cdc", "lakehouse"],

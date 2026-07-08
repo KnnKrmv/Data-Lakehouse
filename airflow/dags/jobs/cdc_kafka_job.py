@@ -40,8 +40,6 @@ def ensure_iceberg_table(spark, target_table: str, schema_sql: str, partition_by
 
 
 def read_cdc_stream(spark, kafka_bootstrap: str, kafka_topic: str, row_schema: StructType, starting_offsets: str = "earliest"):
-    # schemas.enable=false olduğu üçün mesaj birbaşa (payload wrapper-siz) belədir:
-    # {"before": {...}|null, "after": {...}|null, "op": "c|u|d|r", ...}
     envelope_schema = StructType([
         StructField("before", row_schema),
         StructField("after", row_schema),

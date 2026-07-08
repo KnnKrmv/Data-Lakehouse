@@ -62,7 +62,6 @@ def make_silver_upsert_batch_fn(
             """)
             print(f"[OK] silver batch={batch_id} upsert={upsert_count} -> {target_table}")
 
-        # Deletes (_op = d)
         deletes = (
             latest_per_pk.filter(col("_op") == "d")
             .selectExpr(*delete_select)
@@ -94,7 +93,7 @@ def run_silver_table_upsert_stream(
     delete_select: list,
     quality_filter_expr: str = "true",
     partition_by: str = "",
-    starting_offsets: str = "earliest",  # imza uyğunluğu üçün saxlanılıb, Iceberg source-da nəzərə alınmır
+    starting_offsets: str = "earliest",  
     timeout_seconds: int | None = None,
 ):
     ensure_iceberg_table(spark, target_table, schema_sql, partition_by)

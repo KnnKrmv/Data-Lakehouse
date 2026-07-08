@@ -7,7 +7,6 @@ import json
 import psycopg2
 from airflow.operators.empty import EmptyOperator   
 from common_dataset import BRONZE_READY
-# Spark helpers (səndə jobs folderi varsa düzgün mount olunmalıdır)
 from jobs.batch_ingest_job import (
     get_spark_session,
     stop_spark,

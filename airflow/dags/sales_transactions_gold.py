@@ -109,10 +109,6 @@ def transform_transactions_to_gold():
 with DAG(
     dag_id="gold_sales_transactions",
     start_date=datetime(2025, 1, 1),
-    # QEYD: yalnız SILVER_TRANSACTIONS_DS-ə bağlıdır, çünki customers/products
-    # üçün ayrı streaming DAG-ın olduğunu bilmirəm. Əgər onlar da ayrı DAG-larla
-    # yenilənirsə, sadəcə siyahıya əlavə et:
-    # schedule=[SILVER_TRANSACTIONS_DS, SILVER_CUSTOMERS_DS, SILVER_PRODUCTS_DS],
     schedule=[SILVER_TRANSACTIONS_DS],
     catchup=False,
     max_active_runs=1,

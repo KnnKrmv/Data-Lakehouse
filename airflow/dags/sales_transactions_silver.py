@@ -124,7 +124,7 @@ def transform_transactions_to_silver():
 with DAG(
     dag_id="silver_sales_transactions",
     start_date=datetime(2025, 1, 1),
-    schedule=[BRONZE_TRANSACTIONS_DS],  # Bronze bitəndə tetiklenir
+    schedule=[BRONZE_TRANSACTIONS_DS],  
     catchup=False,
     max_active_runs=1,
     tags=["silver", "cdc", "lakehouse"],
