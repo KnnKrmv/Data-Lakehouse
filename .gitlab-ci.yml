@@ -1,0 +1,171 @@
+# =============================================================================
+# Data-Lakehouse layihəsi üçün GitLab CI/CD
+# Stack: Airflow (DAGs) + dbt-trino + Spark + Docker Compose
+# =============================================================================
+
+stages:
+  - lint
+  - validate
+  - build
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+# Python cache (pip) - build vaxtını qısaldır
+cache:
+  key: pip-cache
+  paths:
+    - .cache/pip
+
+# -----------------------------------------------------------------------------
+# LINT STAGE
+# -----------------------------------------------------------------------------
+
+lint-python:
+  stage: lint
+  image: python:3.11-slim
+  before_script:
+    - pip install --quiet flake8
+  script:
+    - flake8 airflow/dags --max-line-length=120 --exclude=airflow/dags/__pycache__
+    - flake8 data --max-line-length=120 --exclude=data/__pycache__
+  rules:
+    - changes:
+        - airflow/dags/**/*
+        - data/**/*
+
+lint-sql:
+  stage: lint
+  image: python:3.11-slim
+  before_script:
+    - pip install --quiet sqlfluff
+  script:
+    - sqlfluff lint dbt/dbt_datalakehouse/models --dialect trino || true
+  rules:
+    - changes:
+        - dbt/dbt_datalakehouse/models/**/*
+  allow_failure: true   # dbt üslub qaydaları başlanğıcda sərt olmasın deyə
+
+# -----------------------------------------------------------------------------
+# VALIDATE STAGE
+# -----------------------------------------------------------------------------
+
+# Python DAG faylları import zamanı sintaksis xətası vermir yoxlanılır
+python-syntax-check:
+  stage: validate
+  image: python:3.11-slim
+  script:
+    - python -m py_compile airflow/dags/*.py airflow/dags/jobs/*.py
+  rules:
+    - changes:
+        - airflow/dags/**/*
+
+# dbt modellərini compile edir (real Trino qoşulması TƏLƏB OLUNMUR,
+# çünki `dbt parse` və `dbt compile` yalnız SQL-i render edir, DB-yə bağlanmır)
+dbt-validate:
+  stage: validate
+  image: python:3.11-slim
+  before_script:
+    - pip install --quiet dbt-core dbt-trino
+    - cd dbt/dbt_datalakehouse
+    - export DBT_PROFILES_DIR=$CI_PROJECT_DIR/dbt/dbt_datalakehouse
+  script:
+    - dbt deps
+    - dbt parse
+    - dbt compile
+  rules:
+    - changes:
+        - dbt/dbt_datalakehouse/**/*
+
+# docker-compose.yml-in sintaksisini yoxlayır (image-lar yüklənmədən)
+compose-validate:
+  stage: validate
+  image: docker:24
+  before_script:
+    - apk add --no-cache docker-compose
+  script:
+    - docker-compose config
+  rules:
+    - changes:
+        - docker-compose.yml
+
+# -----------------------------------------------------------------------------
+# BUILD STAGE - image-ları build edib GitLab Container Registry-ə push edir
+# -----------------------------------------------------------------------------
+
+.build_template: &build_definition
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+
+build-airflow:
+  <<: *build_definition
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/airflow:$CI_COMMIT_SHORT_SHA -f Dockerfile .
+    - docker tag $CI_REGISTRY_IMAGE/airflow:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/airflow:latest
+    - docker push $CI_REGISTRY_IMAGE/airflow:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE/airflow:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - Dockerfile
+        - requirements.txt
+        - airflow/**/*
+
+build-spark:
+  <<: *build_definition
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/spark:$CI_COMMIT_SHORT_SHA -f Dockerfile.spark .
+    - docker tag $CI_REGISTRY_IMAGE/spark:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/spark:latest
+    - docker push $CI_REGISTRY_IMAGE/spark:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE/spark:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - Dockerfile.spark
+        - spark/**/*
+
+build-dbt:
+  <<: *build_definition
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/dbt:$CI_COMMIT_SHORT_SHA -f dbt/dbt_datalakehouse/Dockerfile.dbt dbt/dbt_datalakehouse
+    - docker tag $CI_REGISTRY_IMAGE/dbt:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/dbt:latest
+    - docker push $CI_REGISTRY_IMAGE/dbt:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE/dbt:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - dbt/dbt_datalakehouse/Dockerfile.dbt
+        - dbt/dbt_datalakehouse/**/*
+
+# -----------------------------------------------------------------------------
+# DEPLOY STAGE - serverə SSH ilə qoşulub docker-compose ilə yeniləyir
+# Lazım olan GitLab CI/CD Variables (Settings > CI/CD > Variables):
+#   SSH_PRIVATE_KEY  - serverə giriş üçün private key (Protected + Masked)
+#   SERVER_USER      - məs. deploy
+#   SERVER_HOST      - server IP və ya domen
+#   PROJECT_PATH     - serverdə layihənin yolu, məs. /opt/lakehouse
+# -----------------------------------------------------------------------------
+
+deploy-production:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
+  script:
+    - ssh $SERVER_USER@$SERVER_HOST "cd $PROJECT_PATH && git pull origin main && docker compose pull && docker compose up -d --build"
+  environment:
+    name: production
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  when: manual   # yanlışlıqla production-a deploy olmasın deyə əl ilə işə salınır

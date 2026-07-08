@@ -17,3 +17,8 @@ spark/jars/*.jar
 #Docker
 
 docker-compose.yml
+
+dbt/dbt_lakehouse/dbt_packages/dbt_utils
+
+data/data_creator
+data/data_updater
