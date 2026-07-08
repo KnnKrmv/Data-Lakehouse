@@ -2,15 +2,18 @@ from airflow import DAG
 from airflow.models import Variable
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
+
 from jobs.batch_ingest_job import get_spark_session, stop_spark
-from jobs.cdc_kafka_job import run_cdc_upsert_stream
+from jobs.bronze_append_job import run_bronze_append_stream
+
+from common_dataset import BRONZE_TRANSACTIONS_DS
 
 # =========================
-# CONFIG (bu tabledeki xüsusiyyətler)
+# CONFIG
 # =========================
 TARGET_TABLE = "bronze.sales.transactions"
-KAFKA_TOPIC = "sales_server.sales.transactions"          # topic.prefix + schema.table
-CHECKPOINT_LOCATION = "s3a://lakehouse/checkpoints/sales/transactions_cdc"
+KAFKA_TOPIC = "sales_server.sales.transactions"
+CHECKPOINT_LOCATION = "s3a://lakehouse/checkpoints/bronze/sales/transactions"  # v2: sxem dəyişdi
 
 TARGET_SCHEMA_SQL = """
 transaction_id BIGINT,
@@ -25,8 +28,6 @@ status STRING
 PARTITION_BY = "days(transaction_date)"
 PRIMARY_KEYS = ["transaction_id"]
 
-# Debezium (schemas.enable=false, decimal.handling.mode=double):
-#  bigserial/int4 -> long/int | numeric(10,2) -> double | timestamp -> long (mikrosaniye) | varchar -> string
 ROW_SCHEMA = [
     {"name": "transaction_id", "type": "long"},
     {"name": "customer_id", "type": "int"},
@@ -51,7 +52,7 @@ DELETE_SELECT = ["CAST(src.transaction_id AS BIGINT) AS transaction_id"]
 
 
 # =========================
-# SPARK INIT (postgres_to_bronze DAG-dakı get_spark ilə eyni struktur)
+# SPARK INIT
 # =========================
 def get_spark(app_name: str):
     minio_endpoint = Variable.get("MINIO_ENDPOINT")
@@ -74,8 +75,6 @@ def get_spark(app_name: str):
             "spark.sql.catalog.bronze.s3.path-style-access": "true",
             "spark.sql.catalog.bronze.s3.access-key-id": minio_access_key,
             "spark.sql.catalog.bronze.s3.secret-access-key": minio_secret_key,
-            # streaming üçün lazımdır (yeni snapshotlar overwrite kimi görünməsin)
-            "spark.sql.catalog.bronze.streaming-skip-overwrite-snapshots": "true",
         },
         spark_extensions=(
             "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions,"
@@ -85,14 +84,14 @@ def get_spark(app_name: str):
 
 
 # =========================
-# TASK: CDC STREAM -> BRONZE
+# TASK
 # =========================
 def ingest_transactions_cdc():
     kafka_bootstrap = Variable.get("KAFKA_BOOTSTRAP_SERVERS")
 
     spark = get_spark("cdc_sales_transactions")
     try:
-        run_cdc_upsert_stream(
+        run_bronze_append_stream(
             spark=spark,
             kafka_bootstrap=kafka_bootstrap,
             kafka_topic=KAFKA_TOPIC,
@@ -105,19 +104,19 @@ def ingest_transactions_cdc():
             delete_select=DELETE_SELECT,
             partition_by=PARTITION_BY,
             starting_offsets="earliest",
-            timeout_seconds=20 * 60,  # task execution_timeout-dan (25dəq) bir az az
+            timeout_seconds=20 * 60,
         )
     finally:
         stop_spark(spark)
 
 
 # =========================
-# DAG DEFINITION
+# DAG
 # =========================
 with DAG(
-    dag_id="bronze_sales_transactions_cdc",
+    dag_id="bronze_sales_transactions",
     start_date=datetime(2025, 1, 1),
-    schedule=timedelta(minutes=20),  # manual trigger only (or via TriggerDagRunOperator)
+    schedule=None,  # kök node - vaxt-əsaslı
     catchup=False,
     max_active_runs=1,
     tags=["bronze", "cdc", "lakehouse"],
@@ -131,5 +130,7 @@ with DAG(
     ingest = PythonOperator(
         task_id="ingest_transactions_cdc",
         python_callable=ingest_transactions_cdc,
-        execution_timeout=timedelta(minutes=25),
+        execution_timeout=timedelta(minutes=10),
+        outlets=[BRONZE_TRANSACTIONS_DS],
+        pool="spark_driver_pool",
     )

@@ -1,6 +1,8 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
+from common_dataset import BRONZE_READY, SILVER_READY
+from airflow.operators.empty import EmptyOperator
 
 DBT_PROJECT_DIR = "/opt/airflow/dbt/dbt_datalakehouse"
 DBT_PROFILES_DIR = "/opt/airflow/dbt/dbt_datalakehouse"
@@ -8,7 +10,7 @@ DBT_PROFILES_DIR = "/opt/airflow/dbt/dbt_datalakehouse"
 with DAG(
     dag_id="bronze_to_silver_dbt",
     start_date=datetime(2025, 1, 1),
-    schedule=timedelta(minutes=20),
+    schedule=[BRONZE_READY],
     catchup=False,
     max_active_runs=1,
     tags=["dbt", "silver", "lakehouse"],
@@ -46,6 +48,7 @@ with DAG(
             --project-dir {DBT_PROJECT_DIR} \
             --profiles-dir {DBT_PROFILES_DIR}
         """,
+        outlets=[SILVER_READY]
     )
 
     dbt_deps >> dbt_run_silver >> dbt_test_silver

@@ -5,7 +5,8 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import json
 import psycopg2
-
+from airflow.operators.empty import EmptyOperator   
+from common_dataset import BRONZE_READY
 # Spark helpers (səndə jobs folderi varsa düzgün mount olunmalıdır)
 from jobs.batch_ingest_job import (
     get_spark_session,
@@ -120,7 +121,10 @@ with DAG(
         task_id="create_namespace",
         python_callable=create_namespace
     )
-
+    finish_bronze = EmptyOperator(
+        task_id="finish_bronze",
+        outlets=[BRONZE_READY]
+    )
     for table in tables_list:
         task = PythonOperator(
             task_id=f"ingest_{table}",
@@ -130,4 +134,4 @@ with DAG(
             }
         )
 
-        create_ns >> task
+        create_ns >> task >> finish_bronze

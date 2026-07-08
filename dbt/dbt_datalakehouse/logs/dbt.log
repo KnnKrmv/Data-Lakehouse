@@ -3597,3 +3597,1485 @@ having count(*) > 1
 [0m00:08:22.688988 [debug] [MainThread]: Command `dbt deps` succeeded at 00:08:22.688227 after 21.28 seconds
 [0m00:08:22.693794 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78bd4ac7f640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78bd48726e80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x78bd48714f40>]}
 [0m00:08:22.708481 [debug] [MainThread]: Flushing usage events
+[0m15:13:27.888199 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001921EF1ADD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001921EF1AF50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001921EF18810>]}
+
+
+============================== 15:13:27.903433 | fef9931b-d6b2-4637-83f1-f29beaa87640 ==============================
+[0m15:13:27.903433 [info ] [MainThread]: Running with dbt=1.10.9
+[0m15:13:27.907518 [debug] [MainThread]: running dbt with arguments {'partial_parse': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'send_anonymous_usage_stats': 'True', 'use_colors': 'True', 'cache_selected_only': 'False', 'target_path': 'None', 'version_check': 'True', 'invocation_command': 'dbt ', 'log_format': 'default', 'warn_error': 'None', 'introspect': 'True', 'debug': 'False', 'log_cache_events': 'False', 'fail_fast': 'False', 'no_print': 'None', 'use_experimental_parser': 'False', 'empty': 'None', 'printer_width': '80', 'quiet': 'False', 'log_path': 'c:\\Users\\Asus\\OneDrive\\Desktop\\Lakehouse-Project\\Data-Lakehouse\\dbt\\dbt_datalakehouse\\logs', 'indirect_selection': 'eager', 'write_json': 'True', 'static_parser': 'True', 'profiles_dir': 'c:\\Users\\Asus\\OneDrive\\Desktop\\Lakehouse-Project\\Data-Lakehouse\\dbt\\dbt_datalakehouse'}
+[0m15:13:29.060734 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'fef9931b-d6b2-4637-83f1-f29beaa87640', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001921ABCDC50>]}
+[0m15:13:29.998896 [debug] [MainThread]: Set downloads directory='C:\Users\Asus\AppData\Local\Temp\dbt-downloads-qu4sy923'
+[0m15:13:30.001853 [debug] [MainThread]: Making package index registry request: GET https://hub.getdbt.com/api/v1/index.json
+[0m15:13:40.835141 [debug] [MainThread]: Response from registry index: GET https://hub.getdbt.com/api/v1/index.json 200
+[0m15:13:40.835141 [debug] [MainThread]: Making package registry request: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json
+[0m15:13:42.220862 [debug] [MainThread]: Response from registry: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json 200
+[0m15:13:42.228953 [info ] [MainThread]: Installing dbt-labs/dbt_utils
+[0m15:13:46.127815 [info ] [MainThread]: Installed from version 1.4.1
+[0m15:13:46.131847 [info ] [MainThread]: Up to date!
+[0m15:13:46.135879 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'package', 'label': 'fef9931b-d6b2-4637-83f1-f29beaa87640', 'property_': 'install', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001921F021E50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001921F0AFC50>]}
+[0m15:13:46.148883 [debug] [MainThread]: Command `cli deps` succeeded at 15:13:46.148216 after 19.47 seconds
+[0m15:13:46.151955 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001921621CF50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001921621C950>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001921621CF10>]}
+[0m15:13:46.154553 [debug] [MainThread]: Flushing usage events
+[0m15:13:49.186021 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m03:09:47.361413 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72d5fa81a5b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72d5f82db880>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72d5f82db820>]}
+
+
+============================== 03:09:47.372038 | 18bd3bc8-9d67-4dde-92ec-d05e3d93a3eb ==============================
+[0m03:09:47.372038 [info ] [MainThread]: Running with dbt=1.6.17
+[0m03:09:47.373238 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/opt/airflow/dbt/dbt_datalakehouse', 'debug': 'False', 'fail_fast': 'False', 'log_path': '/opt/airflow/dbt/dbt_datalakehouse/logs', 'warn_error': 'None', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'introspect': 'True', 'invocation_command': 'dbt deps --project-dir /opt/airflow/dbt/dbt_datalakehouse --profiles-dir /opt/airflow/dbt/dbt_datalakehouse', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m03:09:47.542520 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '18bd3bc8-9d67-4dde-92ec-d05e3d93a3eb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72d5f830afa0>]}
+[0m03:09:47.546486 [debug] [MainThread]: Set downloads directory='/tmp/dbt-downloads-k88kzr9v'
+[0m03:09:47.547695 [debug] [MainThread]: Making package index registry request: GET https://hub.getdbt.com/api/v1/index.json
+[0m03:09:48.133013 [debug] [MainThread]: Response from registry index: GET https://hub.getdbt.com/api/v1/index.json 200
+[0m03:09:48.140393 [debug] [MainThread]: Making package registry request: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json
+[0m03:09:48.571817 [debug] [MainThread]: Response from registry: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json 200
+[0m03:09:48.589584 [info ] [MainThread]: Installing dbt-labs/dbt_utils
+[0m03:10:02.436627 [info ] [MainThread]: Installed from version 1.4.1
+[0m03:10:02.439711 [info ] [MainThread]: Up to date!
+[0m03:10:02.442871 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'package', 'label': '18bd3bc8-9d67-4dde-92ec-d05e3d93a3eb', 'property_': 'install', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72d5f829ae80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72d5f829a790>]}
+[0m03:10:02.447613 [debug] [MainThread]: Command `dbt deps` succeeded at 03:10:02.446925 after 15.16 seconds
+[0m03:10:02.453096 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72d5fa81a5b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72d5f82ab670>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x72d5f829ae20>]}
+[0m03:10:02.455297 [debug] [MainThread]: Flushing usage events
+[0m03:10:12.358366 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x753229da1520>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7532278b8850>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7532278b87f0>]}
+
+
+============================== 03:10:12.368914 | d9d13398-bbb1-4ba2-afb8-4f04d9b5417c ==============================
+[0m03:10:12.368914 [info ] [MainThread]: Running with dbt=1.6.17
+[0m03:10:12.370682 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/opt/airflow/dbt/dbt_datalakehouse', 'debug': 'False', 'version_check': 'True', 'log_path': '/opt/airflow/dbt/dbt_datalakehouse/logs', 'warn_error': 'None', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'introspect': 'True', 'log_format': 'default', 'target_path': 'None', 'invocation_command': 'dbt run --select silver --project-dir /opt/airflow/dbt/dbt_datalakehouse --profiles-dir /opt/airflow/dbt/dbt_datalakehouse', 'send_anonymous_usage_stats': 'True'}
+[0m03:10:12.628562 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'd9d13398-bbb1-4ba2-afb8-4f04d9b5417c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7532278cfc10>]}
+[0m03:10:12.656423 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'd9d13398-bbb1-4ba2-afb8-4f04d9b5417c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x753227759160>]}
+[0m03:10:12.657986 [info ] [MainThread]: Registered adapter: trino=1.6.1
+[0m03:10:12.713762 [debug] [MainThread]: checksum: 5068fe71dce20d17d52958fa9cd93ea8f20705f4dc29725ea3e5886531e90d9e, vars: {}, profile: , target: , version: 1.6.17
+[0m03:10:12.771803 [info ] [MainThread]: Unable to do partial parsing because of a version mismatch
+[0m03:10:12.773452 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': 'd9d13398-bbb1-4ba2-afb8-4f04d9b5417c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7532276c2040>]}
+[0m03:10:16.991450 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 2 unused configuration paths:
+- seeds.lakehouse.dim_status_seed
+- seeds.lakehouse
+[0m03:10:17.002931 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'd9d13398-bbb1-4ba2-afb8-4f04d9b5417c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x753227268550>]}
+[0m03:10:17.108918 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'd9d13398-bbb1-4ba2-afb8-4f04d9b5417c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x753227268610>]}
+[0m03:10:17.110670 [info ] [MainThread]: Found 5 models, 6 tests, 3 sources, 0 exposures, 0 metrics, 488 macros, 0 groups, 0 semantic models
+[0m03:10:17.112491 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'd9d13398-bbb1-4ba2-afb8-4f04d9b5417c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x75322726bf40>]}
+[0m03:10:17.117109 [info ] [MainThread]: 
+[0m03:10:17.119861 [debug] [MainThread]: Acquiring new trino connection 'master'
+[0m03:10:17.122509 [debug] [ThreadPool]: Acquiring new trino connection 'list_silver'
+[0m03:10:17.171369 [debug] [ThreadPool]: Using trino connection "list_silver"
+[0m03:10:17.173001 [debug] [ThreadPool]: On list_silver: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_silver"} */
+
+    select distinct schema_name
+    from silver.INFORMATION_SCHEMA.schemata
+[0m03:10:17.174648 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:10:18.049877 [debug] [ThreadPool]: SQL status: SUCCESS in 1.0 seconds
+[0m03:10:18.053856 [debug] [ThreadPool]: On list_silver: Close
+[0m03:10:18.061543 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_silver, now list_gold_sales)
+[0m03:10:18.065068 [debug] [ThreadPool]: Acquiring new trino connection 'list_silver_sales'
+[0m03:10:18.094637 [debug] [ThreadPool]: Using trino connection "list_gold_sales"
+[0m03:10:18.099836 [debug] [ThreadPool]: Using trino connection "list_silver_sales"
+[0m03:10:18.100968 [debug] [ThreadPool]: On list_gold_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_gold_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from gold.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'gold')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:10:18.103073 [debug] [ThreadPool]: On list_silver_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_silver_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from silver.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'silver')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:10:18.104743 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m03:10:18.106402 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:10:19.490617 [debug] [ThreadPool]: SQL status: SUCCESS in 1.0 seconds
+[0m03:10:19.499143 [debug] [ThreadPool]: On list_silver_sales: ROLLBACK
+[0m03:10:19.502105 [debug] [ThreadPool]: SQL status: SUCCESS in 1.0 seconds
+[0m03:10:19.504250 [debug] [ThreadPool]: On list_silver_sales: Close
+[0m03:10:19.510872 [debug] [ThreadPool]: On list_gold_sales: ROLLBACK
+[0m03:10:19.522334 [debug] [ThreadPool]: On list_gold_sales: Close
+[0m03:10:19.531254 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'd9d13398-bbb1-4ba2-afb8-4f04d9b5417c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x753227270dc0>]}
+[0m03:10:19.534931 [debug] [MainThread]: On master: COMMIT
+[0m03:10:19.539301 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m03:10:19.542632 [info ] [MainThread]: 
+[0m03:10:19.580698 [debug] [Thread-1  ]: Began running node model.lakehouse.customers
+[0m03:10:19.583652 [debug] [Thread-2  ]: Began running node model.lakehouse.products
+[0m03:10:19.586603 [info ] [Thread-1  ]: 1 of 2 START sql table model sales.customers ................................... [RUN]
+[0m03:10:19.590405 [info ] [Thread-2  ]: 2 of 2 START sql table model sales.products .................................... [RUN]
+[0m03:10:19.595157 [debug] [Thread-1  ]: Re-using an available connection from the pool (formerly list_gold_sales, now model.lakehouse.customers)
+[0m03:10:19.600430 [debug] [Thread-2  ]: Re-using an available connection from the pool (formerly list_silver_sales, now model.lakehouse.products)
+[0m03:10:19.603495 [debug] [Thread-1  ]: Began compiling node model.lakehouse.customers
+[0m03:10:19.606581 [debug] [Thread-2  ]: Began compiling node model.lakehouse.products
+[0m03:10:19.617685 [debug] [Thread-1  ]: Writing injected SQL for node "model.lakehouse.customers"
+[0m03:10:19.630409 [debug] [Thread-2  ]: Writing injected SQL for node "model.lakehouse.products"
+[0m03:10:19.655030 [debug] [Thread-1  ]: Timing info for model.lakehouse.customers (compile): 03:10:19.608440 => 03:10:19.654014
+[0m03:10:19.657645 [debug] [Thread-1  ]: Began executing node model.lakehouse.customers
+[0m03:10:19.659751 [debug] [Thread-2  ]: Timing info for model.lakehouse.products (compile): 03:10:19.618827 => 03:10:19.658954
+[0m03:10:19.678485 [debug] [Thread-2  ]: Began executing node model.lakehouse.products
+[0m03:10:19.835432 [debug] [Thread-2  ]: Writing runtime sql for node "model.lakehouse.products"
+[0m03:10:19.838928 [debug] [Thread-1  ]: Writing runtime sql for node "model.lakehouse.customers"
+[0m03:10:19.875732 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.products"
+[0m03:10:19.881434 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.customers"
+[0m03:10:19.882758 [debug] [Thread-2  ]: On model.lakehouse.products: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.products"} */
+
+  
+    
+
+    create table silver.sales.products__dbt_tmp
+      
+      
+    as (
+      
+
+with source as (
+
+    select *
+    from bronze.sales.products
+
+),
+
+deduped as (
+
+    select *
+    from (
+        select
+            *,
+            row_number() over (
+                partition by product_id
+                order by updated_at desc
+            ) as _rn
+        from source
+    )
+    where _rn = 1
+
+)
+
+select
+    cast(product_id as integer)            as product_id,
+    product_name,
+    category,
+    brand,
+    color,
+    size,
+    cast(unit_price as decimal(10,2))      as unit_price,
+    cast(cost_price as decimal(10,2))      as cost_price,
+    unit_of_measure,
+    cast(is_active as boolean)             as is_active,
+    cast(created_at as timestamp)          as created_at,
+    cast(updated_at as timestamp)          as updated_at
+from deduped
+where product_id is not null
+    )
+[0m03:10:19.885229 [debug] [Thread-1  ]: On model.lakehouse.customers: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.customers"} */
+
+  
+    
+
+    create table silver.sales.customers__dbt_tmp
+      
+      
+    as (
+      
+
+with source as (
+
+    select *
+    from bronze.sales.customers
+
+),
+
+deduped as (
+
+    select *
+    from (
+        select
+            *,
+            row_number() over (
+                partition by customer_id
+                order by updated_at desc
+            ) as _rn
+        from source
+    )
+    where _rn = 1
+
+)
+
+select
+    cast(customer_id as integer)           as customer_id,
+    first_name,
+    last_name,
+    full_name,
+    cast(birth_date as date)               as birth_date,
+    gender,
+    email,
+    phone,
+    country,
+    city,
+    address,
+    cast(registration_date as timestamp)   as registration_date,
+    customer_segment,
+    cast(is_active as boolean)             as is_active,
+    cast(created_at as timestamp)          as created_at,
+    cast(updated_at as timestamp)          as updated_at
+from deduped
+where customer_id is not null
+    )
+[0m03:10:19.887865 [debug] [Thread-2  ]: Opening a new connection, currently in state closed
+[0m03:10:19.889887 [debug] [Thread-1  ]: Opening a new connection, currently in state closed
+[0m03:10:26.207628 [debug] [Thread-2  ]: SQL status: SUCCESS in 6.0 seconds
+[0m03:10:26.257356 [debug] [Thread-1  ]: SQL status: SUCCESS in 6.0 seconds
+[0m03:10:26.271642 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.products"
+[0m03:10:26.280150 [debug] [Thread-2  ]: On model.lakehouse.products: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.products"} */
+alter table "silver"."sales"."products" rename to silver.sales.products__dbt_backup
+[0m03:10:26.278420 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.customers"
+[0m03:10:26.290676 [debug] [Thread-1  ]: On model.lakehouse.customers: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.customers"} */
+alter table "silver"."sales"."customers" rename to silver.sales.customers__dbt_backup
+[0m03:10:26.567045 [debug] [Thread-2  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:26.583039 [debug] [Thread-1  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:26.581294 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.products"
+[0m03:10:26.599567 [debug] [Thread-2  ]: On model.lakehouse.products: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.products"} */
+alter table silver.sales.products__dbt_tmp rename to silver.sales.products
+[0m03:10:26.603011 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.customers"
+[0m03:10:26.611020 [debug] [Thread-1  ]: On model.lakehouse.customers: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.customers"} */
+alter table silver.sales.customers__dbt_tmp rename to silver.sales.customers
+[0m03:10:26.818265 [debug] [Thread-2  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:26.840599 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.products"
+[0m03:10:26.843429 [debug] [Thread-2  ]: On model.lakehouse.products: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.products"} */
+drop table if exists silver.sales.products__dbt_backup
+[0m03:10:26.845386 [debug] [Thread-1  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:26.858578 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.customers"
+[0m03:10:26.861271 [debug] [Thread-1  ]: On model.lakehouse.customers: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.customers"} */
+drop table if exists silver.sales.customers__dbt_backup
+[0m03:10:26.958747 [debug] [Thread-2  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:27.000901 [debug] [Thread-1  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:27.018408 [debug] [Thread-2  ]: Timing info for model.lakehouse.products (execute): 03:10:19.686537 => 03:10:27.017283
+[0m03:10:27.032569 [debug] [Thread-2  ]: On model.lakehouse.products: ROLLBACK
+[0m03:10:27.040379 [debug] [Thread-2  ]: On model.lakehouse.products: Close
+[0m03:10:27.044048 [debug] [Thread-1  ]: Timing info for model.lakehouse.customers (execute): 03:10:19.660813 => 03:10:27.043393
+[0m03:10:27.046623 [debug] [Thread-2  ]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'd9d13398-bbb1-4ba2-afb8-4f04d9b5417c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x753224a2c580>]}
+[0m03:10:27.048078 [debug] [Thread-1  ]: On model.lakehouse.customers: ROLLBACK
+[0m03:10:27.050776 [info ] [Thread-2  ]: 2 of 2 OK created sql table model sales.products ............................... [[32mSUCCESS[0m in 7.45s]
+[0m03:10:27.052630 [debug] [Thread-1  ]: On model.lakehouse.customers: Close
+[0m03:10:27.055045 [debug] [Thread-2  ]: Finished running node model.lakehouse.products
+[0m03:10:27.058339 [debug] [Thread-1  ]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'd9d13398-bbb1-4ba2-afb8-4f04d9b5417c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x753227270dc0>]}
+[0m03:10:27.061748 [info ] [Thread-1  ]: 1 of 2 OK created sql table model sales.customers .............................. [[32mSUCCESS[0m in 7.46s]
+[0m03:10:27.064018 [debug] [Thread-1  ]: Finished running node model.lakehouse.customers
+[0m03:10:27.069251 [debug] [MainThread]: On master: COMMIT
+[0m03:10:27.071473 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m03:10:27.072753 [debug] [MainThread]: Connection 'model.lakehouse.customers' was properly closed.
+[0m03:10:27.074248 [debug] [MainThread]: Connection 'model.lakehouse.products' was properly closed.
+[0m03:10:27.075698 [info ] [MainThread]: 
+[0m03:10:27.077453 [info ] [MainThread]: Finished running 2 table models in 0 hours 0 minutes and 9.96 seconds (9.96s).
+[0m03:10:27.079938 [debug] [MainThread]: Command end result
+[0m03:10:27.176782 [info ] [MainThread]: 
+[0m03:10:27.179962 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m03:10:27.183172 [info ] [MainThread]: 
+[0m03:10:27.185773 [info ] [MainThread]: Done. PASS=2 WARN=0 ERROR=0 SKIP=0 TOTAL=2
+[0m03:10:27.189990 [debug] [MainThread]: Command `dbt run` succeeded at 03:10:27.189508 after 14.89 seconds
+[0m03:10:27.192652 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x753229da1520>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x75322726bf40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x753227759160>]}
+[0m03:10:27.195853 [debug] [MainThread]: Flushing usage events
+[0m03:10:35.446579 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666d28d5b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666ad68940>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666ad688e0>]}
+
+
+============================== 03:10:35.460493 | 4172e8ae-d086-482d-9014-cc30f0b9e848 ==============================
+[0m03:10:35.460493 [info ] [MainThread]: Running with dbt=1.6.17
+[0m03:10:35.463166 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/opt/airflow/dbt/dbt_datalakehouse', 'debug': 'False', 'warn_error': 'None', 'log_path': '/opt/airflow/dbt/dbt_datalakehouse/logs', 'fail_fast': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'introspect': 'True', 'log_format': 'default', 'target_path': 'None', 'invocation_command': 'dbt test --select silver --project-dir /opt/airflow/dbt/dbt_datalakehouse --profiles-dir /opt/airflow/dbt/dbt_datalakehouse', 'send_anonymous_usage_stats': 'True'}
+[0m03:10:35.734516 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '4172e8ae-d086-482d-9014-cc30f0b9e848', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666ad689a0>]}
+[0m03:10:35.762037 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '4172e8ae-d086-482d-9014-cc30f0b9e848', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666abe3190>]}
+[0m03:10:35.763677 [info ] [MainThread]: Registered adapter: trino=1.6.1
+[0m03:10:35.825993 [debug] [MainThread]: checksum: 5068fe71dce20d17d52958fa9cd93ea8f20705f4dc29725ea3e5886531e90d9e, vars: {}, profile: , target: , version: 1.6.17
+[0m03:10:37.696157 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m03:10:37.697068 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m03:10:37.698656 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 2 unused configuration paths:
+- seeds.lakehouse.dim_status_seed
+- seeds.lakehouse
+[0m03:10:37.705592 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '4172e8ae-d086-482d-9014-cc30f0b9e848', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666a6d69a0>]}
+[0m03:10:37.782558 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '4172e8ae-d086-482d-9014-cc30f0b9e848', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666a7466a0>]}
+[0m03:10:37.784567 [info ] [MainThread]: Found 5 models, 6 tests, 3 sources, 0 exposures, 0 metrics, 488 macros, 0 groups, 0 semantic models
+[0m03:10:37.786209 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '4172e8ae-d086-482d-9014-cc30f0b9e848', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666a746640>]}
+[0m03:10:37.788160 [info ] [MainThread]: 
+[0m03:10:37.789835 [debug] [MainThread]: Acquiring new trino connection 'master'
+[0m03:10:37.793350 [debug] [ThreadPool]: Acquiring new trino connection 'list_silver_sales'
+[0m03:10:37.795436 [debug] [ThreadPool]: Acquiring new trino connection 'list_gold_sales'
+[0m03:10:37.832080 [debug] [ThreadPool]: Using trino connection "list_gold_sales"
+[0m03:10:37.835416 [debug] [ThreadPool]: Using trino connection "list_silver_sales"
+[0m03:10:37.836065 [debug] [ThreadPool]: On list_gold_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_gold_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from gold.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'gold')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:10:37.837504 [debug] [ThreadPool]: On list_silver_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_silver_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from silver.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'silver')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:10:37.839190 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:10:37.840417 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:10:38.117381 [debug] [ThreadPool]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:38.118745 [debug] [ThreadPool]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:38.121241 [debug] [ThreadPool]: On list_silver_sales: ROLLBACK
+[0m03:10:38.124205 [debug] [ThreadPool]: On list_gold_sales: ROLLBACK
+[0m03:10:38.125551 [debug] [ThreadPool]: On list_silver_sales: Close
+[0m03:10:38.127034 [debug] [ThreadPool]: On list_gold_sales: Close
+[0m03:10:38.134149 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '4172e8ae-d086-482d-9014-cc30f0b9e848', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666ab6fb50>]}
+[0m03:10:38.135845 [debug] [MainThread]: On master: COMMIT
+[0m03:10:38.137855 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m03:10:38.139520 [info ] [MainThread]: 
+[0m03:10:38.158245 [debug] [Thread-1  ]: Began running node test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27
+[0m03:10:38.159801 [debug] [Thread-2  ]: Began running node test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc
+[0m03:10:38.161051 [debug] [Thread-3  ]: Began running node test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a
+[0m03:10:38.162255 [info ] [Thread-1  ]: 1 of 4 START test source_not_null_bronze_customers_customer_id ................. [RUN]
+[0m03:10:38.163841 [debug] [Thread-4  ]: Began running node test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c
+[0m03:10:38.165471 [info ] [Thread-2  ]: 2 of 4 START test source_not_null_bronze_products_product_id ................... [RUN]
+[0m03:10:38.167324 [info ] [Thread-3  ]: 3 of 4 START test source_unique_bronze_customers_customer_id ................... [RUN]
+[0m03:10:38.169746 [debug] [Thread-1  ]: Re-using an available connection from the pool (formerly list_gold_sales, now test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27)
+[0m03:10:38.171625 [info ] [Thread-4  ]: 4 of 4 START test source_unique_bronze_products_product_id ..................... [RUN]
+[0m03:10:38.173789 [debug] [Thread-2  ]: Re-using an available connection from the pool (formerly list_silver_sales, now test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc)
+[0m03:10:38.175766 [debug] [Thread-3  ]: Acquiring new trino connection 'test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a'
+[0m03:10:38.177011 [debug] [Thread-1  ]: Began compiling node test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27
+[0m03:10:38.179016 [debug] [Thread-4  ]: Acquiring new trino connection 'test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c'
+[0m03:10:38.180680 [debug] [Thread-2  ]: Began compiling node test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc
+[0m03:10:38.182072 [debug] [Thread-3  ]: Began compiling node test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a
+[0m03:10:38.194167 [debug] [Thread-4  ]: Began compiling node test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c
+[0m03:10:38.200396 [debug] [Thread-1  ]: Writing injected SQL for node "test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27"
+[0m03:10:38.254670 [debug] [Thread-2  ]: Writing injected SQL for node "test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc"
+[0m03:10:38.262858 [debug] [Thread-3  ]: Writing injected SQL for node "test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a"
+[0m03:10:38.270094 [debug] [Thread-4  ]: Writing injected SQL for node "test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c"
+[0m03:10:38.289259 [debug] [Thread-1  ]: Timing info for test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27 (compile): 03:10:38.182958 => 03:10:38.288729
+[0m03:10:38.290762 [debug] [Thread-1  ]: Began executing node test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27
+[0m03:10:38.292691 [debug] [Thread-4  ]: Timing info for test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c (compile): 03:10:38.263485 => 03:10:38.292012
+[0m03:10:38.293899 [debug] [Thread-3  ]: Timing info for test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a (compile): 03:10:38.255221 => 03:10:38.293553
+[0m03:10:38.300049 [debug] [Thread-2  ]: Timing info for test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc (compile): 03:10:38.201700 => 03:10:38.299653
+[0m03:10:38.307831 [debug] [Thread-4  ]: Began executing node test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c
+[0m03:10:38.312743 [debug] [Thread-1  ]: Writing runtime sql for node "test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27"
+[0m03:10:38.314270 [debug] [Thread-3  ]: Began executing node test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a
+[0m03:10:38.315479 [debug] [Thread-2  ]: Began executing node test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc
+[0m03:10:38.319207 [debug] [Thread-4  ]: Writing runtime sql for node "test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c"
+[0m03:10:38.324053 [debug] [Thread-3  ]: Writing runtime sql for node "test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a"
+[0m03:10:38.329940 [debug] [Thread-2  ]: Writing runtime sql for node "test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc"
+[0m03:10:38.354421 [debug] [Thread-1  ]: Using trino connection "test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27"
+[0m03:10:38.357156 [debug] [Thread-3  ]: Using trino connection "test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a"
+[0m03:10:38.359189 [debug] [Thread-4  ]: Using trino connection "test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c"
+[0m03:10:38.359809 [debug] [Thread-1  ]: On test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select customer_id
+from bronze.sales.customers
+where customer_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m03:10:38.361367 [debug] [Thread-3  ]: On test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    customer_id as unique_field,
+    count(*) as n_records
+
+from bronze.sales.customers
+where customer_id is not null
+group by customer_id
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m03:10:38.363021 [debug] [Thread-4  ]: On test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    product_id as unique_field,
+    count(*) as n_records
+
+from bronze.sales.products
+where product_id is not null
+group by product_id
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m03:10:38.365057 [debug] [Thread-1  ]: Opening a new connection, currently in state closed
+[0m03:10:38.367396 [debug] [Thread-2  ]: Using trino connection "test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc"
+[0m03:10:38.368055 [debug] [Thread-3  ]: Opening a new connection, currently in state init
+[0m03:10:38.369268 [debug] [Thread-4  ]: Opening a new connection, currently in state init
+[0m03:10:38.372515 [debug] [Thread-2  ]: On test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select product_id
+from bronze.sales.products
+where product_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m03:10:38.383134 [debug] [Thread-2  ]: Opening a new connection, currently in state closed
+[0m03:10:38.799506 [debug] [Thread-1  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:38.810696 [debug] [Thread-1  ]: Timing info for test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27 (execute): 03:10:38.294408 => 03:10:38.809617
+[0m03:10:38.813323 [debug] [Thread-2  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:10:38.815594 [debug] [Thread-1  ]: On test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27: ROLLBACK
+[0m03:10:38.824271 [debug] [Thread-2  ]: Timing info for test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc (execute): 03:10:38.325608 => 03:10:38.822162
+[0m03:10:38.826508 [debug] [Thread-1  ]: On test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27: Close
+[0m03:10:38.831333 [debug] [Thread-2  ]: On test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc: ROLLBACK
+[0m03:10:38.837555 [info ] [Thread-1  ]: 1 of 4 PASS source_not_null_bronze_customers_customer_id ....................... [[32mPASS[0m in 0.67s]
+[0m03:10:38.841870 [debug] [Thread-2  ]: On test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc: Close
+[0m03:10:38.849557 [debug] [Thread-1  ]: Finished running node test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27
+[0m03:10:38.858118 [info ] [Thread-2  ]: 2 of 4 PASS source_not_null_bronze_products_product_id ......................... [[32mPASS[0m in 0.68s]
+[0m03:10:38.895642 [debug] [Thread-2  ]: Finished running node test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc
+[0m03:10:38.911109 [debug] [Thread-4  ]: SQL status: SUCCESS in 1.0 seconds
+[0m03:10:38.922460 [debug] [Thread-3  ]: SQL status: SUCCESS in 1.0 seconds
+[0m03:10:38.920409 [debug] [Thread-4  ]: Timing info for test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c (execute): 03:10:38.316459 => 03:10:38.919737
+[0m03:10:38.929659 [debug] [Thread-3  ]: Timing info for test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a (execute): 03:10:38.321156 => 03:10:38.928459
+[0m03:10:38.932471 [debug] [Thread-4  ]: On test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c: ROLLBACK
+[0m03:10:38.935293 [debug] [Thread-3  ]: On test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a: ROLLBACK
+[0m03:10:38.937941 [debug] [Thread-4  ]: On test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c: Close
+[0m03:10:38.940342 [debug] [Thread-3  ]: On test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a: Close
+[0m03:10:38.943741 [info ] [Thread-4  ]: 4 of 4 PASS source_unique_bronze_products_product_id ........................... [[32mPASS[0m in 0.77s]
+[0m03:10:38.946623 [info ] [Thread-3  ]: 3 of 4 PASS source_unique_bronze_customers_customer_id ......................... [[32mPASS[0m in 0.77s]
+[0m03:10:38.948683 [debug] [Thread-4  ]: Finished running node test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c
+[0m03:10:38.951011 [debug] [Thread-3  ]: Finished running node test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a
+[0m03:10:38.957862 [debug] [MainThread]: On master: COMMIT
+[0m03:10:38.960197 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m03:10:38.961894 [debug] [MainThread]: Connection 'test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc' was properly closed.
+[0m03:10:38.963435 [debug] [MainThread]: Connection 'test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27' was properly closed.
+[0m03:10:38.964879 [debug] [MainThread]: Connection 'test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a' was properly closed.
+[0m03:10:38.966407 [debug] [MainThread]: Connection 'test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c' was properly closed.
+[0m03:10:38.967976 [info ] [MainThread]: 
+[0m03:10:38.969863 [info ] [MainThread]: Finished running 4 tests in 0 hours 0 minutes and 1.18 seconds (1.18s).
+[0m03:10:38.973500 [debug] [MainThread]: Command end result
+[0m03:10:39.054332 [info ] [MainThread]: 
+[0m03:10:39.056623 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m03:10:39.058663 [info ] [MainThread]: 
+[0m03:10:39.061508 [info ] [MainThread]: Done. PASS=4 WARN=0 ERROR=0 SKIP=0 TOTAL=4
+[0m03:10:39.067947 [debug] [MainThread]: Command `dbt test` succeeded at 03:10:39.067488 after 3.71 seconds
+[0m03:10:39.072045 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666d28d5b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666a6a8490>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e666ab5f3d0>]}
+[0m03:10:39.078327 [debug] [MainThread]: Flushing usage events
+[0m03:13:10.010114 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7598dcc745b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7598da736880>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7598da736820>]}
+
+
+============================== 03:13:10.020219 | d2686800-0c91-4e2e-8387-9e84c401577d ==============================
+[0m03:13:10.020219 [info ] [MainThread]: Running with dbt=1.6.17
+[0m03:13:10.022043 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'fail_fast': 'False', 'log_path': '/opt/airflow/dbt/dbt_datalakehouse/logs', 'profiles_dir': '/opt/airflow/dbt/dbt_datalakehouse', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'introspect': 'True', 'invocation_command': 'dbt deps --project-dir /opt/airflow/dbt/dbt_datalakehouse --profiles-dir /opt/airflow/dbt/dbt_datalakehouse', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m03:13:10.118849 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'd2686800-0c91-4e2e-8387-9e84c401577d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7598da763fa0>]}
+[0m03:13:10.124712 [debug] [MainThread]: Set downloads directory='/tmp/dbt-downloads-26avamsz'
+[0m03:13:10.126427 [debug] [MainThread]: Making package index registry request: GET https://hub.getdbt.com/api/v1/index.json
+[0m03:13:10.708667 [debug] [MainThread]: Response from registry index: GET https://hub.getdbt.com/api/v1/index.json 200
+[0m03:13:10.713407 [debug] [MainThread]: Making package registry request: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json
+[0m03:13:11.350166 [debug] [MainThread]: Response from registry: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json 200
+[0m03:13:11.370326 [info ] [MainThread]: Installing dbt-labs/dbt_utils
+[0m03:13:34.985311 [info ] [MainThread]: Installed from version 1.4.1
+[0m03:13:34.987054 [info ] [MainThread]: Up to date!
+[0m03:13:34.989554 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'package', 'label': 'd2686800-0c91-4e2e-8387-9e84c401577d', 'property_': 'install', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7598da6f4e80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7598da6f46a0>]}
+[0m03:13:34.992284 [debug] [MainThread]: Command `dbt deps` succeeded at 03:13:34.991987 after 25.06 seconds
+[0m03:13:34.993590 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7598dcc745b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7598da705a60>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7598da6f4e20>]}
+[0m03:13:34.994898 [debug] [MainThread]: Flushing usage events
+[0m03:13:44.294002 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x74983520a580>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x749832d0c8b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x749832d0c850>]}
+
+
+============================== 03:13:44.305010 | aeba16d1-900d-4dca-9544-200c56c5a9d6 ==============================
+[0m03:13:44.305010 [info ] [MainThread]: Running with dbt=1.6.17
+[0m03:13:44.306687 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'version_check': 'True', 'log_path': '/opt/airflow/dbt/dbt_datalakehouse/logs', 'profiles_dir': '/opt/airflow/dbt/dbt_datalakehouse', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'invocation_command': 'dbt run --select silver --project-dir /opt/airflow/dbt/dbt_datalakehouse --profiles-dir /opt/airflow/dbt/dbt_datalakehouse', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m03:13:44.546717 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'aeba16d1-900d-4dca-9544-200c56c5a9d6', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x749832cfe610>]}
+[0m03:13:44.572097 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'aeba16d1-900d-4dca-9544-200c56c5a9d6', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x749832baa2e0>]}
+[0m03:13:44.574022 [info ] [MainThread]: Registered adapter: trino=1.6.1
+[0m03:13:44.626571 [debug] [MainThread]: checksum: 5068fe71dce20d17d52958fa9cd93ea8f20705f4dc29725ea3e5886531e90d9e, vars: {}, profile: , target: , version: 1.6.17
+[0m03:13:47.225383 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m03:13:47.227058 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m03:13:47.229000 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 2 unused configuration paths:
+- seeds.lakehouse.dim_status_seed
+- seeds.lakehouse
+[0m03:13:47.239239 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'aeba16d1-900d-4dca-9544-200c56c5a9d6', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x74983267a970>]}
+[0m03:13:47.322754 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'aeba16d1-900d-4dca-9544-200c56c5a9d6', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7498326ea670>]}
+[0m03:13:47.324437 [info ] [MainThread]: Found 5 models, 6 tests, 3 sources, 0 exposures, 0 metrics, 488 macros, 0 groups, 0 semantic models
+[0m03:13:47.326208 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'aeba16d1-900d-4dca-9544-200c56c5a9d6', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7498326ea610>]}
+[0m03:13:47.329537 [info ] [MainThread]: 
+[0m03:13:47.331623 [debug] [MainThread]: Acquiring new trino connection 'master'
+[0m03:13:47.335149 [debug] [ThreadPool]: Acquiring new trino connection 'list_silver'
+[0m03:13:47.365628 [debug] [ThreadPool]: Using trino connection "list_silver"
+[0m03:13:47.367177 [debug] [ThreadPool]: On list_silver: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_silver"} */
+
+    select distinct schema_name
+    from silver.INFORMATION_SCHEMA.schemata
+[0m03:13:47.369133 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:13:47.567963 [debug] [ThreadPool]: SQL status: SUCCESS in 0.0 seconds
+[0m03:13:47.579116 [debug] [ThreadPool]: On list_silver: Close
+[0m03:13:47.587110 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_silver, now list_gold_sales)
+[0m03:13:47.590748 [debug] [ThreadPool]: Acquiring new trino connection 'list_silver_sales'
+[0m03:13:47.643529 [debug] [ThreadPool]: Using trino connection "list_gold_sales"
+[0m03:13:47.645734 [debug] [ThreadPool]: Using trino connection "list_silver_sales"
+[0m03:13:47.647040 [debug] [ThreadPool]: On list_gold_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_gold_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from gold.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'gold')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:13:47.648931 [debug] [ThreadPool]: On list_silver_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_silver_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from silver.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'silver')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:13:47.650784 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m03:13:47.653260 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:13:48.471940 [debug] [ThreadPool]: SQL status: SUCCESS in 1.0 seconds
+[0m03:13:48.492434 [debug] [ThreadPool]: On list_gold_sales: ROLLBACK
+[0m03:13:48.498069 [debug] [ThreadPool]: On list_gold_sales: Close
+[0m03:13:48.515742 [debug] [ThreadPool]: SQL status: SUCCESS in 1.0 seconds
+[0m03:13:48.528733 [debug] [ThreadPool]: On list_silver_sales: ROLLBACK
+[0m03:13:48.532668 [debug] [ThreadPool]: On list_silver_sales: Close
+[0m03:13:48.544034 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'aeba16d1-900d-4dca-9544-200c56c5a9d6', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x749832b17850>]}
+[0m03:13:48.548466 [debug] [MainThread]: On master: COMMIT
+[0m03:13:48.555128 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m03:13:48.558296 [info ] [MainThread]: 
+[0m03:13:48.629072 [debug] [Thread-1  ]: Began running node model.lakehouse.customers
+[0m03:13:48.633739 [debug] [Thread-2  ]: Began running node model.lakehouse.products
+[0m03:13:48.640622 [info ] [Thread-1  ]: 1 of 2 START sql table model sales.customers ................................... [RUN]
+[0m03:13:48.645688 [info ] [Thread-2  ]: 2 of 2 START sql table model sales.products .................................... [RUN]
+[0m03:13:48.652224 [debug] [Thread-1  ]: Re-using an available connection from the pool (formerly list_silver_sales, now model.lakehouse.customers)
+[0m03:13:48.658810 [debug] [Thread-2  ]: Re-using an available connection from the pool (formerly list_gold_sales, now model.lakehouse.products)
+[0m03:13:48.664700 [debug] [Thread-1  ]: Began compiling node model.lakehouse.customers
+[0m03:13:48.668926 [debug] [Thread-2  ]: Began compiling node model.lakehouse.products
+[0m03:13:48.839149 [debug] [Thread-1  ]: Writing injected SQL for node "model.lakehouse.customers"
+[0m03:13:48.847581 [debug] [Thread-2  ]: Writing injected SQL for node "model.lakehouse.products"
+[0m03:13:48.930362 [debug] [Thread-2  ]: Timing info for model.lakehouse.products (compile): 03:13:48.820295 => 03:13:48.928590
+[0m03:13:48.936241 [debug] [Thread-2  ]: Began executing node model.lakehouse.products
+[0m03:13:48.946240 [debug] [Thread-1  ]: Timing info for model.lakehouse.customers (compile): 03:13:48.672387 => 03:13:48.944608
+[0m03:13:48.966498 [debug] [Thread-1  ]: Began executing node model.lakehouse.customers
+[0m03:13:49.469644 [debug] [Thread-1  ]: Writing runtime sql for node "model.lakehouse.customers"
+[0m03:13:49.465126 [debug] [Thread-2  ]: Writing runtime sql for node "model.lakehouse.products"
+[0m03:13:49.527816 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.customers"
+[0m03:13:49.540924 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.products"
+[0m03:13:49.544136 [debug] [Thread-1  ]: On model.lakehouse.customers: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.customers"} */
+
+  
+    
+
+    create table silver.sales.customers__dbt_tmp
+      
+      
+    as (
+      
+
+with source as (
+
+    select *
+    from bronze.sales.customers
+
+),
+
+deduped as (
+
+    select *
+    from (
+        select
+            *,
+            row_number() over (
+                partition by customer_id
+                order by updated_at desc
+            ) as _rn
+        from source
+    )
+    where _rn = 1
+
+)
+
+select
+    cast(customer_id as integer)           as customer_id,
+    first_name,
+    last_name,
+    full_name,
+    cast(birth_date as date)               as birth_date,
+    gender,
+    email,
+    phone,
+    country,
+    city,
+    address,
+    cast(registration_date as timestamp)   as registration_date,
+    customer_segment,
+    cast(is_active as boolean)             as is_active,
+    cast(created_at as timestamp)          as created_at,
+    cast(updated_at as timestamp)          as updated_at
+from deduped
+where customer_id is not null
+    )
+[0m03:13:49.553552 [debug] [Thread-2  ]: On model.lakehouse.products: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.products"} */
+
+  
+    
+
+    create table silver.sales.products__dbt_tmp
+      
+      
+    as (
+      
+
+with source as (
+
+    select *
+    from bronze.sales.products
+
+),
+
+deduped as (
+
+    select *
+    from (
+        select
+            *,
+            row_number() over (
+                partition by product_id
+                order by updated_at desc
+            ) as _rn
+        from source
+    )
+    where _rn = 1
+
+)
+
+select
+    cast(product_id as integer)            as product_id,
+    product_name,
+    category,
+    brand,
+    color,
+    size,
+    cast(unit_price as decimal(10,2))      as unit_price,
+    cast(cost_price as decimal(10,2))      as cost_price,
+    unit_of_measure,
+    cast(is_active as boolean)             as is_active,
+    cast(created_at as timestamp)          as created_at,
+    cast(updated_at as timestamp)          as updated_at
+from deduped
+where product_id is not null
+    )
+[0m03:13:49.560060 [debug] [Thread-1  ]: Opening a new connection, currently in state closed
+[0m03:13:49.565761 [debug] [Thread-2  ]: Opening a new connection, currently in state closed
+[0m03:13:53.586514 [debug] [Thread-2  ]: SQL status: SUCCESS in 4.0 seconds
+[0m03:13:53.630564 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.products"
+[0m03:13:53.638507 [debug] [Thread-2  ]: On model.lakehouse.products: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.products"} */
+alter table "silver"."sales"."products" rename to silver.sales.products__dbt_backup
+[0m03:13:53.729036 [debug] [Thread-1  ]: SQL status: SUCCESS in 4.0 seconds
+[0m03:13:53.773942 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.customers"
+[0m03:13:53.790345 [debug] [Thread-1  ]: On model.lakehouse.customers: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.customers"} */
+alter table "silver"."sales"."customers" rename to silver.sales.customers__dbt_backup
+[0m03:13:53.961569 [debug] [Thread-2  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:13:54.002990 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.products"
+[0m03:13:54.012670 [debug] [Thread-2  ]: On model.lakehouse.products: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.products"} */
+alter table silver.sales.products__dbt_tmp rename to silver.sales.products
+[0m03:13:54.119038 [debug] [Thread-1  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:13:54.139464 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.customers"
+[0m03:13:54.143616 [debug] [Thread-1  ]: On model.lakehouse.customers: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.customers"} */
+alter table silver.sales.customers__dbt_tmp rename to silver.sales.customers
+[0m03:13:54.282781 [debug] [Thread-2  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:13:54.307917 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.products"
+[0m03:13:54.311040 [debug] [Thread-2  ]: On model.lakehouse.products: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.products"} */
+drop table if exists silver.sales.products__dbt_backup
+[0m03:13:54.345065 [debug] [Thread-1  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:13:54.373986 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.customers"
+[0m03:13:54.381685 [debug] [Thread-1  ]: On model.lakehouse.customers: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.customers"} */
+drop table if exists silver.sales.customers__dbt_backup
+[0m03:13:54.443037 [debug] [Thread-2  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:13:54.510164 [debug] [Thread-2  ]: Timing info for model.lakehouse.products (execute): 03:13:48.949543 => 03:13:54.509633
+[0m03:13:54.512619 [debug] [Thread-2  ]: On model.lakehouse.products: ROLLBACK
+[0m03:13:54.514806 [debug] [Thread-2  ]: On model.lakehouse.products: Close
+[0m03:13:54.517731 [debug] [Thread-1  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:13:54.520428 [debug] [Thread-2  ]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'aeba16d1-900d-4dca-9544-200c56c5a9d6', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x749832b280a0>]}
+[0m03:13:54.526202 [debug] [Thread-1  ]: Timing info for model.lakehouse.customers (execute): 03:13:48.976028 => 03:13:54.525748
+[0m03:13:54.528805 [info ] [Thread-2  ]: 2 of 2 OK created sql table model sales.products ............................... [[32mSUCCESS[0m in 5.86s]
+[0m03:13:54.530940 [debug] [Thread-1  ]: On model.lakehouse.customers: ROLLBACK
+[0m03:13:54.533326 [debug] [Thread-2  ]: Finished running node model.lakehouse.products
+[0m03:13:54.535087 [debug] [Thread-1  ]: On model.lakehouse.customers: Close
+[0m03:13:54.540383 [debug] [Thread-1  ]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'aeba16d1-900d-4dca-9544-200c56c5a9d6', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x749832baa460>]}
+[0m03:13:54.542928 [info ] [Thread-1  ]: 1 of 2 OK created sql table model sales.customers .............................. [[32mSUCCESS[0m in 5.89s]
+[0m03:13:54.545556 [debug] [Thread-1  ]: Finished running node model.lakehouse.customers
+[0m03:13:54.551282 [debug] [MainThread]: On master: COMMIT
+[0m03:13:54.554588 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m03:13:54.557176 [debug] [MainThread]: Connection 'model.lakehouse.products' was properly closed.
+[0m03:13:54.559166 [debug] [MainThread]: Connection 'model.lakehouse.customers' was properly closed.
+[0m03:13:54.561179 [info ] [MainThread]: 
+[0m03:13:54.563128 [info ] [MainThread]: Finished running 2 table models in 0 hours 0 minutes and 7.23 seconds (7.23s).
+[0m03:13:54.566252 [debug] [MainThread]: Command end result
+[0m03:13:54.648695 [info ] [MainThread]: 
+[0m03:13:54.651160 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m03:13:54.653785 [info ] [MainThread]: 
+[0m03:13:54.656323 [info ] [MainThread]: Done. PASS=2 WARN=0 ERROR=0 SKIP=0 TOTAL=2
+[0m03:13:54.659559 [debug] [MainThread]: Command `dbt run` succeeded at 03:13:54.659250 after 10.43 seconds
+[0m03:13:54.661574 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x74983520a580>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x749832d239d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x749832b0d3a0>]}
+[0m03:13:54.663914 [debug] [MainThread]: Flushing usage events
+[0m03:14:03.427318 [debug] [MainThread]: Error sending anonymous usage statistics. Disabling tracking for this execution. If you wish to permanently disable tracking, see: https://docs.getdbt.com/reference/global-configs#send-anonymous-usage-stats.
+[0m03:14:14.374467 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc66812580>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc6432d8b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc6432d850>]}
+
+
+============================== 03:14:14.386048 | c7a907d6-4d52-4b34-b840-8ec5e0f9fdcf ==============================
+[0m03:14:14.386048 [info ] [MainThread]: Running with dbt=1.6.17
+[0m03:14:14.387721 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'profiles_dir': '/opt/airflow/dbt/dbt_datalakehouse', 'log_path': '/opt/airflow/dbt/dbt_datalakehouse/logs', 'fail_fast': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'log_format': 'default', 'invocation_command': 'dbt test --select silver --project-dir /opt/airflow/dbt/dbt_datalakehouse --profiles-dir /opt/airflow/dbt/dbt_datalakehouse', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m03:14:14.642032 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'c7a907d6-4d52-4b34-b840-8ec5e0f9fdcf', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc6431f610>]}
+[0m03:14:14.673711 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'c7a907d6-4d52-4b34-b840-8ec5e0f9fdcf', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc641c32b0>]}
+[0m03:14:14.676860 [info ] [MainThread]: Registered adapter: trino=1.6.1
+[0m03:14:14.750443 [debug] [MainThread]: checksum: 5068fe71dce20d17d52958fa9cd93ea8f20705f4dc29725ea3e5886531e90d9e, vars: {}, profile: , target: , version: 1.6.17
+[0m03:14:17.752901 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m03:14:17.754952 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m03:14:17.758384 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 2 unused configuration paths:
+- seeds.lakehouse
+- seeds.lakehouse.dim_status_seed
+[0m03:14:17.772844 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'c7a907d6-4d52-4b34-b840-8ec5e0f9fdcf', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc63c9a970>]}
+[0m03:14:17.887980 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'c7a907d6-4d52-4b34-b840-8ec5e0f9fdcf', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc64048670>]}
+[0m03:14:17.890170 [info ] [MainThread]: Found 5 models, 6 tests, 3 sources, 0 exposures, 0 metrics, 488 macros, 0 groups, 0 semantic models
+[0m03:14:17.892869 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c7a907d6-4d52-4b34-b840-8ec5e0f9fdcf', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc64048610>]}
+[0m03:14:17.898660 [info ] [MainThread]: 
+[0m03:14:17.902895 [debug] [MainThread]: Acquiring new trino connection 'master'
+[0m03:14:17.909013 [debug] [ThreadPool]: Acquiring new trino connection 'list_silver_sales'
+[0m03:14:17.912842 [debug] [ThreadPool]: Acquiring new trino connection 'list_gold_sales'
+[0m03:14:18.069105 [debug] [ThreadPool]: Using trino connection "list_silver_sales"
+[0m03:14:18.082807 [debug] [ThreadPool]: On list_silver_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_silver_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from silver.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'silver')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:14:18.081701 [debug] [ThreadPool]: Using trino connection "list_gold_sales"
+[0m03:14:18.089729 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:14:18.094543 [debug] [ThreadPool]: On list_gold_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_gold_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from gold.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'gold')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:14:18.103901 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:14:19.657746 [debug] [ThreadPool]: SQL status: SUCCESS in 2.0 seconds
+[0m03:14:19.698644 [debug] [ThreadPool]: On list_silver_sales: ROLLBACK
+[0m03:14:19.720285 [debug] [ThreadPool]: On list_silver_sales: Close
+[0m03:14:19.773924 [debug] [ThreadPool]: SQL status: SUCCESS in 2.0 seconds
+[0m03:14:19.785209 [debug] [ThreadPool]: On list_gold_sales: ROLLBACK
+[0m03:14:19.791496 [debug] [ThreadPool]: On list_gold_sales: Close
+[0m03:14:19.806699 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c7a907d6-4d52-4b34-b840-8ec5e0f9fdcf', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc64128a30>]}
+[0m03:14:19.812915 [debug] [MainThread]: On master: COMMIT
+[0m03:14:19.820245 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m03:14:19.826985 [info ] [MainThread]: 
+[0m03:14:19.872945 [debug] [Thread-1  ]: Began running node test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27
+[0m03:14:19.877304 [debug] [Thread-2  ]: Began running node test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc
+[0m03:14:19.887592 [info ] [Thread-1  ]: 1 of 4 START test source_not_null_bronze_customers_customer_id ................. [RUN]
+[0m03:14:19.882753 [debug] [Thread-3  ]: Began running node test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a
+[0m03:14:19.892418 [debug] [Thread-4  ]: Began running node test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c
+[0m03:14:19.894746 [info ] [Thread-2  ]: 2 of 4 START test source_not_null_bronze_products_product_id ................... [RUN]
+[0m03:14:19.900837 [debug] [Thread-1  ]: Re-using an available connection from the pool (formerly list_silver_sales, now test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27)
+[0m03:14:19.905706 [info ] [Thread-3  ]: 3 of 4 START test source_unique_bronze_customers_customer_id ................... [RUN]
+[0m03:14:19.909787 [info ] [Thread-4  ]: 4 of 4 START test source_unique_bronze_products_product_id ..................... [RUN]
+[0m03:14:19.915443 [debug] [Thread-2  ]: Re-using an available connection from the pool (formerly list_gold_sales, now test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc)
+[0m03:14:19.921134 [debug] [Thread-1  ]: Began compiling node test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27
+[0m03:14:19.928793 [debug] [Thread-3  ]: Acquiring new trino connection 'test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a'
+[0m03:14:19.935427 [debug] [Thread-4  ]: Acquiring new trino connection 'test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c'
+[0m03:14:19.941845 [debug] [Thread-2  ]: Began compiling node test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc
+[0m03:14:19.966917 [debug] [Thread-3  ]: Began compiling node test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a
+[0m03:14:19.999797 [debug] [Thread-4  ]: Began compiling node test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c
+[0m03:14:20.281848 [debug] [Thread-2  ]: Writing injected SQL for node "test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc"
+[0m03:14:20.288270 [debug] [Thread-1  ]: Writing injected SQL for node "test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27"
+[0m03:14:20.303791 [debug] [Thread-4  ]: Writing injected SQL for node "test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c"
+[0m03:14:20.296915 [debug] [Thread-3  ]: Writing injected SQL for node "test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a"
+[0m03:14:20.336562 [debug] [Thread-2  ]: Timing info for test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc (compile): 03:14:20.010566 => 03:14:20.335503
+[0m03:14:20.340128 [debug] [Thread-4  ]: Timing info for test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c (compile): 03:14:20.228968 => 03:14:20.338480
+[0m03:14:20.344207 [debug] [Thread-3  ]: Timing info for test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a (compile): 03:14:20.195344 => 03:14:20.342304
+[0m03:14:20.347278 [debug] [Thread-2  ]: Began executing node test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc
+[0m03:14:20.352470 [debug] [Thread-1  ]: Timing info for test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27 (compile): 03:14:19.945418 => 03:14:20.351194
+[0m03:14:20.355097 [debug] [Thread-4  ]: Began executing node test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c
+[0m03:14:20.358949 [debug] [Thread-3  ]: Began executing node test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a
+[0m03:14:20.382561 [debug] [Thread-1  ]: Began executing node test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27
+[0m03:14:20.420107 [debug] [Thread-4  ]: Writing runtime sql for node "test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c"
+[0m03:14:20.422318 [debug] [Thread-2  ]: Writing runtime sql for node "test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc"
+[0m03:14:20.425013 [debug] [Thread-3  ]: Writing runtime sql for node "test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a"
+[0m03:14:20.438020 [debug] [Thread-1  ]: Writing runtime sql for node "test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27"
+[0m03:14:20.475990 [debug] [Thread-1  ]: Using trino connection "test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27"
+[0m03:14:20.484676 [debug] [Thread-1  ]: On test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select customer_id
+from bronze.sales.customers
+where customer_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m03:14:20.498931 [debug] [Thread-2  ]: Using trino connection "test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc"
+[0m03:14:20.501017 [debug] [Thread-1  ]: Opening a new connection, currently in state closed
+[0m03:14:20.504334 [debug] [Thread-3  ]: Using trino connection "test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a"
+[0m03:14:20.492396 [debug] [Thread-4  ]: Using trino connection "test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c"
+[0m03:14:20.507202 [debug] [Thread-2  ]: On test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select product_id
+from bronze.sales.products
+where product_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m03:14:20.516307 [debug] [Thread-3  ]: On test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    customer_id as unique_field,
+    count(*) as n_records
+
+from bronze.sales.customers
+where customer_id is not null
+group by customer_id
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m03:14:20.520123 [debug] [Thread-4  ]: On test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    product_id as unique_field,
+    count(*) as n_records
+
+from bronze.sales.products
+where product_id is not null
+group by product_id
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m03:14:20.524926 [debug] [Thread-2  ]: Opening a new connection, currently in state closed
+[0m03:14:20.529459 [debug] [Thread-3  ]: Opening a new connection, currently in state init
+[0m03:14:20.539905 [debug] [Thread-4  ]: Opening a new connection, currently in state init
+[0m03:14:21.514725 [debug] [Thread-1  ]: SQL status: SUCCESS in 1.0 seconds
+[0m03:14:21.563496 [debug] [Thread-1  ]: Timing info for test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27 (execute): 03:14:20.427357 => 03:14:21.562097
+[0m03:14:21.581246 [debug] [Thread-1  ]: On test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27: ROLLBACK
+[0m03:14:21.607876 [debug] [Thread-1  ]: On test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27: Close
+[0m03:14:21.621744 [info ] [Thread-1  ]: 1 of 4 PASS source_not_null_bronze_customers_customer_id ....................... [[32mPASS[0m in 1.72s]
+[0m03:14:21.642077 [debug] [Thread-1  ]: Finished running node test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27
+[0m03:14:21.933402 [debug] [Thread-2  ]: SQL status: SUCCESS in 1.0 seconds
+[0m03:14:21.969744 [debug] [Thread-2  ]: Timing info for test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc (execute): 03:14:20.362079 => 03:14:21.966785
+[0m03:14:21.980722 [debug] [Thread-2  ]: On test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc: ROLLBACK
+[0m03:14:21.997036 [debug] [Thread-2  ]: On test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc: Close
+[0m03:14:22.004844 [info ] [Thread-2  ]: 2 of 4 PASS source_not_null_bronze_products_product_id ......................... [[32mPASS[0m in 2.09s]
+[0m03:14:22.010426 [debug] [Thread-2  ]: Finished running node test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc
+[0m03:14:22.616578 [debug] [Thread-4  ]: SQL status: SUCCESS in 2.0 seconds
+[0m03:14:22.720053 [debug] [Thread-4  ]: Timing info for test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c (execute): 03:14:20.401579 => 03:14:22.718513
+[0m03:14:22.746086 [debug] [Thread-3  ]: SQL status: SUCCESS in 2.0 seconds
+[0m03:14:22.771582 [debug] [Thread-4  ]: On test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c: ROLLBACK
+[0m03:14:22.797707 [debug] [Thread-3  ]: Timing info for test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a (execute): 03:14:20.413267 => 03:14:22.795482
+[0m03:14:22.819565 [debug] [Thread-4  ]: On test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c: Close
+[0m03:14:22.840416 [debug] [Thread-3  ]: On test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a: ROLLBACK
+[0m03:14:22.869839 [info ] [Thread-4  ]: 4 of 4 PASS source_unique_bronze_products_product_id ........................... [[32mPASS[0m in 2.94s]
+[0m03:14:22.891768 [debug] [Thread-3  ]: On test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a: Close
+[0m03:14:22.920510 [debug] [Thread-4  ]: Finished running node test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c
+[0m03:14:22.942809 [info ] [Thread-3  ]: 3 of 4 PASS source_unique_bronze_customers_customer_id ......................... [[32mPASS[0m in 3.02s]
+[0m03:14:22.973522 [debug] [Thread-3  ]: Finished running node test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a
+[0m03:14:22.989002 [debug] [MainThread]: On master: COMMIT
+[0m03:14:23.007159 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m03:14:23.029571 [debug] [MainThread]: Connection 'test.lakehouse.source_not_null_bronze_customers_customer_id.79d1090d27' was properly closed.
+[0m03:14:23.041587 [debug] [MainThread]: Connection 'test.lakehouse.source_not_null_bronze_products_product_id.d3c7b308cc' was properly closed.
+[0m03:14:23.046164 [debug] [MainThread]: Connection 'test.lakehouse.source_unique_bronze_customers_customer_id.bb9be4420a' was properly closed.
+[0m03:14:23.056488 [debug] [MainThread]: Connection 'test.lakehouse.source_unique_bronze_products_product_id.b19aa87d0c' was properly closed.
+[0m03:14:23.063492 [info ] [MainThread]: 
+[0m03:14:23.069911 [info ] [MainThread]: Finished running 4 tests in 0 hours 0 minutes and 5.16 seconds (5.16s).
+[0m03:14:23.078532 [debug] [MainThread]: Command end result
+[0m03:14:23.233142 [info ] [MainThread]: 
+[0m03:14:23.236373 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m03:14:23.239634 [info ] [MainThread]: 
+[0m03:14:23.244213 [info ] [MainThread]: Done. PASS=4 WARN=0 ERROR=0 SKIP=0 TOTAL=4
+[0m03:14:23.249006 [debug] [MainThread]: Command `dbt test` succeeded at 03:14:23.248366 after 8.95 seconds
+[0m03:14:23.252526 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc66812580>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc6414a0d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7efc641353a0>]}
+[0m03:14:23.257088 [debug] [MainThread]: Flushing usage events
+[0m03:14:32.236242 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7769512e4580>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694eee67f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694eee6790>]}
+
+
+============================== 03:14:32.248158 | f01855fa-2bf0-477c-b2e1-caeeca047a4c ==============================
+[0m03:14:32.248158 [info ] [MainThread]: Running with dbt=1.6.17
+[0m03:14:32.251144 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'debug': 'False', 'log_path': '/opt/airflow/dbt/dbt_datalakehouse/logs', 'profiles_dir': '/opt/airflow/dbt/dbt_datalakehouse', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'log_format': 'default', 'introspect': 'True', 'target_path': 'None', 'invocation_command': 'dbt run --select gold --project-dir /opt/airflow/dbt/dbt_datalakehouse --profiles-dir /opt/airflow/dbt/dbt_datalakehouse', 'send_anonymous_usage_stats': 'True'}
+[0m03:14:32.549970 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'f01855fa-2bf0-477c-b2e1-caeeca047a4c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694eed8580>]}
+[0m03:14:32.590337 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'f01855fa-2bf0-477c-b2e1-caeeca047a4c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694ec385e0>]}
+[0m03:14:32.593888 [info ] [MainThread]: Registered adapter: trino=1.6.1
+[0m03:14:32.702910 [debug] [MainThread]: checksum: 5068fe71dce20d17d52958fa9cd93ea8f20705f4dc29725ea3e5886531e90d9e, vars: {}, profile: , target: , version: 1.6.17
+[0m03:14:36.849532 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m03:14:36.851025 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m03:14:36.853152 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 2 unused configuration paths:
+- seeds.lakehouse.dim_status_seed
+- seeds.lakehouse
+[0m03:14:36.862684 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'f01855fa-2bf0-477c-b2e1-caeeca047a4c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694e7548e0>]}
+[0m03:14:36.960465 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'f01855fa-2bf0-477c-b2e1-caeeca047a4c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694e7c4460>]}
+[0m03:14:36.962722 [info ] [MainThread]: Found 5 models, 6 tests, 3 sources, 0 exposures, 0 metrics, 488 macros, 0 groups, 0 semantic models
+[0m03:14:36.964957 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'f01855fa-2bf0-477c-b2e1-caeeca047a4c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694ec07040>]}
+[0m03:14:36.967870 [info ] [MainThread]: 
+[0m03:14:36.969787 [debug] [MainThread]: Acquiring new trino connection 'master'
+[0m03:14:36.972683 [debug] [ThreadPool]: Acquiring new trino connection 'list_gold'
+[0m03:14:37.005335 [debug] [ThreadPool]: Using trino connection "list_gold"
+[0m03:14:37.007133 [debug] [ThreadPool]: On list_gold: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_gold"} */
+
+    select distinct schema_name
+    from gold.INFORMATION_SCHEMA.schemata
+[0m03:14:37.008680 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:14:37.173066 [debug] [ThreadPool]: SQL status: SUCCESS in 0.0 seconds
+[0m03:14:37.179740 [debug] [ThreadPool]: On list_gold: Close
+[0m03:14:37.192412 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_gold, now list_silver_sales)
+[0m03:14:37.197205 [debug] [ThreadPool]: Acquiring new trino connection 'list_gold_sales'
+[0m03:14:37.258448 [debug] [ThreadPool]: Using trino connection "list_silver_sales"
+[0m03:14:37.267618 [debug] [ThreadPool]: On list_silver_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_silver_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from silver.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'silver')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:14:37.272099 [debug] [ThreadPool]: Using trino connection "list_gold_sales"
+[0m03:14:37.273552 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m03:14:37.275905 [debug] [ThreadPool]: On list_gold_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_gold_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from gold.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'gold')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:14:37.283838 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:14:37.849037 [debug] [ThreadPool]: SQL status: SUCCESS in 1.0 seconds
+[0m03:14:37.857045 [debug] [ThreadPool]: On list_silver_sales: ROLLBACK
+[0m03:14:37.871056 [debug] [ThreadPool]: On list_silver_sales: Close
+[0m03:14:37.883526 [debug] [ThreadPool]: SQL status: SUCCESS in 1.0 seconds
+[0m03:14:37.889565 [debug] [ThreadPool]: On list_gold_sales: ROLLBACK
+[0m03:14:37.892260 [debug] [ThreadPool]: On list_gold_sales: Close
+[0m03:14:37.900413 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'f01855fa-2bf0-477c-b2e1-caeeca047a4c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694df05070>]}
+[0m03:14:37.903525 [debug] [MainThread]: On master: COMMIT
+[0m03:14:37.909025 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m03:14:37.911774 [info ] [MainThread]: 
+[0m03:14:37.938268 [debug] [Thread-1  ]: Began running node model.lakehouse.fct_customer_metrics
+[0m03:14:37.940382 [debug] [Thread-2  ]: Began running node model.lakehouse.fct_daily_summary
+[0m03:14:37.942167 [debug] [Thread-3  ]: Began running node model.lakehouse.fct_product_performance
+[0m03:14:37.943964 [info ] [Thread-1  ]: 1 of 3 START sql table model gold.sales.customer_metrics ....................... [RUN]
+[0m03:14:37.947205 [info ] [Thread-2  ]: 2 of 3 START sql table model gold.sales.daily_summary .......................... [RUN]
+[0m03:14:37.950867 [info ] [Thread-3  ]: 3 of 3 START sql table model gold.sales.product_performance .................... [RUN]
+[0m03:14:37.954374 [debug] [Thread-1  ]: Re-using an available connection from the pool (formerly list_gold_sales, now model.lakehouse.fct_customer_metrics)
+[0m03:14:37.957215 [debug] [Thread-2  ]: Re-using an available connection from the pool (formerly list_silver_sales, now model.lakehouse.fct_daily_summary)
+[0m03:14:38.047796 [debug] [Thread-3  ]: Acquiring new trino connection 'model.lakehouse.fct_product_performance'
+[0m03:14:38.049377 [debug] [Thread-1  ]: Began compiling node model.lakehouse.fct_customer_metrics
+[0m03:14:38.051519 [debug] [Thread-2  ]: Began compiling node model.lakehouse.fct_daily_summary
+[0m03:14:38.053811 [debug] [Thread-3  ]: Began compiling node model.lakehouse.fct_product_performance
+[0m03:14:38.065262 [debug] [Thread-1  ]: Writing injected SQL for node "model.lakehouse.fct_customer_metrics"
+[0m03:14:38.075319 [debug] [Thread-2  ]: Writing injected SQL for node "model.lakehouse.fct_daily_summary"
+[0m03:14:38.086497 [debug] [Thread-3  ]: Writing injected SQL for node "model.lakehouse.fct_product_performance"
+[0m03:14:38.127478 [debug] [Thread-1  ]: Timing info for model.lakehouse.fct_customer_metrics (compile): 03:14:38.055555 => 03:14:38.126675
+[0m03:14:38.130185 [debug] [Thread-1  ]: Began executing node model.lakehouse.fct_customer_metrics
+[0m03:14:38.142153 [debug] [Thread-3  ]: Timing info for model.lakehouse.fct_product_performance (compile): 03:14:38.077648 => 03:14:38.141490
+[0m03:14:38.161808 [debug] [Thread-3  ]: Began executing node model.lakehouse.fct_product_performance
+[0m03:14:38.181454 [debug] [Thread-2  ]: Timing info for model.lakehouse.fct_daily_summary (compile): 03:14:38.067503 => 03:14:38.180707
+[0m03:14:38.211997 [debug] [Thread-2  ]: Began executing node model.lakehouse.fct_daily_summary
+[0m03:14:38.356606 [debug] [Thread-2  ]: Writing runtime sql for node "model.lakehouse.fct_daily_summary"
+[0m03:14:38.354717 [debug] [Thread-1  ]: Writing runtime sql for node "model.lakehouse.fct_customer_metrics"
+[0m03:14:38.359767 [debug] [Thread-3  ]: Writing runtime sql for node "model.lakehouse.fct_product_performance"
+[0m03:14:38.406664 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.fct_customer_metrics"
+[0m03:14:38.410063 [debug] [Thread-1  ]: On model.lakehouse.fct_customer_metrics: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.fct_customer_metrics"} */
+
+  
+    
+
+    create table gold.sales.customer_metrics__dbt_tmp
+      
+      
+    as (
+      
+
+with txn as (
+    select * from silver.sales.transactions
+),
+
+customer as (
+    select * from silver.sales.customers
+),
+
+agg as (
+    select
+        customer_id,
+        min(transaction_date)                                 as first_purchase_date,
+        max(transaction_date)                                 as last_purchase_date,
+        count(*)                                              as total_orders,
+        sum(net_amount)                                       as total_spent,
+        round(sum(net_amount) * 1.0 / nullif(count(*), 0), 2) as avg_order_value
+    from txn
+    group by customer_id
+)
+
+select
+    agg.customer_id,
+    customer.full_name,
+    customer.country,
+    customer.city,
+    customer.customer_segment,
+    agg.first_purchase_date,
+    agg.last_purchase_date,
+    agg.total_orders,
+    agg.total_spent,
+    agg.avg_order_value
+from agg
+left join customer on agg.customer_id = customer.customer_id
+    )
+[0m03:14:38.413496 [debug] [Thread-1  ]: Opening a new connection, currently in state closed
+[0m03:14:38.430000 [debug] [Thread-3  ]: Using trino connection "model.lakehouse.fct_product_performance"
+[0m03:14:38.433501 [debug] [Thread-3  ]: On model.lakehouse.fct_product_performance: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.fct_product_performance"} */
+
+  
+    
+
+    create table gold.sales.product_performance__dbt_tmp
+      
+      
+    as (
+      
+
+with txn as (
+    select * from silver.sales.transactions
+),
+
+product as (
+    select * from silver.sales.products
+),
+
+agg as (
+    select
+        product_id,
+        sum(quantity)   as total_quantity_sold,
+        count(*)        as total_transactions,
+        sum(net_amount) as total_revenue
+    from txn
+    group by product_id
+)
+
+select
+    agg.product_id,
+    product.product_name,
+    product.category,
+    product.brand,
+    product.color,
+    product.unit_price,
+    agg.total_quantity_sold,
+    agg.total_transactions,
+    agg.total_revenue
+from agg
+left join product on agg.product_id = product.product_id
+    )
+[0m03:14:38.437572 [debug] [Thread-3  ]: Opening a new connection, currently in state init
+[0m03:14:38.460216 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.fct_daily_summary"
+[0m03:14:38.463063 [debug] [Thread-2  ]: On model.lakehouse.fct_daily_summary: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.fct_daily_summary"} */
+
+  
+    
+
+    create table gold.sales.daily_summary__dbt_tmp
+      
+      
+    as (
+      
+
+with txn as (
+    select * from silver.sales.transactions
+)
+
+select
+    cast(transaction_date as date)                                    as metric_date,
+    count(*)                                                          as total_transactions,
+    sum(net_amount)                                                   as total_revenue,
+    sum(quantity)                                                     as total_quantity,
+    sum(case when upper(status) = 'CANCELLED' then 1 else 0 end)      as cancelled_count,
+    sum(case when upper(status) = 'PENDING' then 1 else 0 end)        as pending_count,
+    round(sum(net_amount) * 1.0 / nullif(count(*), 0), 2)             as avg_order_value
+from txn
+group by cast(transaction_date as date)
+    )
+[0m03:14:38.466264 [debug] [Thread-2  ]: Opening a new connection, currently in state closed
+[0m03:15:06.095182 [debug] [Thread-3  ]: SQL status: SUCCESS in 28.0 seconds
+[0m03:15:06.192125 [debug] [Thread-3  ]: Using trino connection "model.lakehouse.fct_product_performance"
+[0m03:15:06.200333 [debug] [Thread-3  ]: On model.lakehouse.fct_product_performance: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.fct_product_performance"} */
+alter table gold.sales.product_performance__dbt_tmp rename to gold.sales.product_performance
+[0m03:15:06.956050 [debug] [Thread-3  ]: SQL status: SUCCESS in 1.0 seconds
+[0m03:15:07.044926 [debug] [Thread-3  ]: Using trino connection "model.lakehouse.fct_product_performance"
+[0m03:15:07.050732 [debug] [Thread-3  ]: On model.lakehouse.fct_product_performance: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.fct_product_performance"} */
+drop table if exists gold.sales.product_performance__dbt_backup
+[0m03:15:07.575097 [debug] [Thread-3  ]: SQL status: SUCCESS in 1.0 seconds
+[0m03:15:07.584510 [debug] [Thread-2  ]: SQL status: SUCCESS in 29.0 seconds
+[0m03:15:07.701138 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.fct_daily_summary"
+[0m03:15:07.726356 [debug] [Thread-2  ]: On model.lakehouse.fct_daily_summary: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.fct_daily_summary"} */
+alter table gold.sales.daily_summary__dbt_tmp rename to gold.sales.daily_summary
+[0m03:15:07.847763 [debug] [Thread-3  ]: Timing info for model.lakehouse.fct_product_performance (execute): 03:14:38.174969 => 03:15:07.845376
+[0m03:15:07.865691 [debug] [Thread-3  ]: On model.lakehouse.fct_product_performance: ROLLBACK
+[0m03:15:07.877806 [debug] [Thread-3  ]: On model.lakehouse.fct_product_performance: Close
+[0m03:15:07.907021 [debug] [Thread-3  ]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'f01855fa-2bf0-477c-b2e1-caeeca047a4c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7769506f4340>]}
+[0m03:15:07.921145 [info ] [Thread-3  ]: 3 of 3 OK created sql table model gold.sales.product_performance ............... [[32mSUCCESS[0m in 29.94s]
+[0m03:15:07.937600 [debug] [Thread-3  ]: Finished running node model.lakehouse.fct_product_performance
+[0m03:15:08.407223 [debug] [Thread-2  ]: SQL status: SUCCESS in 1.0 seconds
+[0m03:15:08.444533 [debug] [Thread-2  ]: Using trino connection "model.lakehouse.fct_daily_summary"
+[0m03:15:08.450875 [debug] [Thread-2  ]: On model.lakehouse.fct_daily_summary: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.fct_daily_summary"} */
+drop table if exists gold.sales.daily_summary__dbt_backup
+[0m03:15:08.598569 [debug] [Thread-2  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:15:08.614260 [debug] [Thread-2  ]: Timing info for model.lakehouse.fct_daily_summary (execute): 03:14:38.220478 => 03:15:08.612945
+[0m03:15:08.619345 [debug] [Thread-2  ]: On model.lakehouse.fct_daily_summary: ROLLBACK
+[0m03:15:08.625212 [debug] [Thread-2  ]: On model.lakehouse.fct_daily_summary: Close
+[0m03:15:08.637115 [debug] [Thread-2  ]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'f01855fa-2bf0-477c-b2e1-caeeca047a4c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694ec38250>]}
+[0m03:15:08.646213 [info ] [Thread-2  ]: 2 of 3 OK created sql table model gold.sales.daily_summary ..................... [[32mSUCCESS[0m in 30.68s]
+[0m03:15:08.654062 [debug] [Thread-2  ]: Finished running node model.lakehouse.fct_daily_summary
+[0m03:15:08.795511 [debug] [Thread-1  ]: SQL status: SUCCESS in 30.0 seconds
+[0m03:15:08.837500 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.fct_customer_metrics"
+[0m03:15:08.843202 [debug] [Thread-1  ]: On model.lakehouse.fct_customer_metrics: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.fct_customer_metrics"} */
+alter table gold.sales.customer_metrics__dbt_tmp rename to gold.sales.customer_metrics
+[0m03:15:09.211670 [debug] [Thread-1  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:15:09.241069 [debug] [Thread-1  ]: Using trino connection "model.lakehouse.fct_customer_metrics"
+[0m03:15:09.247459 [debug] [Thread-1  ]: On model.lakehouse.fct_customer_metrics: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "model.lakehouse.fct_customer_metrics"} */
+drop table if exists gold.sales.customer_metrics__dbt_backup
+[0m03:15:09.435135 [debug] [Thread-1  ]: SQL status: SUCCESS in 0.0 seconds
+[0m03:15:09.449936 [debug] [Thread-1  ]: Timing info for model.lakehouse.fct_customer_metrics (execute): 03:14:38.133267 => 03:15:09.448601
+[0m03:15:09.462509 [debug] [Thread-1  ]: On model.lakehouse.fct_customer_metrics: ROLLBACK
+[0m03:15:09.470014 [debug] [Thread-1  ]: On model.lakehouse.fct_customer_metrics: Close
+[0m03:15:09.479080 [debug] [Thread-1  ]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'f01855fa-2bf0-477c-b2e1-caeeca047a4c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694e7c4550>]}
+[0m03:15:09.489010 [info ] [Thread-1  ]: 1 of 3 OK created sql table model gold.sales.customer_metrics .................. [[32mSUCCESS[0m in 31.52s]
+[0m03:15:09.496303 [debug] [Thread-1  ]: Finished running node model.lakehouse.fct_customer_metrics
+[0m03:15:09.519117 [debug] [MainThread]: On master: COMMIT
+[0m03:15:09.526872 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m03:15:09.531442 [debug] [MainThread]: Connection 'model.lakehouse.fct_daily_summary' was properly closed.
+[0m03:15:09.535418 [debug] [MainThread]: Connection 'model.lakehouse.fct_customer_metrics' was properly closed.
+[0m03:15:09.541652 [debug] [MainThread]: Connection 'model.lakehouse.fct_product_performance' was properly closed.
+[0m03:15:09.548597 [info ] [MainThread]: 
+[0m03:15:09.553152 [info ] [MainThread]: Finished running 3 table models in 0 hours 0 minutes and 32.58 seconds (32.58s).
+[0m03:15:09.561888 [debug] [MainThread]: Command end result
+[0m03:15:09.860228 [info ] [MainThread]: 
+[0m03:15:09.867987 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m03:15:09.874964 [info ] [MainThread]: 
+[0m03:15:09.878250 [info ] [MainThread]: Done. PASS=3 WARN=0 ERROR=0 SKIP=0 TOTAL=3
+[0m03:15:09.883746 [debug] [MainThread]: Command `dbt run` succeeded at 03:15:09.883023 after 37.75 seconds
+[0m03:15:09.891662 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7769512e4580>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7769509b43d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x77694ebee340>]}
+[0m03:15:09.897179 [debug] [MainThread]: Flushing usage events
+[0m03:15:20.826419 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e755201f5b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e754fb21850>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e754fb217f0>]}
+
+
+============================== 03:15:20.873219 | c98d54fa-25cf-4dbf-a0e7-52fb99ccaed4 ==============================
+[0m03:15:20.873219 [info ] [MainThread]: Running with dbt=1.6.17
+[0m03:15:20.883262 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/opt/airflow/dbt/dbt_datalakehouse', 'version_check': 'True', 'fail_fast': 'False', 'log_path': '/opt/airflow/dbt/dbt_datalakehouse/logs', 'warn_error': 'None', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'invocation_command': 'dbt test --select gold --project-dir /opt/airflow/dbt/dbt_datalakehouse --profiles-dir /opt/airflow/dbt/dbt_datalakehouse', 'static_parser': 'True', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m03:15:21.981915 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'c98d54fa-25cf-4dbf-a0e7-52fb99ccaed4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e754fb38c10>]}
+[0m03:15:22.110252 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'c98d54fa-25cf-4dbf-a0e7-52fb99ccaed4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e754f9b7160>]}
+[0m03:15:22.116182 [info ] [MainThread]: Registered adapter: trino=1.6.1
+[0m03:15:22.302540 [debug] [MainThread]: checksum: 5068fe71dce20d17d52958fa9cd93ea8f20705f4dc29725ea3e5886531e90d9e, vars: {}, profile: , target: , version: 1.6.17
+[0m03:15:28.317308 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m03:15:28.319404 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m03:15:28.323076 [warn ] [MainThread]: [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 2 unused configuration paths:
+- seeds.lakehouse
+- seeds.lakehouse.dim_status_seed
+[0m03:15:28.341200 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'c98d54fa-25cf-4dbf-a0e7-52fb99ccaed4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e754f48f910>]}
+[0m03:15:28.501696 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'c98d54fa-25cf-4dbf-a0e7-52fb99ccaed4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e754f4ff610>]}
+[0m03:15:28.505685 [info ] [MainThread]: Found 5 models, 6 tests, 3 sources, 0 exposures, 0 metrics, 488 macros, 0 groups, 0 semantic models
+[0m03:15:28.508122 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c98d54fa-25cf-4dbf-a0e7-52fb99ccaed4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e754f92adf0>]}
+[0m03:15:28.513710 [info ] [MainThread]: 
+[0m03:15:28.517217 [debug] [MainThread]: Acquiring new trino connection 'master'
+[0m03:15:28.526502 [debug] [ThreadPool]: Acquiring new trino connection 'list_gold_sales'
+[0m03:15:28.531515 [debug] [ThreadPool]: Acquiring new trino connection 'list_silver_sales'
+[0m03:15:28.687937 [debug] [ThreadPool]: Using trino connection "list_silver_sales"
+[0m03:15:28.698025 [debug] [ThreadPool]: On list_silver_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_silver_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from silver.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'silver')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:15:28.703813 [debug] [ThreadPool]: Using trino connection "list_gold_sales"
+[0m03:15:28.706269 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:15:28.709650 [debug] [ThreadPool]: On list_gold_sales: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "connection_name": "list_gold_sales"} */
+select
+      t.table_catalog as database,
+      t.table_name as name,
+      t.table_schema as schema,
+      case when mv.name is not null then 'materialized_view'
+           when t.table_type = 'BASE TABLE' then 'table'
+           when t.table_type = 'VIEW' then 'view'
+           else t.table_type
+      end as table_type
+    from gold.INFORMATION_SCHEMA.tables t
+    left join system.metadata.materialized_views mv
+          on mv.catalog_name = t.table_catalog and mv.schema_name = t.table_schema and mv.name = t.table_name
+    where t.table_schema = 'sales'
+          and (mv.catalog_name is null or mv.catalog_name =  'gold')
+          and (mv.schema_name is null or mv.schema_name =  'sales')
+[0m03:15:28.716030 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:15:29.714721 [debug] [ThreadPool]: SQL status: SUCCESS in 1.0 seconds
+[0m03:15:29.737264 [debug] [ThreadPool]: On list_silver_sales: ROLLBACK
+[0m03:15:29.766415 [debug] [ThreadPool]: On list_silver_sales: Close
+[0m03:15:29.843161 [debug] [ThreadPool]: SQL status: SUCCESS in 1.0 seconds
+[0m03:15:29.875122 [debug] [ThreadPool]: On list_gold_sales: ROLLBACK
+[0m03:15:29.886529 [debug] [ThreadPool]: On list_gold_sales: Close
+[0m03:15:29.921926 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c98d54fa-25cf-4dbf-a0e7-52fb99ccaed4', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e754f4ff820>]}
+[0m03:15:29.929287 [debug] [MainThread]: On master: COMMIT
+[0m03:15:29.943380 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m03:15:29.951656 [info ] [MainThread]: 
+[0m03:15:30.048755 [debug] [Thread-1  ]: Began running node test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245
+[0m03:15:30.053036 [debug] [Thread-2  ]: Began running node test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f
+[0m03:15:30.057954 [info ] [Thread-1  ]: 1 of 2 START test source_not_null_silver_layer_transactions_transaction_id ..... [RUN]
+[0m03:15:30.071073 [info ] [Thread-2  ]: 2 of 2 START test source_unique_silver_layer_transactions_transaction_id ....... [RUN]
+[0m03:15:30.079232 [debug] [Thread-1  ]: Re-using an available connection from the pool (formerly list_gold_sales, now test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245)
+[0m03:15:30.086657 [debug] [Thread-2  ]: Re-using an available connection from the pool (formerly list_silver_sales, now test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f)
+[0m03:15:30.092932 [debug] [Thread-1  ]: Began compiling node test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245
+[0m03:15:30.109833 [debug] [Thread-2  ]: Began compiling node test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f
+[0m03:15:30.536787 [debug] [Thread-2  ]: Writing injected SQL for node "test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f"
+[0m03:15:30.564798 [debug] [Thread-1  ]: Writing injected SQL for node "test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245"
+[0m03:15:30.623977 [debug] [Thread-2  ]: Timing info for test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f (compile): 03:15:30.144250 => 03:15:30.622102
+[0m03:15:30.629522 [debug] [Thread-2  ]: Began executing node test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f
+[0m03:15:30.657435 [debug] [Thread-1  ]: Timing info for test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245 (compile): 03:15:30.124189 => 03:15:30.656006
+[0m03:15:30.667478 [debug] [Thread-1  ]: Began executing node test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245
+[0m03:15:30.728333 [debug] [Thread-2  ]: Writing runtime sql for node "test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f"
+[0m03:15:30.742069 [debug] [Thread-1  ]: Writing runtime sql for node "test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245"
+[0m03:15:30.790322 [debug] [Thread-2  ]: Using trino connection "test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f"
+[0m03:15:30.796771 [debug] [Thread-2  ]: On test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+select
+    transaction_id as unique_field,
+    count(*) as n_records
+
+from silver.sales.transactions
+where transaction_id is not null
+group by transaction_id
+having count(*) > 1
+
+
+
+      
+    ) dbt_internal_test
+[0m03:15:30.800160 [debug] [Thread-2  ]: Opening a new connection, currently in state closed
+[0m03:15:30.816089 [debug] [Thread-1  ]: Using trino connection "test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245"
+[0m03:15:30.821339 [debug] [Thread-1  ]: On test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245: /* {"app": "dbt", "dbt_version": "1.6.17", "profile_name": "lakehouse", "target_name": "dev", "node_id": "test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+    
+
+
+
+select transaction_id
+from silver.sales.transactions
+where transaction_id is null
+
+
+
+      
+    ) dbt_internal_test
+[0m03:15:30.826015 [debug] [Thread-1  ]: Opening a new connection, currently in state closed
+[0m03:15:31.713115 [debug] [Thread-1  ]: SQL status: SUCCESS in 1.0 seconds
+[0m03:15:31.734855 [debug] [Thread-1  ]: Timing info for test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245 (execute): 03:15:30.675999 => 03:15:31.733831
+[0m03:15:31.745467 [debug] [Thread-1  ]: On test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245: ROLLBACK
+[0m03:15:31.751829 [debug] [Thread-1  ]: On test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245: Close
+[0m03:15:31.763984 [info ] [Thread-1  ]: 1 of 2 PASS source_not_null_silver_layer_transactions_transaction_id ........... [[32mPASS[0m in 1.68s]
+[0m03:15:31.775028 [debug] [Thread-1  ]: Finished running node test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245
+[0m03:15:39.184976 [debug] [Thread-2  ]: SQL status: SUCCESS in 8.0 seconds
+[0m03:15:39.285395 [debug] [Thread-2  ]: Timing info for test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f (execute): 03:15:30.634094 => 03:15:39.281890
+[0m03:15:39.344106 [debug] [Thread-2  ]: On test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f: ROLLBACK
+[0m03:15:39.416982 [debug] [Thread-2  ]: On test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f: Close
+[0m03:15:39.482934 [info ] [Thread-2  ]: 2 of 2 PASS source_unique_silver_layer_transactions_transaction_id ............. [[32mPASS[0m in 9.40s]
+[0m03:15:39.544263 [debug] [Thread-2  ]: Finished running node test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f
+[0m03:15:39.624452 [debug] [MainThread]: On master: COMMIT
+[0m03:15:39.683231 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m03:15:39.740846 [debug] [MainThread]: Connection 'test.lakehouse.source_not_null_silver_layer_transactions_transaction_id.f28830e245' was properly closed.
+[0m03:15:39.797200 [debug] [MainThread]: Connection 'test.lakehouse.source_unique_silver_layer_transactions_transaction_id.c71556ba3f' was properly closed.
+[0m03:15:39.816599 [info ] [MainThread]: 
+[0m03:15:39.865793 [info ] [MainThread]: Finished running 2 tests in 0 hours 0 minutes and 11.30 seconds (11.30s).
+[0m03:15:39.882797 [debug] [MainThread]: Command end result
+[0m03:15:40.759560 [info ] [MainThread]: 
+[0m03:15:40.767434 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m03:15:40.781761 [info ] [MainThread]: 
+[0m03:15:40.795341 [info ] [MainThread]: Done. PASS=2 WARN=0 ERROR=0 SKIP=0 TOTAL=2
+[0m03:15:40.809791 [debug] [MainThread]: Command `dbt test` succeeded at 03:15:40.808516 after 20.34 seconds
+[0m03:15:40.816467 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e755201f5b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e754f939070>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7e7554895d90>]}
+[0m03:15:40.828799 [debug] [MainThread]: Flushing usage events

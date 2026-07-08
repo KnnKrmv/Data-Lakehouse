@@ -14,9 +14,6 @@ def run_gold_fact_merge(
     target_schema_sql: str,
     partition_by: str = "",
 ):
-    # =========================
-    # CREATE TABLE (Silver ilə eyni helper)
-    # =========================
     ensure_iceberg_table(
         spark=spark,
         target_table=target_table,
@@ -24,16 +21,10 @@ def run_gold_fact_merge(
         partition_by=partition_by,
     )
 
-    # =========================
-    # READ SILVER
-    # =========================
     transactions = spark.read.table(source_table)
     customers = spark.read.table(customers_table)
     products = spark.read.table(products_table)
 
-    # =========================
-    # BUILD FACT
-    # =========================
     fact = (
         transactions
         .join(customers, "customer_id", "left")

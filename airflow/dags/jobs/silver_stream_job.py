@@ -1,28 +1,18 @@
 """
-jobs/silver_cdc_job.py
+jobs/silver_stream.py
 
-Bronze ilə eyni Kafka(Debezium CDC) topic-ini AYRI checkpoint ilə oxuyub,
-silver Iceberg table-a upsert/delete edir. jobs/cdc_kafka_job.py-dəki
-ensure_iceberg_table / build_row_schema / read_cdc_stream funksiyalarını
-təkrar istifadə edir — yalnız batch-processing hissəsinə keyfiyyət filtri
-əlavə olunub.
-
-Niyə bronze-u Iceberg stream kimi oxumuruq?
-Bronze-a yazı MERGE (copy-on-write) ilə olduğu üçün demək olar ki, bütün
-snapshot-lar "overwrite" tipindədir. Iceberg-in streaming reader-i overwrite
-snapshot-ları emal edə bilmir (ya səhv verir, ya da onları atlayıb heç bir
-data görmür). Bunun əvəzinə silver də bronze kimi birbaşa Kafka-dan oxuyur —
-eyni mənbə, iki müstəqil consumer, iki ayrı checkpoint.
+Bronze append-log-unu Iceberg üzərindən streaming oxuyur. Hər mikro-batch
+daxilində eyni PK üçün birdən çox hadisə ola biləcəyi üçün _ingested_at-a
+görə YALNIZ ən sonuncu versiyanı seçir (dropDuplicates yerinə deterministik
+row_number/window istifadə olunur), keyfiyyət filtri tətbiq edir, silver
+Iceberg table-a MERGE (upsert/delete) edir.
 """
 from __future__ import annotations
 
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, row_number
+from pyspark.sql.window import Window
 
-from jobs.cdc_kafka_job import (
-    build_row_schema,
-    ensure_iceberg_table,
-    read_cdc_stream,
-)
+from jobs.cdc_kafka_job import ensure_iceberg_table
 
 
 def make_silver_upsert_batch_fn(
@@ -38,14 +28,19 @@ def make_silver_upsert_batch_fn(
 
         session = batch_df.sparkSession
 
-        # Upserts (create / update / read-snapshot) + keyfiyyət filtri
+        window = Window.partitionBy(*pk_cols).orderBy(col("_ingested_at").desc())
+        latest_per_pk = (
+            batch_df.withColumn("_rn", row_number().over(window))
+            .filter(col("_rn") == 1)
+            .drop("_rn")
+        )
+
+        # Upserts (_op = c/u/r)
         upserts = (
-            batch_df.filter(col("op").isin("c", "u", "r"))
-            .select(col("after").alias("src"))
+            latest_per_pk.filter(col("_op").isin("c", "u", "r"))
             .selectExpr(*upsert_select)
             .filter(quality_filter_expr)
             .filter(col(pk_cols[0]).isNotNull())
-            .dropDuplicates(pk_cols)
         )
 
         upsert_count = upserts.count()
@@ -67,13 +62,11 @@ def make_silver_upsert_batch_fn(
             """)
             print(f"[OK] silver batch={batch_id} upsert={upsert_count} -> {target_table}")
 
-        # Deletes (keyfiyyət filtri tətbiq edilmir - silinmə həmişə keçərlidir)
+        # Deletes (_op = d)
         deletes = (
-            batch_df.filter(col("op") == "d")
-            .select(col("before").alias("src"))
+            latest_per_pk.filter(col("_op") == "d")
             .selectExpr(*delete_select)
             .filter(col(pk_cols[0]).isNotNull())
-            .dropDuplicates(pk_cols)
         )
 
         delete_count = deletes.count()
@@ -90,30 +83,23 @@ def make_silver_upsert_batch_fn(
     return process_batch
 
 
-def run_silver_cdc_upsert_stream(
+def run_silver_table_upsert_stream(
     spark,
-    kafka_bootstrap: str,
-    kafka_topic: str,
+    source_table: str,
     checkpoint_location: str,
     target_table: str,
     schema_sql: str,
-    row_schema_fields: list,
     pk_cols: list,
     upsert_select: list,
     delete_select: list,
     quality_filter_expr: str = "true",
     partition_by: str = "",
-    starting_offsets: str = "earliest",
+    starting_offsets: str = "earliest",  # imza uyğunluğu üçün saxlanılıb, Iceberg source-da nəzərə alınmır
     timeout_seconds: int | None = None,
 ):
-    """
-    Bronze-dakı run_cdc_upsert_stream ilə eyni imza/davranış, üstünə
-    quality_filter_expr əlavə olunub. Eyni kafka_topic-i bronze-dan tamamilə
-    müstəqil (ayrı checkpoint_location) oxuyur.
-    """
     ensure_iceberg_table(spark, target_table, schema_sql, partition_by)
-    row_schema = build_row_schema(row_schema_fields)
-    parsed = read_cdc_stream(spark, kafka_bootstrap, kafka_topic, row_schema, starting_offsets)
+
+    parsed = spark.readStream.format("iceberg").load(source_table)
     process_batch = make_silver_upsert_batch_fn(
         target_table, pk_cols, upsert_select, delete_select, quality_filter_expr
     )
